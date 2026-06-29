@@ -78,7 +78,7 @@
   h1{font-size:clamp(42px,6.4vw,78px);font-weight:800;line-height:1.03;letter-spacing:-.045em}
   h2{font-size:clamp(28px,4.2vw,46px);font-weight:800;line-height:1.14;letter-spacing:-.035em}
   h3{font-size:19px;font-weight:700;letter-spacing:-.02em}
-  .lead{font-size:clamp(17px,1.9vw,20px);color:var(--gray);font-weight:500;line-height:1.62}
+  .lead{font-size:clamp(17px,1.9vw,20px);color:var(--gray);font-weight:500;line-height:1.62;word-break:keep-all;text-wrap:balance}
   .center{text-align:center}
   .grad{background:linear-gradient(102deg,var(--blue),var(--coral));-webkit-background-clip:text;background-clip:text;color:transparent}
   .mut{color:var(--gray)}
@@ -130,7 +130,7 @@
   /* Problem: gap visual */
   .gapcard{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:clamp(26px,4vw,40px);margin-top:clamp(36px,5vw,52px)}
   .gapcard .gtop{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px;margin-bottom:18px}
-  .gapcard .gtitle{font-size:clamp(18px,2.4vw,24px);font-weight:800;letter-spacing:-.02em;max-width:560px;line-height:1.35}
+  .gapcard .gtitle{font-size:clamp(18px,2.4vw,24px);font-weight:800;letter-spacing:-.02em;max-width:560px;line-height:1.35;word-break:keep-all;text-wrap:balance}
   .gapcard .gtitle b{color:var(--blue-d)}.gapcard .gtitle .c{color:var(--coral-d)}
   .gapcard .gbadge{background:var(--coral-l);color:var(--coral-d);font-weight:800;font-size:13px;padding:8px 16px;border-radius:999px;white-space:nowrap}
   .months{display:grid;grid-template-columns:repeat(12,1fr);gap:5px}
@@ -424,8 +424,8 @@
 
       <div class="figs reveal">
         <div class="fig"><div class="v"><span class="count" data-target="5">5</span><small>%</small></div><div class="l" data-en="of publications are ever made in braille">전체 출판물 중 점자 제작 비율</div></div>
-        <div class="fig"><div class="v"><span class="count" data-target="5">5</span><small>개월</small></div><div class="l" data-en="to produce one braille textbook">점자 교재 한 권 제작 기간</div></div>
-        <div class="fig"><div class="v"><span class="count" data-target="1.4" data-dec="1">1.4</span><small>권</small></div><div class="l" data-en="books a blind reader reads per year">시각장애인 연간 대체자료 독서량</div></div>
+        <div class="fig"><div class="v"><span class="count" data-target="5">5</span><small data-en="months">개월</small></div><div class="l" data-en="to produce one braille textbook">점자 교재 한 권 제작 기간</div></div>
+        <div class="fig"><div class="v"><span class="count" data-target="1.4" data-dec="1">1.4</span><small data-en="books">권</small></div><div class="l" data-en="a blind reader reads per year">시각장애인 연간 대체자료 독서량</div></div>
       </div>
     </div>
   </section>
