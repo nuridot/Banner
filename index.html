@@ -19,7 +19,8 @@
 <meta name="twitter:title" content="세모점 — 수식·표·그림까지, AI 점자 변환">
 <meta name="twitter:description" content="AI와 점역사가 함께 만드는 더 빠른 점역">
 <meta name="twitter:image" content="https://semo-jum.com/IMG/IMG_01.png">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 29 29'><rect width='29' height='29' rx='8' fill='%234F7DF0'/><circle cx='14.5' cy='8.2' r='2.7' fill='%23fff'/><circle cx='8.6' cy='20' r='2.7' fill='%23fff'/><circle cx='20.4' cy='20' r='2.7' fill='%23fff'/></svg>">
+<link rel="icon" type="image/png" href="/IMG/favicon.png">
+<link rel="apple-touch-icon" href="/IMG/logo-icon.png">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
 <style>
@@ -47,6 +48,9 @@
   .logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:20px;letter-spacing:-.03em;cursor:pointer}
   .logo img{display:block;border-radius:8px}
   .logo svg,footer .fl svg{display:block;border-radius:8px;flex:none}
+  /* 브랜드 워드마크 — 글자가 이미지에 포함돼 있어 옆에 텍스트를 두지 않는다 */
+  .logo .brandmark,footer .fl .brandmark{display:block;width:auto;height:27px;border-radius:0;flex:none}
+  footer .fl .brandmark{height:25px}
   .nav-menu{display:flex;gap:2px;margin-left:24px}
   .nav-link{padding:8px 14px;border-radius:10px;font-weight:600;font-size:15px;color:var(--gray);background:none;border:none;cursor:pointer;transition:.18s}
   .nav-link:hover{color:var(--ink);background:rgba(10,15,30,.04)}
@@ -156,6 +160,7 @@
   .fig .v{font-size:clamp(40px,5.5vw,58px);font-weight:800;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
   .fig .v small{font-size:.42em;color:#9DBBF6}
   .fig .l{font-size:14px;color:#aeb8cb;margin-top:12px}
+  .figsrc{margin-top:14px;font-size:12.5px;color:var(--mute);text-align:center}
   .probnote{margin-top:24px;font-size:15.5px;color:var(--gray);max-width:720px}
   .probnote b{color:var(--ink)}
 
@@ -294,6 +299,14 @@
   /* Contact */
   .ccard{max-width:540px;margin:0 auto;text-align:left;border:1px solid var(--line);border-radius:var(--r);padding:36px;box-shadow:var(--shadow)}
   .ccard .em{font-size:26px;font-weight:800;margin:6px 0 16px;letter-spacing:-.02em}
+  .cform{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;text-align:left}
+  .cform .fw{grid-column:1/-1}
+  .cform label{display:block;font-size:12.5px;font-weight:700;color:var(--mute);margin-bottom:5px}
+  .cform input,.cform textarea,.cform select{width:100%;border:1px solid rgba(20,30,60,.14);border-radius:10px;
+    padding:11px 13px;font-size:14.5px;font-family:inherit;background:#fff;color:var(--ink)}
+  .cform textarea{min-height:104px;resize:vertical}
+  .cform input:focus,.cform textarea:focus,.cform select:focus{outline:2px solid var(--blue);outline-offset:1px}
+  .agree{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mute);margin-top:14px}
 
   /* Footer */
   footer{background:var(--ink);color:#aeb8cb;padding:60px 0 40px}
@@ -301,9 +314,9 @@
   footer .fl{display:flex;align-items:center;gap:8px;font-size:20px;font-weight:800;color:#fff;margin-bottom:10px}
   footer .fl img{border-radius:7px}
   footer .fm{color:#6f7c93;font-size:13.5px}
-  footer .fnav{display:flex;gap:20px;flex-wrap:wrap}
-  footer .fnav button{background:none;border:none;color:#9aa6bc;font-size:14px;font-weight:600;cursor:pointer}
-  footer .fnav button:hover{color:#fff}
+  footer .fnav{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
+  footer .fnav button,footer .fnav a{background:none;border:none;color:#9aa6bc;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none}
+  footer .fnav button:hover,footer .fnav a:hover{color:#fff}
   footer hr{border:none;border-top:1px solid rgba(255,255,255,.08);margin:30px 0 18px}
 
   .mt-s{margin-top:14px}.mt-m{margin-top:24px}
@@ -315,6 +328,20 @@
   .feat .imgph.real{min-height:0}
   .mou .imgph.real{display:flex;align-items:center;justify-content:center;padding:12px}
   .mou .imgph.real img{width:auto;max-width:100%;max-height:80px}
+
+  /* Mode placeholders: -1 shows by default, -2 txt revealed on hover (IMG-09/10/11) */
+  .imgph.swap{position:relative;display:block;padding:0;min-height:0;height:180px;overflow:hidden;background:#fff;cursor:pointer}
+  .imgph.swap .lay{position:absolute;inset:0;margin:0;display:flex;align-items:center;justify-content:center;background:#fff;transition:opacity .45s cubic-bezier(.16,1,.3,1)}
+  .imgph.swap .lay-2{opacity:0}
+  .imgph.swap:hover .lay-1,.imgph.swap:focus-within .lay-1{opacity:0}
+  .imgph.swap:hover .lay-2,.imgph.swap:focus-within .lay-2{opacity:1}
+  .imgph.swap .lay-1 img{width:100%;height:100%;object-fit:contain;object-position:center;display:block}
+  .imgph.swap .lay.ph{flex-direction:column;gap:8px;background:var(--tint)}
+  .imgph.swap pre.fit{margin:0;font-family:ui-monospace,Menlo,Consolas,monospace;white-space:pre;color:#1b2535;transform-origin:center center;will-change:transform}
+  .imgph.swap pre.fit.doc{text-align:left}
+  .imgph.swap .hint{position:absolute;right:9px;bottom:8px;z-index:2;font-size:10.5px;font-weight:700;color:var(--blue-d);background:rgba(255,255,255,.86);padding:3px 9px;border-radius:999px;pointer-events:none;transition:opacity .3s;box-shadow:0 1px 4px rgba(20,40,90,.12)}
+  .imgph.swap:hover .hint,.imgph.swap:focus-within .hint{opacity:0}
+  .imgph.swap:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
 
   /* Reveal */
   .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
@@ -354,7 +381,7 @@
 <div class="nav-wrap" id="navw">
   <nav class="nav">
     <div class="logo nav-go" data-go="p-home">
-      <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="29" height="29" rx="8" fill="url(#sg1)"/><circle cx="14.5" cy="8.2" r="2.7" fill="#fff"/><circle cx="8.6" cy="20" r="2.7" fill="#fff"/><circle cx="20.4" cy="20" r="2.7" fill="#fff"/><defs><linearGradient id="sg1" x1="0" y1="0" x2="29" y2="29" gradientUnits="userSpaceOnUse"><stop stop-color="#4F7DF0"/><stop offset="1" stop-color="#FF8B6B"/></linearGradient></defs></svg><span>세모점</span>
+      <img class="brandmark" src="IMG/logo-wordmark.png" alt="세모점" width="1642" height="652" decoding="async">
     </div>
     <div class="nav-menu">
       <button class="nav-link nav-go" data-go="p-solution" data-en="Solution">솔루션</button>
@@ -436,10 +463,362 @@
       <div class="figs reveal">
         <div class="fig"><div class="v"><span class="count" data-target="5">5</span><small>%</small></div><div class="l" data-en="of publications are ever made in braille">전체 출판물 중 점자 제작 비율</div></div>
         <div class="fig"><div class="v"><span class="count" data-target="5">5</span><small data-en="months">개월</small></div><div class="l" data-en="to produce one braille textbook">점자 교재 한 권 제작 기간</div></div>
-        <div class="fig"><div class="v"><span class="count" data-target="1.4" data-dec="1">1.4</span><small data-en="books">권</small></div><div class="l" data-en="a blind reader reads per year">시각장애인 연간 대체자료 독서량</div></div>
+        <div class="fig"><div class="v"><span class="count" data-target="1.4" data-dec="1">1.4</span><small data-en="books">권</small></div><div class="l" data-en="books a blind reader reads per year">시각장애인 연간 대체자료 독서량</div></div>
+      </div>
+      <!-- ▼ 배포 전 반드시 실제 출처로 교체할 것 (지어내지 말 것) -->
+      <p class="figsrc reveal" data-en="Source · [fill in institution, year]">출처 · [기관명·연도를 채워 주세요]</p>
+    </div>
+  </section>
+
+  <!-- ===== 시간 단축 섹션 (IMG/시간파트.html) ===== -->
+  <!-- ============================================================
+    세모점 — 시간 단축 섹션
+    "점자 자료는 부족하고, 늦습니다" 섹션 바로 아래 블록
+    - .sj-ut- 프리픽스로 스코프 → 기존 CSS와 충돌 없음
+    - Pretendard가 이미 로드돼 있으면 아래 <link>는 삭제 가능
+    - 문제 페이지는 저작권 이슈가 없는 '오리지널 창작 문항'입니다
+      (실제 수능/평가원 기출을 베끼지 않고, 동일한 난도·레이아웃으로 직접 작성)
+  ============================================================= -->
+
+  <section class="sj-ut" aria-labelledby="sj-ut-title">
+    <div class="sj-ut__inner">
+      <div class="sj-ut__top">
+
+        <!-- 좌측 텍스트 -->
+        <div class="sj-ut__head">
+         <div class="sj-ut__head-in">
+          <p class="sj-ut__eyebrow" data-en="When you adopt Semojum">세모점 도입 시</p>
+          <h2 id="sj-ut-title" class="sj-ut__title" data-en-html="Three months of work,<br>done in <span class=&quot;sj-ut__title-hl&quot;>two days</span>">
+            석 달이 걸리던 작업,<br><span class="sj-ut__title-hl">이틀</span>이면 끝납니다
+          </h2>
+          <p class="sj-ut__lede" data-en="Measured on a single science workbook packed with formulas, tables and figures — the time it takes to braille-translate it.">수식·표·그림이 빼곡한 과학 문제집 한 권을 기준으로, 점역에 걸리는 시간을 직접 측정했습니다.</p>
+
+          <div class="sj-ut__impact" role="group" aria-label="기존 대비 시간 절감률 98퍼센트">
+            <span class="sj-ut__impact-label" data-en="Time saved vs. the conventional process">기존 대비 시간 절감률</span>
+            <span class="sj-ut__impact-value">
+              <svg class="sj-ut__impact-ico" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 4v13M6 12l6 6 6-6" stroke="currentColor" stroke-width="2.6"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+              <b>98<span>%</span></b>
+            </span>
+          </div>
+         </div>
+        </div>
+
+        <!-- 우측: 생명과학 Ⅰ 문제 페이지 (오리지널 창작) + 각주 -->
+        <div class="sj-ut__right">
+          <div class="sj-ut__papers" role="img" aria-label="생명과학 Ⅰ 과학탐구영역 문제집 페이지">
+            <div class="sj-ut__sheet sj-ut__sheet--page sj-ut__sheet--back" aria-hidden="true"></div>
+            <div class="sj-ut__sheet sj-ut__sheet--page sj-ut__sheet--mid" aria-hidden="true"></div>
+
+            <div class="sj-ut__sheet sj-ut__sheet--front" aria-hidden="true">
+              <div class="sj-ut__exam">
+                <span class="sj-ut__exam-tab">생명과학 Ⅰ</span>
+
+                <div class="sj-ut__exam-top">
+                  <span class="sj-ut__exam-subj">과학탐구 영역 <em>(생명과학&nbsp;Ⅰ)</em></span>
+                  <span class="sj-ut__exam-pg">13</span>
+                </div>
+
+                <div class="sj-ut__exam-cols">
+                  <!-- 좌측 단: 유전 킬러 -->
+                  <div class="sj-ut__exam-col">
+                    <div class="q">
+                      <p class="q-h"><b>17.</b> 다음은 어떤 집안의 유전 형질 (가)~(다)에 대한 자료이다. <em class="q-pt">[3점]</em></p>
+                      <div class="q-data">
+                        <p class="q-cd">○ (가)~(다)의 유전자 중 1개는 X 염색체에 있고, 나머지 2개는 서로 다른 상염색체에 있다.</p>
+                        <p class="q-cd">○ (가)는 H와 h, (나)는 R와 r, (다)는 T와 t에 의해 결정되며, 각각 완전 우성이다.</p>
+                        <p class="q-cd">○ 가계도는 ⓐ, ⓑ를 제외한 구성원 1~8에서 (가)와 (나)의 발현 여부를 나타낸 것이다.</p>
+                        <svg class="q-ped" viewBox="0 0 104 46" aria-hidden="true">
+                          <defs>
+                            <pattern id="sjhx" width="2.4" height="2.4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                              <line x1="0" y1="0" x2="0" y2="2.4" stroke="#2b303c" stroke-width=".5"/>
+                            </pattern>
+                          </defs>
+                          <!-- Gen I -->
+                          <rect x="8" y="3" width="6" height="6" fill="#fff" stroke="#2b303c" stroke-width=".7"/>
+                          <circle cx="24" cy="6" r="3.1" fill="#fff" stroke="#2b303c" stroke-width=".7"/>
+                          <text x="22" y="2.4" class="pl">ⓐ</text>
+                          <line x1="14" y1="6" x2="20.9" y2="6" stroke="#2b303c" stroke-width=".6"/>
+                          <rect x="56" y="3" width="6" height="6" fill="url(#sjhx)" stroke="#2b303c" stroke-width=".7"/>
+                          <circle cx="72" cy="6" r="3.1" fill="#fff" stroke="#2b303c" stroke-width=".7"/>
+                          <line x1="62" y1="6" x2="68.9" y2="6" stroke="#2b303c" stroke-width=".6"/>
+                          <!-- connectors -->
+                          <line x1="17.5" y1="6" x2="17.5" y2="13" stroke="#2b303c" stroke-width=".6"/>
+                          <line x1="17.5" y1="13" x2="40" y2="13" stroke="#2b303c" stroke-width=".6"/>
+                          <line x1="40" y1="13" x2="40" y2="17" stroke="#2b303c" stroke-width=".6"/>
+                          <line x1="65" y1="6" x2="65" y2="13" stroke="#2b303c" stroke-width=".6"/>
+                          <line x1="65" y1="13" x2="84" y2="13" stroke="#2b303c" stroke-width=".6"/>
+                          <line x1="84" y1="13" x2="84" y2="17" stroke="#2b303c" stroke-width=".6"/>
+                          <!-- Gen II -->
+                          <circle cx="20" cy="22" r="3.1" fill="#9aa0ac" stroke="#2b303c" stroke-width=".7"/>
+                          <rect x="37" y="19" width="6" height="6" fill="#fff" stroke="#2b303c" stroke-width=".7"/>
+                          <rect x="60" y="19" width="6" height="6" fill="url(#sjhx)" stroke="#2b303c" stroke-width=".7"/>
+                          <circle cx="84" cy="22" r="3.1" fill="#fff" stroke="#2b303c" stroke-width=".7"/>
+                          <text x="82" y="18" class="pl">ⓑ</text>
+                          <line x1="43" y1="22" x2="60" y2="22" stroke="#2b303c" stroke-width=".6"/>
+                          <line x1="51.5" y1="22" x2="51.5" y2="30" stroke="#2b303c" stroke-width=".6"/>
+                          <line x1="45" y1="30" x2="58" y2="30" stroke="#2b303c" stroke-width=".6"/>
+                          <line x1="45" y1="30" x2="45" y2="34" stroke="#2b303c" stroke-width=".6"/>
+                          <line x1="58" y1="30" x2="58" y2="34" stroke="#2b303c" stroke-width=".6"/>
+                          <!-- Gen III -->
+                          <rect x="42" y="35" width="6" height="6" fill="url(#sjhx)" stroke="#2b303c" stroke-width=".7"/>
+                          <circle cx="58" cy="38" r="3.1" fill="#9aa0ac" stroke="#2b303c" stroke-width=".7"/>
+                          <text x="9" y="14" class="pn">1</text><text x="22" y="14" class="pn">2</text>
+                          <text x="57" y="14" class="pn">3</text><text x="71" y="14" class="pn">4</text>
+                          <text x="18" y="29" class="pn">5</text><text x="38" y="29" class="pn">6</text>
+                          <text x="61" y="29" class="pn">7</text><text x="43" y="45.5" class="pn">8</text>
+                        </svg>
+                        <p class="q-cd">○ 표는 ⓐ, 6, ⓑ에서 체세포 1개당 H와 r의 DNA 상대량을 더한 값(H+r)과 R와 t를 더한 값(R+t)을 나타낸 것이다. ㉠과 ㉡은 1과 2를 순서 없이 나타낸 것이다.</p>
+                        <table class="q-tbl">
+                          <tr><th>구성원</th><th>ⓐ</th><th>6</th><th>ⓑ</th></tr>
+                          <tr><td>H+r</td><td>3</td><td>㉡</td><td>㉠</td></tr>
+                          <tr><td>R+t</td><td>㉠</td><td>?</td><td>㉡</td></tr>
+                        </table>
+                        <p class="q-cd">○ 이 가계도 구성원 중 1, 3, 6에서만 (다)가 발현되었다.</p>
+                      </div>
+                      <p class="q-ask">이에 대한 설명으로 옳은 것만을 &lt;보기&gt;에서 있는 대로 고른 것은? (단, 돌연변이와 교차는 고려하지 않으며, H, h, R, r, T, t 각각의 1개당 DNA 상대량은 1이다.)</p>
+                      <div class="q-box"><span class="q-box-t">&lt; 보 기 &gt;</span>
+                        <p>ㄱ. (가)는 열성 형질이다.</p>
+                        <p>ㄴ. 구성원 중 R와 t를 모두 갖는 사람은 4명이다.</p>
+                        <p>ㄷ. 8의 동생이 태어날 때, 이 아이의 (가)~(다) 표현형이 모두 ⓐ와 같을 확률은 1/16이다.</p>
+                      </div>
+                      <p class="q-c">① ㄱ&nbsp;② ㄴ&nbsp;③ ㄷ&nbsp;④ ㄱ, ㄷ&nbsp;⑤ ㄴ, ㄷ</p>
+                    </div>
+
+                    <div class="q">
+                      <p class="q-h"><b>18.</b> 다음은 세포 주기에 대한 실험이다.</p>
+                      <div class="q-data">
+                        <p class="q-cd q-cd--exp">[실험 과정 및 결과]</p>
+                        <p class="q-cd">(가) 어떤 동물의 체세포를 배양하여 집단 A와 B로 나눈다.</p>
+                        <p class="q-cd">(나) 각 집단의 세포당 DNA 양에 따른 세포 수는 그림과 같다.</p>
+                        <div class="q-figs">
+                          <figure>
+                            <svg class="q-hist" viewBox="0 0 58 46" aria-hidden="true">
+                              <line x1="9" y1="4" x2="9" y2="37" stroke="#9aa0ac" stroke-width=".6"/>
+                              <line x1="9" y1="37" x2="54" y2="37" stroke="#9aa0ac" stroke-width=".6"/>
+                              <rect x="13" y="15" width="5" height="22" fill="#8b93a2"/>
+                              <rect x="19" y="28" width="5" height="9" fill="#8b93a2"/>
+                              <rect x="25" y="32" width="5" height="5" fill="#8b93a2"/>
+                              <rect x="31" y="32" width="5" height="5" fill="#8b93a2"/>
+                              <rect x="37" y="28" width="5" height="9" fill="#8b93a2"/>
+                              <rect x="43" y="21" width="5" height="16" fill="#8b93a2"/>
+                              <text x="14" y="42" class="pl">1</text><text x="44" y="42" class="pl">2</text>
+                            </svg>
+                            <figcaption>집단 A</figcaption>
+                          </figure>
+                          <figure>
+                            <svg class="q-hist" viewBox="0 0 58 46" aria-hidden="true">
+                              <line x1="9" y1="4" x2="9" y2="37" stroke="#9aa0ac" stroke-width=".6"/>
+                              <line x1="9" y1="37" x2="54" y2="37" stroke="#9aa0ac" stroke-width=".6"/>
+                              <rect x="13" y="24" width="5" height="13" fill="#8b93a2"/>
+                              <rect x="19" y="30" width="5" height="7" fill="#8b93a2"/>
+                              <rect x="25" y="31" width="5" height="6" fill="#8b93a2"/>
+                              <rect x="31" y="28" width="5" height="9" fill="#8b93a2"/>
+                              <rect x="37" y="18" width="5" height="19" fill="#8b93a2"/>
+                              <rect x="43" y="30" width="5" height="7" fill="#8b93a2"/>
+                              <text x="14" y="42" class="pl">1</text><text x="44" y="42" class="pl">2</text>
+                            </svg>
+                            <figcaption>집단 B</figcaption>
+                          </figure>
+                        </div>
+                        <p class="q-cap">세포당 DNA 양(상댓값)</p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- 우측 단: 흥분 전도 킬러 -->
+                  <div class="sj-ut__exam-col">
+                    <div class="q">
+                      <p class="q-h"><b>19.</b> 다음은 민말이집 신경 A와 B의 흥분 전도에 대한 자료이다. <em class="q-pt">[3점]</em></p>
+                      <div class="q-data">
+                        <p class="q-cd">○ 그림은 A와 B의 지점 d₁~d₄의 위치를, 표는 P에 역치 이상의 자극을 동시에 1회 주고 경과된 시간이 t₁~t₃일 때 A의 d₁~d₄에서의 막전위를 나타낸 것이다.</p>
+                        <div class="q-row">
+                          <svg class="q-neuron" viewBox="0 0 70 30" aria-hidden="true">
+                            <text x="0" y="9" class="pl">A</text>
+                            <line x1="7" y1="8" x2="66" y2="8" stroke="#2b303c" stroke-width=".7"/>
+                            <line x1="15" y1="6" x2="15" y2="10" stroke="#2b303c" stroke-width=".7"/>
+                            <line x1="31" y1="6" x2="31" y2="10" stroke="#2b303c" stroke-width=".7"/>
+                            <line x1="39" y1="6" x2="39" y2="10" stroke="#2b303c" stroke-width=".7"/>
+                            <line x1="63" y1="6" x2="63" y2="10" stroke="#2b303c" stroke-width=".7"/>
+                            <text x="0" y="22" class="pl">B</text>
+                            <line x1="7" y1="21" x2="66" y2="21" stroke="#2b303c" stroke-width=".7"/>
+                            <line x1="15" y1="19" x2="15" y2="23" stroke="#2b303c" stroke-width=".7"/>
+                            <line x1="31" y1="19" x2="31" y2="23" stroke="#2b303c" stroke-width=".7"/>
+                            <line x1="39" y1="19" x2="39" y2="23" stroke="#2b303c" stroke-width=".7"/>
+                            <line x1="63" y1="19" x2="63" y2="23" stroke="#2b303c" stroke-width=".7"/>
+                            <rect x="26" y="17.6" width="8" height="6.4" fill="none" stroke="#7d8696" stroke-width=".5" stroke-dasharray="1 1"/>
+                            <rect x="44" y="17.6" width="8" height="6.4" fill="none" stroke="#7d8696" stroke-width=".5" stroke-dasharray="1 1"/>
+                            <text x="12.5" y="28" class="ps">d₁</text><text x="28.5" y="28" class="ps">d₂</text>
+                            <text x="36.5" y="28" class="ps">d₃</text><text x="60.5" y="28" class="ps">d₄</text>
+                          </svg>
+                          <table class="q-tbl q-tbl--nrw">
+                            <tr><th>시간</th><th>Ⅰ</th><th>Ⅱ</th><th>Ⅲ</th><th>Ⅳ</th></tr>
+                            <tr><td>t₁</td><td>ⓐ</td><td>ⓑ</td><td>ⓐ</td><td>ⓒ</td></tr>
+                            <tr><td>t₂</td><td>ⓑ</td><td>ⓐ</td><td>ⓒ</td><td>ⓓ</td></tr>
+                            <tr><td>t₃</td><td>ⓒ</td><td>ⓓ</td><td>ⓑ</td><td>ⓐ</td></tr>
+                          </table>
+                        </div>
+                        <p class="q-cd">○ Ⅰ~Ⅳ는 d₁~d₄를, ⓐ~ⓓ는 −80, −70, −60, +30을 순서 없이 나타낸 것이다.</p>
+                        <p class="q-cd">○ A와 B의 흥분 전도 속도는 1 cm/ms로 같고, 활동 전위가 발생할 때 막전위 변화는 그림과 같다.</p>
+                        <svg class="q-ap" viewBox="0 0 56 36" aria-hidden="true">
+                          <line x1="12" y1="3" x2="12" y2="30" stroke="#9aa0ac" stroke-width=".6"/>
+                          <line x1="12" y1="24" x2="52" y2="24" stroke="#9aa0ac" stroke-width=".6"/>
+                          <path d="M12 24 L22 23.5 L26 7 L29 25.5 L33 27 L40 24.2 L52 24" fill="none" stroke="#2b303c" stroke-width=".9" stroke-linejoin="round"/>
+                          <text x="2" y="8" class="ps">+30</text><text x="6" y="25" class="ps">0</text>
+                          <text x="0" y="30" class="ps">−70</text>
+                        </svg>
+                      </div>
+                      <p class="q-ask">이에 대한 설명으로 옳은 것만을 &lt;보기&gt;에서 있는 대로 고른 것은? (단, 휴지 전위는 −70 mV이다.)</p>
+                      <div class="q-box"><span class="q-box-t">&lt; 보 기 &gt;</span>
+                        <p>ㄱ. P는 d₂이다.</p>
+                        <p>ㄴ. ⓓ는 +30이다.</p>
+                        <p>ㄷ. t₂일 때, B의 Ⅲ에서의 막전위는 −80 mV이다.</p>
+                      </div>
+                      <p class="q-c">① ㄱ&nbsp;② ㄷ&nbsp;③ ㄱ, ㄴ&nbsp;④ ㄴ, ㄷ&nbsp;⑤ ㄱ, ㄴ, ㄷ</p>
+                    </div>
+
+                    <div class="q">
+                      <p class="q-h"><b>20.</b> 그림은 생존 곡선 Ⅰ형~Ⅲ형을, 표는 동물 종 ㉠과 ㉡의 상대 연령에 따른 생존 개체 수를 나타낸 것이다.</p>
+                      <div class="q-row">
+                        <svg class="q-surv" viewBox="0 0 58 44" aria-hidden="true">
+                          <line x1="11" y1="3" x2="11" y2="36" stroke="#9aa0ac" stroke-width=".6"/>
+                          <line x1="11" y1="36" x2="54" y2="36" stroke="#9aa0ac" stroke-width=".6"/>
+                          <path d="M13 6 C30 6 40 9 50 34" fill="none" stroke="#2b303c" stroke-width=".8"/>
+                          <path d="M13 6 L51 35" fill="none" stroke="#2b303c" stroke-width=".8" stroke-dasharray="2 1"/>
+                          <path d="M13 6 C18 24 26 32 50 35" fill="none" stroke="#2b303c" stroke-width=".8" stroke-dasharray="1 1"/>
+                          <text x="0" y="8" class="ps">1000</text><text x="3" y="22" class="ps">100</text>
+                          <text x="6" y="37" class="ps">1</text>
+                        </svg>
+                        <table class="q-tbl q-tbl--nrw">
+                          <tr><th>연령</th><th>㉠</th><th>㉡</th></tr>
+                          <tr><td>0</td><td>1000</td><td>1000</td></tr>
+                          <tr><td>40</td><td>447</td><td>32</td></tr>
+                          <tr><td>80</td><td>11</td><td>2</td></tr>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <p class="sj-ut__note" data-en="*Based on one high-school science workbook (p.200)">*고등 과학 문제집 1권(p.200) 기준</p>
+        </div>
+
       </div>
     </div>
   </section>
+
+  <style>
+  .sj-ut{
+    --ink:#1a1d2b;--muted:#8b909e;--bg:#f5f7fa;--line:#d7dbe3;--paper-line:#e7e9ee;
+    --blue:#5468f0;--accent:#e8744f;
+    font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,
+      "Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",system-ui,sans-serif;
+    color:var(--ink);background:var(--bg);padding:96px 24px;box-sizing:border-box;
+  }
+  .sj-ut *{box-sizing:border-box;}
+  .sj-ut__inner{max-width:1080px;margin:0 auto;}
+
+  .sj-ut__top{display:flex;align-items:center;justify-content:space-between;gap:56px;flex-wrap:wrap;}
+  .sj-ut__head{flex:1 1 380px;min-width:280px;}
+  .sj-ut__head-in{display:flex;flex-direction:column;align-items:flex-start;width:fit-content;max-width:100%;}
+  .sj-ut__eyebrow{margin:0 0 10px;font-size:clamp(20px,3.1vw,29px);font-weight:700;letter-spacing:-.015em;color:var(--ink);}
+  .sj-ut__title{margin:0 0 20px;font-size:clamp(30px,4.6vw,44px);font-weight:800;letter-spacing:-.022em;line-height:1.22;}
+  .sj-ut__title-hl{color:var(--blue);}
+  .sj-ut__lede{margin:0;font-size:clamp(15px,1.6vw,17px);line-height:1.7;color:var(--muted);}
+
+  .sj-ut__impact{
+    display:inline-flex;flex-direction:column;gap:8px;align-self:flex-end;
+    margin-top:24px;padding:18px 44px 20px;background:#10131e;border-radius:16px;
+    box-shadow:0 12px 28px rgba(16,19,30,.2);
+  }
+  .sj-ut__impact-label{font-size:12.5px;font-weight:600;letter-spacing:.01em;color:#aeb4c2;}
+  .sj-ut__impact-value{display:flex;align-items:center;gap:6px;color:var(--accent);}
+  .sj-ut__impact-ico{width:clamp(20px,2.6vw,24px);height:auto;}
+  .sj-ut__impact-value b{font-size:clamp(34px,4.8vw,46px);font-weight:800;letter-spacing:-.02em;line-height:1;}
+  .sj-ut__impact-value b span{font-size:.55em;font-weight:800;margin-left:2px;}
+
+  .sj-ut__right{flex:0 0 auto;display:flex;flex-direction:column;width:330px;}
+  .sj-ut__note{margin:14px 2px 0;text-align:right;font-size:13px;color:var(--muted);}
+
+  .sj-ut__papers{position:relative;width:330px;height:344px;}
+  .sj-ut__sheet{position:absolute;border-radius:6px;box-shadow:0 16px 40px rgba(26,29,43,.18);}
+  .sj-ut__sheet--page{
+    width:202px;height:272px;background:#fff;border:1px solid #e7e9ee;
+    background-image:repeating-linear-gradient(to bottom,transparent 0 15px,var(--paper-line) 15px 16px);
+    background-position:0 24px;
+  }
+  .sj-ut__sheet--back{left:54px;top:36px;transform:rotate(-7deg);opacity:.92;}
+  .sj-ut__sheet--mid {left:90px;top:22px;transform:rotate(4deg);}
+  .sj-ut__sheet--front{width:212px;height:284px;left:84px;top:0;transform:rotate(-1.3deg);background:#fff;border:1px solid #e2e5ec;overflow:hidden;}
+
+  /* 시험지 내부 */
+  .sj-ut__exam{position:relative;width:100%;height:100%;padding:9px 10px 0;color:#2b303c;}
+  .sj-ut__exam-tab{
+    position:absolute;right:-1px;top:42px;writing-mode:vertical-rl;
+    background:#eef0f4;border:1px solid #d8dbe2;border-right:0;padding:6px 2px;border-radius:4px 0 0 4px;
+    font-size:6px;font-weight:700;letter-spacing:.05em;color:#3a4151;
+  }
+  .sj-ut__exam-top{display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1.4px solid #2b303c;padding-bottom:3px;margin-bottom:5px;}
+  .sj-ut__exam-subj{font-size:7.6px;font-weight:800;letter-spacing:-.02em;}
+  .sj-ut__exam-subj em{font-style:normal;font-weight:700;}
+  .sj-ut__exam-pg{font-size:7.6px;font-weight:700;}
+  .sj-ut__exam-cols{
+    display:flex;gap:8px;height:calc(100% - 20px);
+    -webkit-mask-image:linear-gradient(to bottom,#000 84%,transparent);
+            mask-image:linear-gradient(to bottom,#000 84%,transparent);
+  }
+  .sj-ut__exam-col{flex:1;display:flex;flex-direction:column;gap:5px;border-right:.6px solid #e7e9ee;padding-right:6px;font-size:5.2px;line-height:1.42;}
+  .sj-ut__exam-col:last-child{border-right:0;padding-right:0;}
+
+  .q{display:flex;flex-direction:column;gap:1.5px;}
+  .q-h{margin:0;font-weight:600;}
+  .q-h b{font-weight:800;margin-right:1px;}
+  .q-pt{font-style:normal;font-weight:700;}
+  .q-data{border:.7px solid #b9bec8;border-radius:2px;padding:3px 4px;margin:1px 0;display:flex;flex-direction:column;gap:1.5px;}
+  .q-cd{margin:0;padding-left:5px;text-indent:-5px;}
+  .q-cd--exp{font-weight:700;text-indent:0;padding-left:0;}
+  .q-ask{margin:1px 0;}
+  .q-box{border:.7px solid #b9bec8;border-radius:2px;padding:3px 4px;margin:1px 0;background:#fbfbfc;}
+  .q-box-t{display:block;text-align:center;font-weight:700;margin-bottom:1px;}
+  .q-box p{margin:0;}
+  .q-c{margin:1px 0 0;letter-spacing:-.03em;}
+
+  .q-tbl{border-collapse:collapse;width:100%;margin:1px 0;font-size:4.8px;}
+  .q-tbl th,.q-tbl td{border:.5px solid #b9bec8;text-align:center;padding:.6px 0;}
+  .q-tbl th{background:#f0f1f4;font-weight:700;}
+  .q-tbl--nrw{width:48%;flex:0 0 48%;}
+
+  .q-row{display:flex;gap:5px;align-items:flex-start;margin:1px 0;}
+  .q-ped{width:100%;height:auto;margin:1px 0;}
+  .q-figs{display:flex;gap:6px;justify-content:center;margin:1px 0 0;}
+  .q-figs figure{flex:1;margin:0;text-align:center;}
+  .q-figs figcaption{font-size:4.8px;color:#3a4151;margin-top:-2px;}
+  .q-hist{width:100%;height:auto;}
+  .q-cap{margin:0;text-align:center;font-size:4.6px;color:#6a7180;}
+  .q-neuron{flex:1;height:auto;}
+  .q-ap{width:55%;height:auto;margin:1px auto 0;display:block;}
+  .q-surv{flex:1;height:auto;}
+  .q-ped .pl,.q-neuron .pl,.q-hist .pl{font-size:3.4px;fill:#3a4151;}
+  .q-ped .pn{font-size:3px;fill:#6a7180;}
+  .q-neuron .ps,.q-ap .ps,.q-surv .ps{font-size:3px;fill:#6a7180;}
+
+  /* 반응형 */
+  @media (max-width:820px){
+    .sj-ut{padding:68px 20px;}
+    .sj-ut__top{justify-content:center;}
+    .sj-ut__head{flex-basis:100%;display:flex;justify-content:center;}
+    .sj-ut__head-in{align-items:center;width:100%;max-width:520px;}
+    .sj-ut__eyebrow,.sj-ut__title,.sj-ut__lede{text-align:center;}
+    .sj-ut__impact{align-self:center;}
+    .sj-ut__right{margin:14px auto 0;align-items:center;}
+    .sj-ut__note{text-align:center;}
+  }
+  </style>
 
   <!-- How it works (summary) -->
   <section class="sec">
@@ -525,14 +904,13 @@
 
 <!-- ================= SOLUTION ================= -->
 <div class="page" id="p-solution">
-  <section class="hero" style="padding:clamp(88px,11vw,128px) 0 0">
+  <section class="hero" style="padding:clamp(88px,11vw,128px) 0 clamp(56px,7vw,84px)">
     <div class="aurora" aria-hidden="true"><b class="a1"></b><b class="a2"></b></div>
     <div class="wrap" style="display:block">
       <div class="narrow center" style="margin:0 auto">
         <span class="secnum reveal" style="display:block" data-en="A tool built for braille experts">점역사를 위한 AI 점자 에디터</span>
         <h1 class="reveal d1" data-en-html="Formulas, tables and images,<br>handled faster">수식·표·그림도,<br>더 쉽고 빠르게</h1>
       </div>
-      <div class="imgph reveal d2" data-ix="IMG-05" style="min-height:360px;margin-top:clamp(40px,5vw,56px)"><span class="ic">🖥️</span><span class="ix">IMG-05</span><span class="cap">세모점 서비스 메인 화면 스크린샷 (대시보드 / 업로드 화면)</span></div>
     </div>
   </section>
 
@@ -564,10 +942,10 @@
           <button class="vtab-btn" type="button" role="tab" aria-selected="false" aria-controls="vtab06-p3" data-vt="3">04</button>
         </div>
         <div class="vtab-stage">
-          <img class="on" id="vtab06-p0" role="tabpanel" src="IMG/1.png" alt="세모점 OCR 변환 화면 — 표 구조를 위 테두리·열 단위로 인식한 결과" width="1920" height="1080" loading="lazy" decoding="async">
-          <img id="vtab06-p1" role="tabpanel" src="IMG/2.png" alt="세모점 OCR 변환 화면 — 본문 속 수식을 인식해 점역 변환한 결과" width="1920" height="1080" loading="lazy" decoding="async">
-          <img id="vtab06-p2" role="tabpanel" src="IMG/3.png" alt="세모점 OCR 변환 화면 — 풀이 텍스트와 그림 설명을 순서대로 인식하는 모습" width="1920" height="1080" loading="lazy" decoding="async">
-          <img id="vtab06-p3" role="tabpanel" src="IMG/4.png" alt="세모점 OCR 변환 화면 — 그림 내용을 글로 설명한 결과" width="1920" height="1080" loading="lazy" decoding="async">
+          <img class="on" id="vtab06-p0" role="tabpanel" src="IMG/1.png" alt="세모점 초안 생성 화면 — 좌측 원본 학습지, 우측 26줄×32칸 점역 결과가 나란히 놓인 모습" width="1920" height="1040" loading="lazy" decoding="async">
+          <img id="vtab06-p1" role="tabpanel" src="IMG/2.png" alt="세모점 초안 생성 화면 — 원문 문단을 선택하면 대응하는 점역 구간이 함께 강조된 결과" width="1920" height="1040" loading="lazy" decoding="async">
+          <img id="vtab06-p2" role="tabpanel" src="IMG/3.png" alt="세모점 초안 생성 화면 — 본문 속 그림을 선택하면 그림 설명 점역 구간이 강조된 결과" width="1920" height="1040" loading="lazy" decoding="async">
+          <img id="vtab06-p3" role="tabpanel" src="IMG/4.png" alt="세모점 초안 생성 화면 — 표를 선택하면 행·칸 표기로 점역된 구간이 강조된 결과" width="1920" height="1040" loading="lazy" decoding="async">
         </div>
       </div>
     </div>
@@ -585,7 +963,16 @@
           <li data-en-html="<b>Tables</b> come with a draft description for the reader"><b>표</b>는 읽는 사람을 위한 설명 초안까지 제공합니다</li>
         </ul>
       </div>
-      <div class="imgph real reveal reveal-l d1"><img src="IMG/7.png" alt="세모점 초안 생성 화면 — 수식·그림이 담긴 원문을 인식해 점역 초안과 그림 설명을 생성한 결과" width="1917" height="1195" loading="lazy" decoding="async"></div>
+      <div class="vtab reveal reveal-l d1" data-ix="IMG-07" id="vtab07">
+        <div class="vtab-rail" role="tablist" aria-orientation="vertical" aria-label="시각 자료 점역 예시">
+          <button class="vtab-btn on" type="button" role="tab" aria-selected="true" aria-controls="vtab07-p0" data-vt="0">01</button>
+          <button class="vtab-btn" type="button" role="tab" aria-selected="false" aria-controls="vtab07-p1" data-vt="1">02</button>
+        </div>
+        <div class="vtab-stage">
+          <img class="on" id="vtab07-p0" role="tabpanel" src="IMG/7.png" alt="세모점 이미지 점자 번역 화면 — 원문의 표를 선택하면 대응하는 점자 셀 구간이 강조된 결과" width="1920" height="1040" loading="lazy" decoding="async">
+          <img id="vtab07-p1" role="tabpanel" src="IMG/7-2.png" alt="세모점 대체 텍스트 선택 창 — 그림 설명을 생략·짧은 제목·개조식 설명 중에서 고르는 화면" width="1920" height="1040" loading="lazy" decoding="async">
+        </div>
+      </div>
     </div>
   </section>
 
@@ -601,7 +988,16 @@
           <li data-en-html="Add content or <b>rearrange blocks</b>, then confirm — the expert stays in control">내용을 더하거나 <b>블록을 옮겨</b> 점역사가 직접 확정합니다</li>
         </ul>
       </div>
-      <div class="imgph real reveal reveal-r d1"><img src="IMG/8.png" alt="세모점 분할 뷰 에디터 — 좌측 원본·우측 점자, 대응 구간이 함께 강조된 화면" width="1929" height="1192" loading="lazy" decoding="async"></div>
+      <div class="vtab reveal reveal-r d1" data-ix="IMG-08" id="vtab08">
+        <div class="vtab-rail" role="tablist" aria-orientation="vertical" aria-label="분할 뷰 에디터 예시">
+          <button class="vtab-btn on" type="button" role="tab" aria-selected="true" aria-controls="vtab08-p0" data-vt="0">01</button>
+          <button class="vtab-btn" type="button" role="tab" aria-selected="false" aria-controls="vtab08-p1" data-vt="1">02</button>
+        </div>
+        <div class="vtab-stage">
+          <img class="on" id="vtab08-p0" role="tabpanel" src="IMG/8.png" alt="세모점 분할 뷰 에디터 — 좌측 원본 PDF, 우측 점역 결과가 나란히 놓인 화면" width="1920" height="1040" loading="lazy" decoding="async">
+          <img id="vtab08-p1" role="tabpanel" src="IMG/8-2.png" alt="세모점 분할 뷰 에디터 — 원문의 점역자주 구간을 선택하면 대응하는 점자 구간이 함께 강조된 화면" width="1920" height="1040" loading="lazy" decoding="async">
+        </div>
+      </div>
     </div>
   </section>
 
@@ -611,15 +1007,101 @@
       <div class="h-left reveal"><h2 data-en="Processing modes">처리 모드</h2></div>
       <div class="modes">
         <div class="mode reveal">
-          <div class="imgph" data-ix="IMG-09"><span class="ic">🖼️</span><span class="ix">IMG-09</span><span class="cap">'원문 정리' 모드 화면</span></div>
+          <div class="imgph swap" data-ix="IMG-09" tabindex="0" role="img" aria-label="원문 정리 모드 — 원본 문서(기본), 정리된 텍스트(마우스 올림)">
+            <div class="lay lay-1"><img src="IMG/9-1.png" alt="원문 정리 전 — 수식·표·이미지가 섞인 원본 문서" width="652" height="278" loading="lazy" decoding="async"></div>
+            <div class="lay lay-2"><pre class="fit doc" aria-hidden="true">&lt;!표윗테두리&gt;
+  관련 법령: 「감염병 예방 및 관리에 관한 법률」 제33조의4 및 동법 시행령 제32조의3
+  1. 예방접종 안내에 따라 코로나19 예방접종에 동의합니다. &lt;!네모빈칸&gt; 예 &lt;!네모빈칸&gt; 아니오
+  * 접종에 대한 동의는 학생 및 법정 대리인(보호자) 모두의 동의로 간주합니다.
+  2. 예방접종 대상자 인적사항
+  성명  &lt;!표빈칸&gt;
+  주민등록번호(외국인등록번호)  &lt;!표빈칸&gt;
+  전화번호 (휴대전화)  &lt;!표빈칸&gt;
+  * 학생 본인 휴대전화 없을 경우 법정 대리인(보호자) 휴대전화 번호 입력
+&lt;!표아랫테두리&gt;
+
+  본인 성명: (인 또는 서명)
+  법정대리인(보호자 성명): (인 또는 서명)</pre></div>
+            <span class="hint" aria-hidden="true" data-en="See result ›">결과 보기 ›</span>
+          </div>
           <div class="body"><h3 data-en="Document cleanup">원문 정리</h3><p data-en="Turn documents with formulas, tables and images into clean text an expert can read and review.">수식·표·이미지가 섞인 문서를, 점역사가 읽고 검토할 수 있는 텍스트로 정리합니다.</p><span class="io">PDF·HWP·IMG → TXT</span></div>
         </div>
         <div class="mode reveal d1">
-          <div class="imgph" data-ix="IMG-10"><span class="ic">⠿</span><span class="ix">IMG-10</span><span class="cap">'점자 파일 생성' 모드 화면</span></div>
+          <div class="imgph swap" data-ix="IMG-10" tabindex="0" role="img" aria-label="점자 파일 생성 모드 — TXT 원문(기본), 생성된 점자 파일(마우스 올림)">
+            <div class="lay lay-1"><pre class="fit doc" aria-hidden="true">&lt;!표윗테두리&gt;
+  관련 법령: 「감염병 예방 및 관리에 관한 법률」 제33조의4 및 동법 시행령 제32조의3
+  1. 예방접종 안내에 따라 코로나19 예방접종에 동의합니다. &lt;!네모빈칸&gt; 예 &lt;!네모빈칸&gt; 아니오
+  * 접종에 대한 동의는 학생 및 법정 대리인(보호자) 모두의 동의로 간주합니다.
+  2. 예방접종 대상자 인적사항
+  성명  &lt;!표빈칸&gt;
+  주민등록번호(외국인등록번호)  &lt;!표빈칸&gt;
+  전화번호 (휴대전화)  &lt;!표빈칸&gt;
+  * 학생 본인 휴대전화 없을 경우 법정 대리인(보호자) 휴대전화 번호 입력
+&lt;!표아랫테두리&gt;
+
+  본인 성명: (인 또는 서명)
+  법정대리인(보호자 성명): (인 또는 서명)</pre></div>
+            <div class="lay lay-2"><pre class="fit braille" aria-hidden="true">⠿⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠿
+⠀⠀⠈⠧⠒⠐⠡⠀⠘⠎⠃⠐⠻⠐⠂⠀⠐⠦⠫⠢⠱⠢⠘⠻⠀⠌⠘⠶⠀⠑⠕⠆
+⠈⠧⠒⠐⠕⠝⠀⠈⠧⠒⠚⠒⠀⠘⠎⠃⠐⠩⠂⠴⠂⠀⠨⠝⠼⠉⠉⠨⠥⠺⠼⠙
+⠑⠕⠆⠀⠊⠿⠘⠎⠃⠀⠠⠕⠚⠗⠶⠐⠻⠀⠨⠝⠼⠉⠃⠨⠥⠺⠼⠉⠀⠀⠀⠀
+⠀⠀⠼⠁⠲⠀⠌⠘⠶⠨⠎⠃⠨⠿⠀⠣⠒⠉⠗⠝⠀⠠⠊⠐⠣⠀⠋⠥⠐⠥⠉⠀
+⠼⠁⠊⠀⠌⠘⠶⠨⠎⠃⠨⠿⠝⠀⠊⠿⠺⠚⠃⠉⠕⠊⠲⠀⠸⠦⠀⠴⠇⠌⠀⠀
+⠸⠦⠀⠴⠇⠇⠣⠉⠕⠥⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠐⠔⠀⠨⠎⠃⠨⠿⠝⠀⠊⠗⠚⠒⠀⠊⠿⠺⠉⠵⠀⠚⠁⠠⠗⠶⠀⠑⠕⠆
+⠘⠎⠃⠨⠻⠀⠊⠗⠐⠕⠟⠦⠄⠘⠥⠚⠥⠨⠠⠴⠀⠑⠥⠊⠍⠺⠀⠊⠿⠺⠐⠥
+⠫⠒⠨⠍⠚⠃⠉⠕⠊⠲⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠼⠃⠲⠀⠌⠘⠶⠨⠎⠃⠨⠿⠀⠊⠗⠇⠶⠨⠀⠟⠨⠹⠇⠚⠶⠀⠀⠀⠀⠀
+⠀⠀⠠⠻⠑⠻⠀⠀⠿⠿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠨⠍⠑⠟⠊⠪⠶⠐⠭⠘⠾⠚⠥⠦⠄⠽⠈⠍⠁⠟⠊⠪⠶⠐⠭⠀⠀⠀⠀⠀
+⠘⠾⠚⠥⠠⠴⠀⠀⠿⠿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠨⠾⠚⠧⠘⠾⠚⠥⠀⠦⠄⠚⠩⠊⠗⠨⠾⠚⠧⠠⠴⠀⠀⠿⠿⠀⠀⠀⠀⠀
+⠀⠀⠐⠔⠀⠚⠁⠠⠗⠶⠀⠘⠷⠟⠀⠚⠩⠊⠗⠨⠾⠚⠧⠀⠎⠃⠄⠮⠀⠈⠻⠍
+⠘⠎⠃⠨⠻⠀⠊⠗⠐⠕⠟⠦⠄⠘⠥⠚⠥⠨⠠⠴⠀⠚⠩⠊⠗⠨⠾⠚⠧⠀⠀⠀
+⠘⠾⠚⠥⠀⠕⠃⠐⠱⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠷⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠿
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠘⠷⠟⠀⠠⠻⠑⠻⠐⠂⠀⠦⠄⠟⠀⠠⠊⠥⠉⠵⠀⠠⠎⠑⠻⠠⠴⠀⠀⠀
+⠀⠀⠘⠎⠃⠨⠻⠊⠗⠐⠕⠟⠦⠄⠘⠥⠚⠥⠨⠀⠠⠻⠑⠻⠠⠴⠐⠂⠀⠀⠀⠀
+⠦⠄⠟⠀⠠⠊⠥⠉⠵⠀⠠⠎⠑⠻⠠⠴⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</pre></div>
+            <span class="hint" aria-hidden="true" data-en="See result ›">결과 보기 ›</span>
+          </div>
           <div class="body"><h3 data-en="Braille file">점자 파일 생성</h3><p data-en="Convert reviewed text into a standard braille file.">검토를 마친 텍스트를 표준 점자 파일로 변환합니다.</p><span class="io">TXT → BRF</span></div>
         </div>
         <div class="mode reveal d2">
-          <div class="imgph" data-ix="IMG-11"><span class="ic">⚡</span><span class="ix">IMG-11</span><span class="cap">'원클릭 문서 점역' 모드 화면</span></div>
+          <div class="imgph swap" data-ix="IMG-11" tabindex="0" role="img" aria-label="원클릭 문서 점역 모드 — 원본 문서(기본), 점자 파일(마우스 올림)">
+            <div class="lay lay-1"><img src="IMG/11-1.png" alt="원클릭 점역 전 — 원본 문서" width="279" height="196" loading="lazy" decoding="async"></div>
+            <div class="lay lay-2"><pre class="fit braille" aria-hidden="true">⠀⠀⠠⠄⠚⠪⠐⠪⠢⠊⠥⠝⠀⠙⠬⠚⠡⠊⠽⠒⠀⠊⠥⠚⠻⠮⠀⠀⠀⠀⠀⠀
+⠊⠣⠪⠢⠈⠧⠀⠫⠦⠕⠀⠨⠎⠢⠱⠁⠚⠢⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠈⠫⠗⠐⠂⠀⠨⠕⠁⠇⠫⠁⠚⠻⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠈⠫⠙⠐⠂⠀⠑⠐⠪⠢⠑⠥⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠒⠕⠐⠂⠀⠥⠐⠵⠠⠨⠭⠀⠚⠧⠇⠂⠙⠬⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠈⠫⠊⠕⠐⠂⠀⠣⠐⠗⠄⠘⠡⠕⠀⠑⠯⠈⠳⠀⠑⠥⠜⠶⠀⠀⠀⠀⠀⠀
+⠨⠕⠁⠇⠫⠁⠚⠻⠠⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠿⠛⠛⠛⠛⠀⠘⠎⠢⠐⠌⠀⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠿
+⠀⠀⠈⠫⠗⠐⠂⠀⠰⠯⠘⠂⠀⠨⠥⠈⠾⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠈⠫⠙⠐⠂⠀⠙⠒⠊⠒⠀⠉⠗⠬⠶⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠒⠕⠐⠂⠀⠙⠒⠊⠒⠀⠘⠶⠚⠜⠶⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠈⠫⠊⠕⠐⠂⠀⠇⠇⠶⠫⠺⠀⠕⠃⠨⠶⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠿⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠿
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠼⠁⠈⠫⠗⠀⠫⠃⠐⠀⠮⠐⠀⠘⠻⠺⠀⠕⠃⠨⠶⠮⠀⠓⠢⠈⠍⠚⠒⠊⠲⠀
+⠼⠃⠈⠫⠙⠀⠴⠠⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠒⠕⠀⠣⠉⠕⠬⠀⠒⠕⠀⠼⠉⠈⠫⠙⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠒⠕⠀⠌⠀⠒⠕⠀⠼⠋⠈⠫⠊⠕⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠼⠉⠈⠫⠙⠀⠴⠠⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠒⠕⠀⠌⠀⠒⠕⠀⠼⠙⠈⠫⠙⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠒⠕⠀⠣⠉⠕⠥⠀⠒⠕⠀⠼⠑⠈⠫⠙⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠼⠙⠈⠫⠙⠀⠴⠠⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠒⠕⠀⠌⠀⠒⠕⠀⠼⠛⠈⠫⠊⠕⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠼⠑⠈⠫⠙⠀⠴⠠⠙⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠒⠕⠀⠌⠀⠒⠕⠀⠼⠓⠈⠫⠊⠕⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠼⠋⠈⠫⠊⠕⠀⠫⠃⠺⠀⠕⠃⠨⠶⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠼⠛⠈⠫⠊⠕⠀⠮⠺⠀⠕⠃⠨⠶⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠼⠓⠈⠫⠊⠕⠀⠘⠻⠺⠀⠕⠃⠨⠶⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</pre></div>
+            <span class="hint" aria-hidden="true" data-en="See result ›">결과 보기 ›</span>
+          </div>
           <div class="body"><h3 data-en="One-click braille">원클릭 문서 점역</h3><p data-en="From a single upload to a finished braille file in one pass.">업로드 한 번으로, 문서를 점자 파일까지 한 번에 점역합니다.</p><span class="io">PDF·HWP·IMG → BRF</span></div>
         </div>
       </div>
@@ -634,16 +1116,16 @@
         <div class="fly reveal reveal-l">
           <div class="ring"></div>
           <div class="ring2"></div>
-          <div class="hub"><div><div class="big">↻</div><span data-en="Tailored to your team">우리 기관에<br>맞춰 갑니다</span></div></div>
+          <div class="hub"><div><div class="big">↻</div><span data-en="Your rules, kept">정한 방식대로<br>늘 같게</span></div></div>
           <div class="flyn t"><div class="n">1</div><h4 data-en="AI draft">AI 초안 제공</h4><p data-en="Semojum drafts it.">세모점이 초안 생성</p></div>
           <div class="flyn r"><div class="n">2</div><h4 data-en="Expert edits">점역사 편집</h4><p data-en="The expert refines it.">점역사가 검토·수정</p></div>
-          <div class="flyn b"><div class="n">3</div><h4 data-en="RLHF learning">RLHF 지속 학습</h4><p data-en="It learns from edits.">편집을 반영해 학습</p></div>
-          <div class="flyn l"><div class="n">4</div><h4 data-en="Personalized">개인 맞춤 점역</h4><p data-en="Tailored to your team.">기관에 맞춘 결과</p></div>
+          <div class="flyn b"><div class="n">3</div><h4 data-en="Saved settings">방식 저장</h4><p data-en="Your rules are stored.">조판·표기 규칙 저장</p></div>
+          <div class="flyn l"><div class="n">4</div><h4 data-en="Consistent output">같은 결과 유지</h4><p data-en="Every job follows it.">다음 작업도 같은 규칙</p></div>
         </div>
         <div class="perso reveal reveal-r d1">
-          <span class="k" data-en="Personalized braille">맞춤 점역</span>
-          <h2 data-en-html="The more you use it, the more it fits <span class='grad'>your team.</span>">쓸수록 우리 기관에<br><span class="grad">딱 맞는 점역</span></h2>
-          <p data-en="Every organization writes braille a little differently. The more you use Semojum, the more its results match your team's way.">기관마다 점자 표현과 조판 방식이 다릅니다. 세모점은 쓸수록 우리 기관 방식에 맞게 결과를 다듬습니다.</p>
+          <span class="k" data-en="Your own rules">우리 방식대로</span>
+          <h2 data-en-html="Set it once — <span class='grad'>every job follows.</span>">한 번 정해 두면<br><span class="grad">언제나 같은 결과</span></h2>
+          <p data-en="Braille conventions differ by organization and by project. Save your typesetting and notation rules once, and every new job starts from them — even when the person changes.">점자 표현과 조판 방식은 기관마다, 또 작업마다 다릅니다. 면 규격·페이지행·테두리 같은 규칙을 한 번 정해 두면 새 작업이 그 값에서 시작합니다. 담당자가 바뀌어도 결과가 흔들리지 않습니다.</p>
         </div>
       </div>
     </div>
@@ -717,12 +1199,26 @@
   <section class="sec center">
     <div class="wrap">
       <h2 class="reveal" data-en="Get in touch">문의하기</h2>
-      <p class="lead reveal d1 mt-s" data-en="If you're curious about adopting Semojum or partnering, email us.">세모점 도입이나 협업이 궁금하시면 메일로 연락 주세요.</p>
+      <p class="lead reveal d1 mt-s" data-en="Tell us about your organization — adoption, a demo, or a partnership.">도입·시연·협업 무엇이든 남겨 주세요.</p>
       <div class="ccard reveal d2" style="margin-top:clamp(40px,6vw,52px)">
-        <div style="font-size:12px;font-weight:800;color:var(--mute);letter-spacing:.06em" data-en="EMAIL">이메일</div>
-        <div class="em">contact@semo-jum.com</div>
-        <p class="mut" style="font-size:14.5px" data-en="Send your name, organization and message — we'll reply quickly.">이름·소속·문의 내용을 함께 보내주시면 빠르게 답변드립니다.</p>
-        <a href="mailto:contact@semo-jum.com" class="btn btn-pri mt-m" style="width:100%" data-en="Send email">메일 보내기</a>
+        <div style="font-size:12px;font-weight:800;color:var(--mute);letter-spacing:.06em" data-en="INQUIRY">문의</div>
+        <p class="mut" style="font-size:14.5px" data-en="Fill this in and we'll reply within 2 business days.">아래를 남겨 주시면 영업일 기준 2일 안에 답변드립니다.</p>
+        <form class="cform" id="cform" novalidate>
+          <div><label for="cf-name" data-en="Name">이름</label><input id="cf-name" name="name" autocomplete="name"></div>
+          <div><label for="cf-org" data-en="Organization">소속 기관</label><input id="cf-org" name="org" autocomplete="organization"></div>
+          <div><label for="cf-mail" data-en="Email">이메일</label><input id="cf-mail" name="email" type="email" autocomplete="email"></div>
+          <div><label for="cf-type" data-en="Type">문의 유형</label>
+            <select id="cf-type" name="type">
+              <option data-en="Adoption">도입 문의</option>
+              <option data-en="Demo request">시연 요청</option>
+              <option data-en="Partnership">협업 제안</option>
+              <option data-en="Other">기타</option>
+            </select></div>
+          <div class="fw"><label for="cf-msg" data-en="Message">문의 내용</label><textarea id="cf-msg" name="msg"></textarea></div>
+          <label class="agree fw"><input type="checkbox" id="cf-ok" style="width:auto"><span data-en="I agree to the collection and use of my information for this inquiry. (required)">문의 응대를 위한 개인정보 수집·이용에 동의합니다. (필수)</span></label>
+          <button type="submit" class="btn btn-pri fw" style="width:100%" data-en="Send">보내기</button>
+        </form>
+        <p class="mut" style="font-size:13px;margin-top:14px" data-en-html="Or email us directly at <b>contact@semo-jum.com</b>.">메일로 바로 보내셔도 됩니다 — <b>contact@semo-jum.com</b></p>
       </div>
     </div>
   </section>
@@ -732,15 +1228,19 @@
 <footer>
   <div class="wrap">
     <div class="fr">
-      <div><div class="fl"><svg width="25" height="25" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect width="29" height="29" rx="8" fill="url(#sg2)"/><circle cx="14.5" cy="8.2" r="2.7" fill="#fff"/><circle cx="8.6" cy="20" r="2.7" fill="#fff"/><circle cx="20.4" cy="20" r="2.7" fill="#fff"/><defs><linearGradient id="sg2" x1="0" y1="0" x2="29" y2="29" gradientUnits="userSpaceOnUse"><stop stop-color="#4F7DF0"/><stop offset="1" stop-color="#FF8B6B"/></linearGradient></defs></svg>세모점</div><p class="fm" data-en="AI braille translation editor for complex documents.">복합 문서를 위한 AI 점자 번역 에디터</p></div>
+      <div><div class="fl"><img class="brandmark" src="IMG/logo-wordmark.png" alt="세모점" width="1642" height="652" loading="lazy" decoding="async"></div><p class="fm" data-en="AI braille translation editor for complex documents.">복합 문서를 위한 AI 점자 번역 에디터</p></div>
       <div class="fnav">
         <button class="nav-go" data-go="p-solution" data-en="Solution">솔루션</button>
         <button class="nav-go" data-go="p-about" data-en="About">회사 소개</button>
         <button class="nav-go" data-go="p-contact" data-en="Contact">도입 문의</button>
+        <a href="#" data-en="Privacy">개인정보처리방침</a>
       </div>
     </div>
     <hr>
-    <div class="fr"><p class="fm">contact@semo-jum.com</p><p class="fm">© 2026 semojum. All rights reserved.</p></div>
+    <div class="fr" style="align-items:flex-start">
+      <p class="fm" data-en-html="Semojum · CEO Kim Tae-min<br>180 Yeoksam-ro, Gangnam-gu, Seoul · contact@semo-jum.com">세모점 · 대표 김태민<br>서울시 강남구 역삼로 180 · contact@semo-jum.com</p>
+      <p class="fm">© 2026 semojum. All rights reserved.</p>
+    </div>
   </div>
 </footer>
 
@@ -772,12 +1272,22 @@
     ScrollTrigger.refresh();
   }
 
+  function jumpTop(){
+    var de=document.documentElement, prev=de.style.scrollBehavior;
+    de.style.scrollBehavior='auto';
+    window.scrollTo(0,0);
+    de.style.scrollBehavior=prev;
+  }
   function go(id){
     document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
     var el=document.getElementById(id); if(el) el.classList.add('active');
     document.querySelectorAll('.nav-link').forEach(function(t){t.classList.toggle('active',t.dataset.go===id)});
-    window.scrollTo({top:0,behavior:'smooth'});
-    requestAnimationFrame(function(){ var h=el.querySelector('.hero'); if(h) h.classList.add('show'); setupReveal(el); });
+    // 페이지를 갈아끼우면 문서 높이가 즉시 바뀐다. 부드러운 스크롤은 그 과정에서 취소되거나
+    // 짧아진 문서 높이에 맞춰 잘려서 중간에 멈춘다. 푸터에서 눌러도 확실히 맨 위로 가도록,
+    // html의 scroll-behavior:smooth를 잠시 끄고 즉시 이동시킨다.
+    jumpTop();
+    requestAnimationFrame(function(){ var h=el.querySelector('.hero'); if(h) h.classList.add('show'); setupReveal(el); jumpTop(); });
+    if(window.__fitSwap){ setTimeout(window.__fitSwap,0); setTimeout(window.__fitSwap,220); }
   }
   document.querySelectorAll('.nav-go').forEach(function(b){b.addEventListener('click',function(){go(b.dataset.go)})});
 
@@ -824,11 +1334,11 @@
   var cio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){countUp(e.target);cio.unobserve(e.target)}})},{threshold:0.6});
   document.querySelectorAll('[data-target]').forEach(function(el){cio.observe(el)});
 
-  // Vertical tab gallery (IMG-06): click + auto-advance, pauses on hover/focus
-  (function(){
-    var vt=document.getElementById('vtab06'); if(!vt) return;
+  // Vertical tab galleries: click + auto-advance, pauses on hover/focus
+  document.querySelectorAll('.vtab').forEach(function(vt){
     var btns=vt.querySelectorAll('.vtab-btn'), imgs=vt.querySelectorAll('.vtab-stage img');
     var n=btns.length, cur=0, timer=null, DUR=3500;
+    if(!n) return;
     function show(i){
       cur=(i+n)%n;
       for(var k=0;k<n;k++){
@@ -845,6 +1355,55 @@
     if('IntersectionObserver' in window){
       new IntersectionObserver(function(es){es.forEach(function(e){e.isIntersecting?start():stop();});},{threshold:0.3}).observe(vt);
     } else { start(); }
+  });
+
+  // Mode placeholders (IMG-09/10/11): scale each text block to fit its card frame.
+  // Cards live on a hidden page, so fit on every signal that they may now have size:
+  // viewport entry, hover/focus (right before reveal), size change, fonts ready, load.
+  (function(){
+    var cards=document.querySelectorAll('.imgph.swap'); if(!cards.length) return;
+    function fit(pre){
+      var box=pre.parentNode; if(!box||!box.clientWidth||!box.clientHeight) return; // hidden: keep last scale
+      pre.style.transform='none';
+      var pw=pre.scrollWidth, ph=pre.scrollHeight;
+      if(!pw||!ph) return;
+      var s=Math.min(box.clientWidth/pw, box.clientHeight/ph)*0.92;
+      if(s>4) s=4;
+      pre.style.transform='scale('+s+')';
+    }
+    function fitCard(card){ card.querySelectorAll('pre.fit').forEach(fit); }
+    function fitAll(){ cards.forEach(fitCard); }
+    window.__fitSwap=fitAll; // allow page navigation (go) to trigger a fit when a page is shown
+    cards.forEach(function(card){
+      card.addEventListener('mouseenter',function(){fitCard(card);});
+      card.addEventListener('focusin',function(){fitCard(card);});
+    });
+    if('IntersectionObserver' in window){
+      var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)fitCard(e.target);});},{threshold:0.15});
+      cards.forEach(function(c){io.observe(c);});
+    }
+    if('ResizeObserver' in window){
+      var ro=new ResizeObserver(fitAll); cards.forEach(function(c){ro.observe(c);});
+    } else { window.addEventListener('resize',fitAll); }
+    if(document.fonts&&document.fonts.ready){ document.fonts.ready.then(fitAll); }
+    window.addEventListener('load',fitAll);
+    fitAll();
+  })();
+</script>
+<script>
+  // 문의 폼 — 서버 없이 메일로 전달한다. 나중에 수집 경로가 생기면 이 함수만 바꾸면 된다.
+  (function(){
+    var f=document.getElementById('cform'); if(!f) return;
+    f.addEventListener('submit',function(e){
+      e.preventDefault();
+      var v=function(id){return (document.getElementById(id).value||'').trim()};
+      if(!document.getElementById('cf-ok').checked){ alert('개인정보 수집·이용 동의가 필요합니다.'); return; }
+      if(!v('cf-name')||!v('cf-mail')||!v('cf-msg')){ alert('이름·이메일·문의 내용을 채워 주세요.'); return; }
+      var subj='[세모점 문의] '+document.getElementById('cf-type').value+' — '+v('cf-name');
+      var body=['이름: '+v('cf-name'),'소속: '+v('cf-org'),'이메일: '+v('cf-mail'),
+                '유형: '+document.getElementById('cf-type').value,'','내용:',v('cf-msg')].join('\n');
+      location.href='mailto:contact@semo-jum.com?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
+    });
   })();
 </script>
 </body>
