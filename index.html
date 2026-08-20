@@ -19,8 +19,8 @@
 <meta name="twitter:title" content="세모점 — 수식·표·그림까지, AI 점자 변환">
 <meta name="twitter:description" content="AI와 점역사가 함께 만드는 더 빠른 점역">
 <meta name="twitter:image" content="https://semo-jum.com/IMG/IMG_01.png">
-<link rel="icon" type="image/png" href="/IMG/favicon.png">
-<link rel="apple-touch-icon" href="/IMG/logo-icon.png">
+<link rel="icon" type="image/png" href="/IMG/favicon.png?v=20260813">
+<link rel="apple-touch-icon" href="/IMG/logo-icon.png?v=20260813">
 <link rel="preconnect" href="https://cdn.jsdelivr.net">
 <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
 <style>
@@ -307,6 +307,10 @@
   .cform textarea{min-height:104px;resize:vertical}
   .cform input:focus,.cform textarea:focus,.cform select:focus{outline:2px solid var(--blue);outline-offset:1px}
   .agree{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mute);margin-top:14px}
+  .cform .hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0;pointer-events:none}
+  .cf-status{margin-top:12px;font-size:13.5px;font-weight:700;line-height:1.6;min-height:20px;color:var(--mute)}
+  .cf-status.ok{color:#1a7f4b}.cf-status.bad{color:#c0392b}
+  .cf-status a{color:inherit;text-decoration:underline}
 
   /* Footer */
   footer{background:var(--ink);color:#aeb8cb;padding:60px 0 40px}
@@ -381,7 +385,7 @@
 <div class="nav-wrap" id="navw">
   <nav class="nav">
     <div class="logo nav-go" data-go="p-home">
-      <img class="brandmark" src="IMG/logo-wordmark.png" alt="세모점" width="1642" height="652" decoding="async">
+      <img class="brandmark" src="IMG/logo-wordmark.png?v=20260813" alt="세모점" width="1642" height="652" decoding="async">
     </div>
     <div class="nav-menu">
       <button class="nav-link nav-go" data-go="p-solution" data-en="Solution">솔루션</button>
@@ -853,19 +857,19 @@
       <div class="h-left reveal"><h2 data-en="Where Semojum fits">세모점이 필요한 곳</h2></div>
       <div class="uc">
         <div class="ucard reveal">
-          <div class="imgph real"><img src="IMG/IMG_01.png" alt="펼쳐진 점자책 일러스트 — 점자도서관·출판 현장" width="2816" height="1536" loading="lazy" decoding="async"></div>
+          <div class="imgph real"><img src="IMG/IMG_01.png?v=20260813" alt="펼쳐진 점자책 일러스트 — 점자도서관·출판 현장" width="2816" height="1536" loading="lazy" decoding="async"></div>
           <div class="body"><div class="who" data-en="Libraries & publishers">점자도서관 · 출판사</div><h3 data-en="Faster production">더 빠른 제작</h3><p data-en="Produce large volumes of braille documents faster and more efficiently.">대량의 점역 문서를 더 빠르고 효율적으로 제작할 수 있습니다.</p></div>
         </div>
         <div class="ucard reveal d1">
-          <div class="imgph real"><img src="IMG/IMG_02.png" alt="특수학교 건물 일러스트 — 특수교육 현장" width="2816" height="1536" loading="lazy" decoding="async"></div>
+          <div class="imgph real"><img src="IMG/IMG_02.png?v=20260813" alt="특수학교 건물 일러스트 — 특수교육 현장" width="2816" height="1536" loading="lazy" decoding="async"></div>
           <div class="body"><div class="who" data-en="Schools & education">특수학교 · 교육기관</div><h3 data-en="On-time materials">제때 닿는 교재</h3><p data-en="Convert class materials and textbooks into braille when they are needed.">수업 자료와 교재를 필요한 시점에 점자로 변환할 수 있습니다.</p></div>
         </div>
         <div class="ucard reveal d2">
-          <div class="imgph real"><img src="IMG/IMG_03.png" alt="공공기관 건물 일러스트" width="2816" height="1536" loading="lazy" decoding="async"></div>
+          <div class="imgph real"><img src="IMG/IMG_03.png?v=20260813" alt="공공기관 건물 일러스트" width="2816" height="1536" loading="lazy" decoding="async"></div>
           <div class="body"><div class="who" data-en="Public & corporate">공공기관 · 기업</div><h3 data-en="Accessibility support">접근성 대응</h3><p data-en="Use it for accessible-document production and information-access support.">접근성 문서 제작과 정보 접근성 지원 업무에 활용할 수 있습니다.</p></div>
         </div>
         <div class="ucard reveal d3">
-          <div class="imgph real"><img src="IMG/IMG_04.png" alt="노트북으로 작업하는 점역사 일러스트" width="2816" height="1536" loading="lazy" decoding="async"></div>
+          <div class="imgph real"><img src="IMG/IMG_04.png?v=20260813" alt="노트북으로 작업하는 점역사 일러스트" width="2816" height="1536" loading="lazy" decoding="async"></div>
           <div class="body"><div class="who" data-en="Freelance experts">프리랜서 점역사</div><h3 data-en="Higher throughput">늘어나는 처리량</h3><p data-en="Cut repetitive work and handle more documents.">반복 작업은 줄이고, 더 많은 문서를 처리할 수 있습니다.</p></div>
         </div>
       </div>
@@ -942,10 +946,10 @@
           <button class="vtab-btn" type="button" role="tab" aria-selected="false" aria-controls="vtab06-p3" data-vt="3">04</button>
         </div>
         <div class="vtab-stage">
-          <img class="on" id="vtab06-p0" role="tabpanel" src="IMG/1.png" alt="세모점 초안 생성 화면 — 좌측 원본 학습지, 우측 26줄×32칸 점역 결과가 나란히 놓인 모습" width="1920" height="1040" loading="lazy" decoding="async">
-          <img id="vtab06-p1" role="tabpanel" src="IMG/2.png" alt="세모점 초안 생성 화면 — 원문 문단을 선택하면 대응하는 점역 구간이 함께 강조된 결과" width="1920" height="1040" loading="lazy" decoding="async">
-          <img id="vtab06-p2" role="tabpanel" src="IMG/3.png" alt="세모점 초안 생성 화면 — 본문 속 그림을 선택하면 그림 설명 점역 구간이 강조된 결과" width="1920" height="1040" loading="lazy" decoding="async">
-          <img id="vtab06-p3" role="tabpanel" src="IMG/4.png" alt="세모점 초안 생성 화면 — 표를 선택하면 행·칸 표기로 점역된 구간이 강조된 결과" width="1920" height="1040" loading="lazy" decoding="async">
+          <img class="on" id="vtab06-p0" role="tabpanel" src="IMG/1.png?v=20260813" alt="세모점 초안 생성 화면 — 좌측 원본 학습지, 우측 26줄×32칸 점역 결과가 나란히 놓인 모습" width="1920" height="1040" loading="lazy" decoding="async">
+          <img id="vtab06-p1" role="tabpanel" src="IMG/2.png?v=20260813" alt="세모점 초안 생성 화면 — 원문 문단을 선택하면 대응하는 점역 구간이 함께 강조된 결과" width="1920" height="1040" loading="lazy" decoding="async">
+          <img id="vtab06-p2" role="tabpanel" src="IMG/3.png?v=20260813" alt="세모점 초안 생성 화면 — 본문 속 그림을 선택하면 그림 설명 점역 구간이 강조된 결과" width="1920" height="1040" loading="lazy" decoding="async">
+          <img id="vtab06-p3" role="tabpanel" src="IMG/4.png?v=20260813" alt="세모점 초안 생성 화면 — 표를 선택하면 행·칸 표기로 점역된 구간이 강조된 결과" width="1920" height="1040" loading="lazy" decoding="async">
         </div>
       </div>
     </div>
@@ -969,8 +973,8 @@
           <button class="vtab-btn" type="button" role="tab" aria-selected="false" aria-controls="vtab07-p1" data-vt="1">02</button>
         </div>
         <div class="vtab-stage">
-          <img class="on" id="vtab07-p0" role="tabpanel" src="IMG/7.png" alt="세모점 이미지 점자 번역 화면 — 원문의 표를 선택하면 대응하는 점자 셀 구간이 강조된 결과" width="1920" height="1040" loading="lazy" decoding="async">
-          <img id="vtab07-p1" role="tabpanel" src="IMG/7-2.png" alt="세모점 대체 텍스트 선택 창 — 그림 설명을 생략·짧은 제목·개조식 설명 중에서 고르는 화면" width="1920" height="1040" loading="lazy" decoding="async">
+          <img class="on" id="vtab07-p0" role="tabpanel" src="IMG/7.png?v=20260813" alt="세모점 이미지 점자 번역 화면 — 원문의 표를 선택하면 대응하는 점자 셀 구간이 강조된 결과" width="1920" height="1040" loading="lazy" decoding="async">
+          <img id="vtab07-p1" role="tabpanel" src="IMG/7-2.png?v=20260813" alt="세모점 대체 텍스트 선택 창 — 그림 설명을 생략·짧은 제목·개조식 설명 중에서 고르는 화면" width="1920" height="1040" loading="lazy" decoding="async">
         </div>
       </div>
     </div>
@@ -994,8 +998,8 @@
           <button class="vtab-btn" type="button" role="tab" aria-selected="false" aria-controls="vtab08-p1" data-vt="1">02</button>
         </div>
         <div class="vtab-stage">
-          <img class="on" id="vtab08-p0" role="tabpanel" src="IMG/8.png" alt="세모점 분할 뷰 에디터 — 좌측 원본 PDF, 우측 점역 결과가 나란히 놓인 화면" width="1920" height="1040" loading="lazy" decoding="async">
-          <img id="vtab08-p1" role="tabpanel" src="IMG/8-2.png" alt="세모점 분할 뷰 에디터 — 원문의 점역자주 구간을 선택하면 대응하는 점자 구간이 함께 강조된 화면" width="1920" height="1040" loading="lazy" decoding="async">
+          <img class="on" id="vtab08-p0" role="tabpanel" src="IMG/8.png?v=20260813" alt="세모점 분할 뷰 에디터 — 좌측 원본 PDF, 우측 점역 결과가 나란히 놓인 화면" width="1920" height="1040" loading="lazy" decoding="async">
+          <img id="vtab08-p1" role="tabpanel" src="IMG/8-2.png?v=20260813" alt="세모점 분할 뷰 에디터 — 원문의 점역자주 구간을 선택하면 대응하는 점자 구간이 함께 강조된 화면" width="1920" height="1040" loading="lazy" decoding="async">
         </div>
       </div>
     </div>
@@ -1008,7 +1012,7 @@
       <div class="modes">
         <div class="mode reveal">
           <div class="imgph swap" data-ix="IMG-09" tabindex="0" role="img" aria-label="원문 정리 모드 — 원본 문서(기본), 정리된 텍스트(마우스 올림)">
-            <div class="lay lay-1"><img src="IMG/9-1.png" alt="원문 정리 전 — 수식·표·이미지가 섞인 원본 문서" width="652" height="278" loading="lazy" decoding="async"></div>
+            <div class="lay lay-1"><img src="IMG/9-1.png?v=20260813" alt="원문 정리 전 — 수식·표·이미지가 섞인 원본 문서" width="652" height="278" loading="lazy" decoding="async"></div>
             <div class="lay lay-2"><pre class="fit doc" aria-hidden="true">&lt;!표윗테두리&gt;
   관련 법령: 「감염병 예방 및 관리에 관한 법률」 제33조의4 및 동법 시행령 제32조의3
   1. 예방접종 안내에 따라 코로나19 예방접종에 동의합니다. &lt;!네모빈칸&gt; 예 &lt;!네모빈칸&gt; 아니오
@@ -1070,7 +1074,7 @@
         </div>
         <div class="mode reveal d2">
           <div class="imgph swap" data-ix="IMG-11" tabindex="0" role="img" aria-label="원클릭 문서 점역 모드 — 원본 문서(기본), 점자 파일(마우스 올림)">
-            <div class="lay lay-1"><img src="IMG/11-1.png" alt="원클릭 점역 전 — 원본 문서" width="279" height="196" loading="lazy" decoding="async"></div>
+            <div class="lay lay-1"><img src="IMG/11-1.png?v=20260813" alt="원클릭 점역 전 — 원본 문서" width="279" height="196" loading="lazy" decoding="async"></div>
             <div class="lay lay-2"><pre class="fit braille" aria-hidden="true">⠀⠀⠠⠄⠚⠪⠐⠪⠢⠊⠥⠝⠀⠙⠬⠚⠡⠊⠽⠒⠀⠊⠥⠚⠻⠮⠀⠀⠀⠀⠀⠀
 ⠊⠣⠪⠢⠈⠧⠀⠫⠦⠕⠀⠨⠎⠢⠱⠁⠚⠢⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠈⠫⠗⠐⠂⠀⠨⠕⠁⠇⠫⠁⠚⠻⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -1165,7 +1169,7 @@
     <div class="wrap">
       <div class="h-left reveal"><h2 data-en="Validated in the field">현장에서 검증하고 있습니다</h2></div>
       <div class="mou reveal">
-        <div class="imgph real"><img src="IMG/IMG_12.JPG" alt="한국점자도서관 로고" width="177" height="143" loading="lazy" decoding="async"></div>
+        <div class="imgph real"><img src="IMG/IMG_12.JPG?v=20260813" alt="한국점자도서관 로고" width="177" height="143" loading="lazy" decoding="async"></div>
         <div>
           <div class="kind" data-en="Partnership · MOU">협약 · MOU</div>
           <h3 data-en="Korea Braille Library">한국점자도서관 업무협약</h3>
@@ -1204,20 +1208,23 @@
         <div style="font-size:12px;font-weight:800;color:var(--mute);letter-spacing:.06em" data-en="INQUIRY">문의</div>
         <p class="mut" style="font-size:14.5px" data-en="Fill this in and we'll reply within 2 business days.">아래를 남겨 주시면 영업일 기준 2일 안에 답변드립니다.</p>
         <form class="cform" id="cform" novalidate>
-          <div><label for="cf-name" data-en="Name">이름</label><input id="cf-name" name="name" autocomplete="name"></div>
+          <div><label for="cf-name" data-en="Name">이름</label><input id="cf-name" name="name" autocomplete="name" maxlength="50"></div>
           <div><label for="cf-org" data-en="Organization">소속 기관</label><input id="cf-org" name="org" autocomplete="organization"></div>
-          <div><label for="cf-mail" data-en="Email">이메일</label><input id="cf-mail" name="email" type="email" autocomplete="email"></div>
+          <div><label for="cf-mail" data-en="Email">이메일</label><input id="cf-mail" name="email" type="email" autocomplete="email" maxlength="100"></div>
           <div><label for="cf-type" data-en="Type">문의 유형</label>
             <select id="cf-type" name="type">
-              <option data-en="Adoption">도입 문의</option>
-              <option data-en="Demo request">시연 요청</option>
-              <option data-en="Partnership">협업 제안</option>
-              <option data-en="Other">기타</option>
+              <option value="ONBOARDING" data-en="Adoption">도입 문의</option>
+              <option value="ONBOARDING" data-en="Demo request">시연 요청</option>
+              <option value="ETC" data-en="Partnership">협업 제안</option>
+              <option value="ERROR_REPORT" data-en="Bug report">오류 신고</option>
+              <option value="ETC" data-en="Other">기타</option>
             </select></div>
-          <div class="fw"><label for="cf-msg" data-en="Message">문의 내용</label><textarea id="cf-msg" name="msg"></textarea></div>
+          <div class="fw"><label for="cf-msg" data-en="Message">문의 내용</label><textarea id="cf-msg" name="msg" maxlength="1800"></textarea></div>
           <label class="agree fw"><input type="checkbox" id="cf-ok" style="width:auto"><span data-en="I agree to the collection and use of my information for this inquiry. (required)">문의 응대를 위한 개인정보 수집·이용에 동의합니다. (필수)</span></label>
+          <div class="hp" aria-hidden="true"><label for="cf-hp">Website</label><input id="cf-hp" name="website" type="text" tabindex="-1" autocomplete="off"></div>
           <button type="submit" class="btn btn-pri fw" style="width:100%" data-en="Send">보내기</button>
         </form>
+        <p class="cf-status" id="cf-status" role="status" aria-live="polite"></p>
         <p class="mut" style="font-size:13px;margin-top:14px" data-en-html="Or email us directly at <b>contact@semo-jum.com</b>.">메일로 바로 보내셔도 됩니다 — <b>contact@semo-jum.com</b></p>
       </div>
     </div>
@@ -1228,7 +1235,7 @@
 <footer>
   <div class="wrap">
     <div class="fr">
-      <div><div class="fl"><img class="brandmark" src="IMG/logo-wordmark.png" alt="세모점" width="1642" height="652" loading="lazy" decoding="async"></div><p class="fm" data-en="AI braille translation editor for complex documents.">복합 문서를 위한 AI 점자 번역 에디터</p></div>
+      <div><div class="fl"><img class="brandmark" src="IMG/logo-wordmark.png?v=20260813" alt="세모점" width="1642" height="652" loading="lazy" decoding="async"></div><p class="fm" data-en="AI braille translation editor for complex documents.">복합 문서를 위한 AI 점자 번역 에디터</p></div>
       <div class="fnav">
         <button class="nav-go" data-go="p-solution" data-en="Solution">솔루션</button>
         <button class="nav-go" data-go="p-about" data-en="About">회사 소개</button>
@@ -1391,18 +1398,75 @@
   })();
 </script>
 <script>
-  // 문의 폼 — 서버 없이 메일로 전달한다. 나중에 수집 경로가 생기면 이 함수만 바꾸면 된다.
+  // 문의 폼 — 백엔드 문의 접수 API로 보낸다. POST {API_BASE}/api/public/inquiries (인증 없음)
+  // type은 ONBOARDING / ERROR_REPORT / ETC 세 가지만 허용되고, website는 봇 판별용 허니팟이라
+  // 화면에서 숨겨 둔다(사람이 채우면 안 되는 칸). 소속 기관은 API에 필드가 없어 본문에 함께 적는다.
   (function(){
+    var API_BASE=(window.__API_BASE__||'https://api.semojum.app').replace(/\/+$/,'');
     var f=document.getElementById('cform'); if(!f) return;
+    var btn=f.querySelector('button[type="submit"]');
+    var st=document.getElementById('cf-status');
+    var v=function(id){ return (document.getElementById(id).value||'').trim() };
+    var en=function(){ return document.documentElement.lang==='en' };
+    function say(ko,en_,kind){ st.textContent=en()?en_:ko; st.className='cf-status'+(kind?' '+kind:''); }
+    function sayHTML(ko,en_,kind){ st.innerHTML=en()?en_:ko; st.className='cf-status'+(kind?' '+kind:''); }
+
     f.addEventListener('submit',function(e){
       e.preventDefault();
-      var v=function(id){return (document.getElementById(id).value||'').trim()};
-      if(!document.getElementById('cf-ok').checked){ alert('개인정보 수집·이용 동의가 필요합니다.'); return; }
-      if(!v('cf-name')||!v('cf-mail')||!v('cf-msg')){ alert('이름·이메일·문의 내용을 채워 주세요.'); return; }
-      var subj='[세모점 문의] '+document.getElementById('cf-type').value+' — '+v('cf-name');
-      var body=['이름: '+v('cf-name'),'소속: '+v('cf-org'),'이메일: '+v('cf-mail'),
-                '유형: '+document.getElementById('cf-type').value,'','내용:',v('cf-msg')].join('\n');
-      location.href='mailto:contact@semo-jum.com?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
+      if(!document.getElementById('cf-ok').checked){
+        say('개인정보 수집·이용 동의가 필요합니다.','Please agree to the collection and use of your information.','bad'); return;
+      }
+      if(!v('cf-name')||!v('cf-mail')||!v('cf-msg')){
+        say('이름·이메일·문의 내용을 채워 주세요.','Please fill in your name, email and message.','bad'); return;
+      }
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v('cf-mail'))){
+        say('이메일 형식을 확인해 주세요.','Please check your email address.','bad'); return;
+      }
+
+      var sel=document.getElementById('cf-type');
+      var label=(sel.options[sel.selectedIndex].textContent||'').trim();
+      var lines=[];
+      if(v('cf-org')) lines.push('소속 기관: '+v('cf-org'));
+      lines.push('문의 유형: '+label);
+      lines.push('','──────────','',v('cf-msg'));
+      var payload={
+        type: sel.value||'ETC',
+        name: v('cf-name').slice(0,50),
+        email: v('cf-mail').slice(0,100),
+        message: lines.join('\n').slice(0,2000),
+        website: v('cf-hp')
+      };
+
+      btn.disabled=true;
+      say('보내는 중…','Sending…');
+      fetch(API_BASE+'/api/public/inquiries',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(payload)
+      }).then(function(r){
+        return r.text().then(function(t){
+          var d={}; try{ d=t?JSON.parse(t):{} }catch(_){}
+          return {ok:r.ok,status:r.status,data:d};
+        });
+      }).then(function(res){
+        if(res.ok && res.data.isSuccess!==false){
+          f.reset();
+          say('문의가 접수되었습니다. 영업일 기준 2일 안에 답변드리겠습니다.',
+              'Your inquiry has been received. We will reply within 2 business days.','ok');
+          return;
+        }
+        if(res.status===429){
+          say('잠시 후 다시 시도해 주세요. 짧은 시간에 너무 많이 보냈습니다.',
+              'Too many inquiries in a short time. Please try again later.','bad');
+          return;
+        }
+        say(res.data.message||'접수에 실패했습니다. 잠시 후 다시 시도해 주세요.',
+            res.data.message||'Something went wrong. Please try again in a moment.','bad');
+      }).catch(function(){
+        // 네트워크가 막히면 메일 경로라도 남긴다.
+        sayHTML('접수에 실패했습니다. <a href="mailto:contact@semo-jum.com">contact@semo-jum.com</a> 으로 보내 주세요.',
+                'Sending failed. Please email <a href="mailto:contact@semo-jum.com">contact@semo-jum.com</a> instead.','bad');
+      }).then(function(){ btn.disabled=false; });
     });
   })();
 </script>
