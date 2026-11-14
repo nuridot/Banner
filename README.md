@@ -1,77 +1,50 @@
-# Banner
+# 누리닷 홈페이지
 
-세모점 홈페이지 — 정적 페이지 (Google Cloud Run / nginx 배포)
+Notion 「홈페이지」의 2026-11-13 `nuridot-site.zip`을 반영한 정적 사이트입니다.
+원본: https://app.notion.com/p/41743813bc2e80978308d582a0bde3b8
 
 ## 구성
 
-| 파일 | 설명 |
-|---|---|
-| `index.html` | 홈페이지 본문 (단일 HTML) |
-| `IMG/` | 페이지에서 사용하는 이미지 |
-| `Dockerfile` | nginx 기반 정적 사이트 컨테이너 |
-| `nginx.conf` | Cloud Run 포트(8080) 설정 + 캐시/압축 |
-| `.dockerignore` / `.gcloudignore` | 빌드 컨텍스트에서 제외할 파일 |
+- `index.html`: 제품·기능·다운로드·요금제·QnA·문의
+- `terms.html`, `privacy.html`: 첨부된 약관과 개인정보 처리방침 원문
+- `assets/`: 디자인 이미지, 스타일, 언어/점자 전환, 문의 폼
+- `Dockerfile`, `nginx.conf`: 기존 Cloud Run 서비스의 nginx 배포
+- `IMG/`: 기존 공개 이미지 주소 호환용
 
-## 로컬에서 확인
+빌드 도구 없이 배포합니다. `package.json`의 의존성은 테스트에만 사용되며 컨테이너에는 포함되지 않습니다.
 
-```bash
-# Docker 로 (실제 배포와 동일한 환경)
-docker build -t semojum-web .
-docker run --rm -p 8080:8080 semojum-web
-# → http://localhost:8080
+## 로컬 확인 및 테스트
 
-# 또는 간단히 (Python)
-python -m http.server 8080
+```sh
+python -m http.server 8766 --bind 127.0.0.1
+npm ci
+npm test
 ```
 
-## Cloud Run 배포 (가장 쉬운 방법)
+테스트는 로컬 파일·앵커, 점자/영문 복원, 요금제 키보드 탐색, 모바일 메뉴, 문의 검증·중복 전송 방지·성공/실패 처리를 확인합니다. 문의 테스트는 네트워크 응답을 모의하여 실제 문의를 생성하지 않습니다.
 
-소스에서 바로 빌드·배포합니다. (`Dockerfile` 을 자동으로 사용)
+## 운영 연결
 
-```bash
-# 1) 프로젝트 / 리전 설정 (최초 1회)
-gcloud config set project <YOUR_PROJECT_ID>
+- 홈페이지: https://semo-jum.com/
+- Windows 설치 파일: https://github.com/nuridot/Semojum/releases/latest/download/Semojum-win-x64.msi
+- 문의: `POST https://api.semojum.app/api/public/inquiries`
+  - 기존 API의 `ONBOARDING`, `name`, `email`, `message`, `website` 계약을 유지합니다.
+  - 기관명·전화·월 처리량은 본문에 포함됩니다. 입력은 성공했을 때만 초기화합니다.
+  - `window.__API_BASE__`로 테스트 환경의 주소를 지정할 수 있습니다.
+- 검색 메타데이터와 사이트맵은 현재 운영 도메인을 사용합니다. 향후 도메인 이전 시 함께 수정해야 합니다.
 
-# 2) 배포
-gcloud run deploy semojum-web \
-  --source . \
-  --region asia-northeast1 \
-  --allow-unauthenticated
+## 배포
+
+기존 프로젝트·서비스·리전을 명시하여 배포합니다. 공개 접근 및 서비스 리소스 설정은 유지합니다.
+
+```sh
+gcloud run deploy semojum-web --source . --project semojum-website --region asia-northeast1 --account contact@semo-jum.com --quiet
 ```
 
-배포가 끝나면 출력되는 `Service URL` 로 접속하면 됩니다.
-이후 코드 수정 후 같은 명령을 다시 실행하면 새 버전이 올라갑니다.
+누락된 경로는 404를 반환합니다. HTML과 이름이 고정된 `assets/`는 재검증하여 업데이트를 즉시 반영합니다.
 
-> `asia-northeast1` 은 도쿄 리전입니다. (서울 `asia-northeast3` 는 커스텀 도메인 매핑을 지원하지 않아 도쿄로 배포합니다)
-> 최초 배포 시 Artifact Registry / Cloud Build API 활성화 여부를 물으면 `y` 로 진행합니다.
+## 점자 자료
 
-## 커스텀 도메인 (semo-jum.com)
+`assets/braille.js`는 첨부 소스의 점역 엔진 생성 자료입니다. 본문 텍스트를 바꾸면 `nuridot/braille`의 `semojum_braille` 패키지를 사용할 수 있는 환경에서 `tools-build-braille.py`를 실행해 다시 생성해야 합니다. 동적 문의 상태와 숨김 스팸 방지 필드는 `data-nobr`로 제외합니다.
 
-도쿄 리전 서비스에 도메인 매핑을 생성해 두었습니다. DNS 제공업체에서 루트(@)에 아래 레코드를 추가하면 연결됩니다 (이메일 MX 레코드는 건드리지 않음). DNS 반영 후 Google이 SSL 인증서를 자동 발급합니다.
-
-```
-A     216.239.32.21
-A     216.239.34.21
-A     216.239.36.21
-A     216.239.38.21
-AAAA  2001:4860:4802:32::15
-AAAA  2001:4860:4802:34::15
-AAAA  2001:4860:4802:36::15
-AAAA  2001:4860:4802:38::15
-```
-
-매핑 상태 확인:
-
-```bash
-gcloud beta run domain-mappings describe --domain semo-jum.com --region asia-northeast1
-```
-
-## 참고
-
-- 폰트(Pretendard)와 애니메이션(GSAP)은 CDN 에서 불러오며, 로드 실패 시에도
-  시스템 폰트·기본 표시로 정상 동작하도록 폴백 처리되어 있습니다.
-- `IMG/IMG_01~04.png` 일러스트는 원본 해상도(2816×1536, 각 ~4MB)라 용량이 큽니다.
-  더 빠른 로딩이 필요하면 너비 1200px 내외로 리사이즈/WebP 변환을 권장합니다.
-- 아직 실제 이미지가 없는 슬롯(서비스 메인화면·복합 레이아웃·처리 모드 3종)은
-  `index.html` 안에 점선 플레이스홀더로 남겨두었습니다. 이미지를 `IMG/` 에 넣고
-  해당 `<div class="imgph">` 를 `<div class="imgph real"><img ...></div>` 형태로 교체하면 됩니다.
+GA는 원본대로 꺼져 있습니다. 사업자등록 관련 미확정 표기와 정책 본문도 제공된 원문을 유지합니다.

@@ -5,3 +5,8 @@
 .claude
 *.md
 wireframe_final.html
+node_modules
+tests
+package*.json
+tools-build-braille.py
+.DS_Store

@@ -1,0 +1,60 @@
+:root{
+  --paper:#faf7f2; --card:#ffffff; --sunk:#f2eee6;
+  --ink:#1a1a18; --ink-2:#3d3b36; --mute:#78746b; --faint:#a39e94;
+  --line:#e0dacd; --line-2:#efeae0;
+  --accent:#0648f6; --accent-d:#0b35bb; --accent-s:#e8edff;
+  --r:4px; --max:820px;
+  --ff:"Gowun Dodum","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --fh:"Gowun Batang","Apple SD Gothic Neo",serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--paper);color:var(--ink);font-family:var(--ff);
+  font-size:16px;line-height:1.85;word-break:keep-all;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:var(--accent-d)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:2px}
+.skip{position:absolute;left:-9999px}
+.skip:focus{left:8px;top:8px;background:var(--ink);color:var(--paper);padding:10px 16px;z-index:100}
+.in{max-width:var(--max);margin:0 auto;padding-left:22px;padding-right:22px}
+
+header{position:sticky;top:0;z-index:50;background:rgba(250,247,242,.94);
+  backdrop-filter:saturate(1.3) blur(8px);border-bottom:1px solid var(--line);
+  padding-top:env(safe-area-inset-top,0px)}
+.nav{display:flex;align-items:center;gap:20px;height:62px;max-width:1080px}
+.brand img{height:25px;width:auto}
+.nav .sp{margin-left:auto}
+.nav nav{display:flex;gap:18px}
+.nav nav a{color:var(--mute);text-decoration:none;font-size:.9rem;white-space:nowrap}
+.nav nav a:hover{color:var(--ink)}
+.nav nav a[aria-current]{color:var(--ink);border-bottom:1px solid var(--ink)}
+
+.doc{padding-block:56px 86px}
+.doc h1{font-family:var(--fh);font-size:clamp(1.7rem,4vw,2.3rem);line-height:1.35;
+  letter-spacing:-.015em;margin:0 0 6px;text-wrap:balance}
+.doc h1+p{color:var(--mute);font-size:.92rem;margin:0 0 34px;
+  padding-bottom:26px;border-bottom:1px solid var(--line)}
+.doc h2{font-family:var(--fh);font-size:1.16rem;line-height:1.5;margin:46px 0 12px;
+  padding-top:22px;border-top:1px solid var(--line-2);text-wrap:balance}
+.doc p{margin:0 0 14px}
+.doc strong{font-weight:400;background:linear-gradient(transparent 62%,var(--accent-s) 62%);
+  box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.doc ol,.doc ul{margin:0 0 16px;padding-left:1.35em}
+.doc li{margin:0 0 9px}
+.doc li>ul{margin:9px 0 4px;padding-left:1.2em;list-style:none}
+.doc li>ul>li{position:relative;padding-left:14px;color:var(--ink-2);font-size:.96rem}
+.doc li>ul>li::before{content:"";position:absolute;left:0;top:.78em;width:5px;height:5px;
+  border-radius:50%;background:var(--line)}
+.tw{overflow-x:auto;margin:0 0 20px;border:1px solid var(--line);border-radius:var(--r);background:var(--card)}
+.doc table{border-collapse:collapse;width:100%;font-size:.9rem;min-width:420px}
+.doc th,.doc td{text-align:left;vertical-align:top;padding:11px 14px;border-bottom:1px solid var(--line-2);line-height:1.7}
+.doc th{background:var(--sunk);font-weight:400;color:var(--mute);white-space:nowrap}
+.doc tbody tr:last-child td{border-bottom:none}
+
+footer{border-top:1px solid var(--line);background:var(--card);
+  padding-block:34px calc(34px + env(safe-area-inset-bottom,0px));font-size:.86rem}
+footer .in{max-width:1080px}
+.biznfo{font-size:.8rem;color:var(--mute);line-height:1.95;margin:0}
+.biznfo span{margin-right:14px;display:inline-block}
+@media(max-width:560px){.doc{padding-block:40px 64px}}

@@ -1,1474 +1,389 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>세모점 — 수식·표·그림까지, AI 점자 변환</title>
-<meta name="description" content="세모점 — 수식·표·그림이 섞인 복합 문서도 AI와 점역사가 함께 더 빠르게 점역하는 AI 점자 변환 서비스">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>누리닷 · 점역 AI 편집기</title>
+<meta name="description" content="교열, 점역, 교정을 하나의 프로그램으로.">
+<meta property="og:title" content="누리닷 · 점역 AI 편집기">
+<meta property="og:description" content="교열, 점역, 교정을 하나의 프로그램으로.">
 <link rel="canonical" href="https://semo-jum.com/">
-<meta property="og:title" content="세모점 — 수식·표·그림까지, AI 점자 변환">
-<meta property="og:description" content="AI와 점역사가 함께 만드는 더 빠른 점역">
-<meta property="og:type" content="website">
 <meta property="og:url" content="https://semo-jum.com/">
-<meta property="og:site_name" content="세모점">
-<meta property="og:locale" content="ko_KR">
-<meta property="og:image" content="https://semo-jum.com/IMG/IMG_01.png">
-<meta property="og:image:width" content="2816">
-<meta property="og:image:height" content="1536">
+<meta property="og:image" content="https://semo-jum.com/assets/og.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="세모점 — 수식·표·그림까지, AI 점자 변환">
-<meta name="twitter:description" content="AI와 점역사가 함께 만드는 더 빠른 점역">
-<meta name="twitter:image" content="https://semo-jum.com/IMG/IMG_01.png">
-<link rel="icon" type="image/png" href="/IMG/favicon.png?v=20260813">
-<link rel="apple-touch-icon" href="/IMG/logo-icon.png?v=20260813">
-<link rel="preconnect" href="https://cdn.jsdelivr.net">
-<link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css" rel="stylesheet">
-<style>
-  :root{
-    --blue:#4F7DF0; --blue-d:#2D4FCC; --blue-l:#EEF3FF;
-    --coral:#FF8B6B; --coral-d:#E86847; --coral-l:#FFF1EC;
-    --ink:#0A0F1E; --ink2:#121A30; --gray:#586275; --mute:#97A1B2;
-    --line:#EAEEF6; --bg:#FFFFFF; --tint:#F7F9FD;
-    --r:20px; --shadow:0 6px 30px rgba(10,15,30,.05); --shadow-lg:0 30px 80px rgba(10,15,30,.13);
-    --max:1140px;
-  }
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
-  body{font-family:'Pretendard Variable','Pretendard',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--ink);font-size:17px;line-height:1.65;word-break:keep-all;-webkit-font-smoothing:antialiased;overflow-x:hidden}
-  a{text-decoration:none;color:inherit}
-  ::selection{background:rgba(79,125,240,.18)}
-  :focus-visible{outline:3px solid rgba(79,125,240,.5);outline-offset:3px;border-radius:8px}
-  .wrap{max-width:var(--max);margin:0 auto;padding:0 32px}
-  .narrow{max-width:760px}
-
-  /* Nav */
-  .nav-wrap{position:sticky;top:0;z-index:1000;background:rgba(255,255,255,.72);backdrop-filter:saturate(180%) blur(16px);border-bottom:1px solid transparent;transition:border-color .3s}
-  .nav-wrap.stuck{border-color:var(--line)}
-  .nav{max-width:var(--max);margin:0 auto;padding:14px 32px;display:flex;align-items:center;gap:20px}
-  .logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:20px;letter-spacing:-.03em;cursor:pointer}
-  .logo img{display:block;border-radius:8px}
-  .logo svg,footer .fl svg{display:block;border-radius:8px;flex:none}
-  /* 브랜드 워드마크 — 글자가 이미지에 포함돼 있어 옆에 텍스트를 두지 않는다 */
-  .logo .brandmark,footer .fl .brandmark{display:block;width:auto;height:27px;border-radius:0;flex:none}
-  footer .fl .brandmark{height:25px}
-  .nav-menu{display:flex;gap:2px;margin-left:24px}
-  .nav-link{padding:8px 14px;border-radius:10px;font-weight:600;font-size:15px;color:var(--gray);background:none;border:none;cursor:pointer;transition:.18s}
-  .nav-link:hover{color:var(--ink);background:rgba(10,15,30,.04)}
-  .nav-link.active{color:var(--blue-d)}
-  .nav-right{margin-left:auto;display:flex;align-items:center;gap:10px}
-  .lang{display:flex;gap:2px}
-  .lang button{padding:6px 9px;font-size:12.5px;font-weight:700;color:var(--mute);background:none;border:none;cursor:pointer;border-radius:7px}
-  .lang button.on{color:var(--ink);background:var(--blue-l)}
-
-  /* Buttons */
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 26px;border-radius:999px;font-size:15px;font-weight:700;cursor:pointer;transition:.22s cubic-bezier(.16,1,.3,1);border:1px solid transparent;white-space:nowrap}
-  .btn-pri{background:var(--ink);color:#fff;position:relative;overflow:hidden}
-  .btn-pri:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(10,15,30,.28)}
-  .btn-pri::after{content:"";position:absolute;top:0;left:-130%;width:55%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-18deg)}
-  .btn-pri:hover::after{animation:shine .9s ease}
-  @keyframes shine{to{left:160%}}
-  .btn-ghost{background:transparent;color:var(--ink);border-color:#d7deea}
-  .btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
-  .btn-sm{padding:9px 17px;font-size:13.5px}
-  .btn-white{background:#fff;color:var(--ink)}
-  .btn-white:hover{transform:translateY(-2px)}
-  .arrow{transition:transform .22s}.btn:hover .arrow{transform:translateX(4px)}
-
-  /* Layout */
-  .page{display:none}
-  .page.active{display:block}
-  .sec{padding:clamp(80px,12vw,132px) 0}
-  .tint{background:var(--tint)}
-  h1{font-size:clamp(42px,6.4vw,78px);font-weight:800;line-height:1.03;letter-spacing:-.045em}
-  h2{font-size:clamp(28px,4.2vw,46px);font-weight:800;line-height:1.14;letter-spacing:-.035em}
-  h3{font-size:19px;font-weight:700;letter-spacing:-.02em}
-  .lead{font-size:clamp(17px,1.9vw,20px);color:var(--gray);font-weight:500;line-height:1.62;word-break:keep-all;text-wrap:balance}
-  .center{text-align:center}
-  .grad{background:linear-gradient(102deg,var(--blue),var(--coral));-webkit-background-clip:text;background-clip:text;color:transparent}
-  .mut{color:var(--gray)}
-  .secnum{font-size:13px;font-weight:800;color:var(--blue-d);letter-spacing:.04em;margin-bottom:14px}
-
-  /* Image placeholders -> wireframe9_image.md */
-  .imgph{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:var(--tint);border:1.5px dashed #c2cfe6;border-radius:14px;padding:22px;min-height:160px;text-align:center}
-  .imgph .ic{font-size:22px;opacity:.5}
-  .imgph .ix{font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:800;color:var(--blue-d);background:var(--blue-l);padding:3px 9px;border-radius:6px;letter-spacing:.02em}
-  .imgph .cap{font-size:12px;color:var(--gray);max-width:280px;line-height:1.45}
-
-  /* Vertical tab gallery (IMG-06) */
-  .vtab{display:flex;gap:14px;align-items:center}
-  .vtab-rail{display:flex;flex-direction:column;gap:9px;flex:none}
-  .vtab-btn{width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:#fff;color:var(--mute);font-family:ui-monospace,Menlo,monospace;font-size:13px;font-weight:800;cursor:pointer;transition:.22s cubic-bezier(.16,1,.3,1)}
-  .vtab-btn:hover{color:var(--blue-d);border-color:#c7d4ee;transform:translateX(-2px)}
-  .vtab-btn.on{color:#fff;background:var(--blue);border-color:var(--blue);box-shadow:0 8px 20px rgba(79,125,240,.32)}
-  .vtab-stage{position:relative;flex:1;min-width:0;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--tint);aspect-ratio:16/9;box-shadow:var(--shadow)}
-  .vtab-stage img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.04);transition:opacity .55s ease,transform .7s cubic-bezier(.16,1,.3,1);pointer-events:none}
-  .vtab-stage img.on{opacity:1;transform:none}
-  @media(prefers-reduced-motion:reduce){.vtab-stage img{transition:none}}
-
-  /* Hero */
-  .hero{position:relative;overflow:hidden;padding:clamp(78px,10vw,118px) 0 clamp(70px,9vw,104px)}
-  .aurora{position:absolute;inset:-25% -10% auto -10%;height:130%;z-index:0;filter:blur(64px);opacity:.85;pointer-events:none}
-  .aurora b{position:absolute;display:block;border-radius:50%}
-  .aurora .a1{width:520px;height:520px;background:radial-gradient(circle,rgba(79,125,240,.46),transparent 65%);top:-8%;right:3%;animation:au1 17s ease-in-out infinite alternate}
-  .aurora .a2{width:440px;height:440px;background:radial-gradient(circle,rgba(255,139,107,.36),transparent 65%);top:14%;left:-4%;animation:au2 20s ease-in-out infinite alternate}
-  @keyframes au1{to{transform:translate(-12%,8%) scale(1.12)}}
-  @keyframes au2{to{transform:translate(10%,-7%) scale(.9)}}
-  .hero .wrap{position:relative;z-index:1;display:grid;grid-template-columns:1.06fr .94fr;gap:54px;align-items:center}
-  .hero h1 .ln{display:block;overflow:hidden;padding-bottom:.03em}
-  .hero h1 .ln>span{display:block;transform:translateY(112%);transition:transform 1s cubic-bezier(.16,1,.3,1)}
-  .hero.show h1 .ln:nth-child(1)>span{transform:none}
-  .hero.show h1 .ln:nth-child(2)>span{transform:none;transition-delay:.1s}
-  .hero .lead{margin:26px 0 32px;max-width:480px;opacity:0;transform:translateY(14px);transition:.9s .42s}
-  .hero.show .lead{opacity:1;transform:none}
-  .hero-cta{display:flex;gap:11px;flex-wrap:wrap;opacity:0;transform:translateY(14px);transition:.9s .55s}
-  .hero.show .hero-cta{opacity:1;transform:none}
-
-  /* Hero concept graphic: 복합 요소(수식·표·그림) -> 점자 */
-  .xform{opacity:0;transform:translateY(26px) scale(.97);transition:1.1s .35s cubic-bezier(.16,1,.3,1)}
-  .hero.show .xform{opacity:1;transform:none}
-  .conv{background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow-lg);padding:14px 26px}
-  .convrow{display:grid;grid-template-columns:1fr auto 1.05fr;align-items:center;gap:16px;padding:18px 0}
-  .convrow+.convrow{border-top:1px solid var(--line)}
-  .convrow .el{display:flex;align-items:center;gap:12px;font-weight:700;font-size:15.5px}
-  .convrow .ei{width:40px;height:40px;border-radius:12px;background:var(--blue-l);color:var(--blue-d);display:grid;place-items:center;font-size:19px;flex:none}
-  .convrow .ar{color:#c2cfe6;font-size:17px}
-  .convrow .br{font-size:21px;letter-spacing:2px;color:var(--coral-d);text-align:right;line-height:1}
-  .convtag{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:6px;padding:16px 0 4px;border-top:1px solid var(--line);font-size:13.5px;font-weight:700;color:var(--gray)}
-  .convtag .dot{width:8px;height:8px;border-radius:50%;background:var(--blue);box-shadow:0 0 0 4px rgba(79,125,240,.16);animation:bob 3s ease-in-out infinite}
-  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(4px)}}
-
-  /* Section heading variants */
-  .h-left{max-width:640px}
-  .h-left h2{margin-bottom:0}
-  .h-left .lead{margin-top:16px}
-
-  /* Problem: gap visual */
-  .gapcard{background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:clamp(26px,4vw,40px);margin-top:clamp(36px,5vw,52px)}
-  .gapcard .gtop{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px;margin-bottom:18px}
-  .gapcard .gtitle{font-size:clamp(18px,2.4vw,24px);font-weight:800;letter-spacing:-.02em;max-width:560px;line-height:1.35;word-break:keep-all;text-wrap:balance}
-  .gapcard .gtitle b{color:var(--blue-d)}.gapcard .gtitle .c{color:var(--coral-d)}
-  .gapcard .gbadge{background:var(--coral-l);color:var(--coral-d);font-weight:800;font-size:13px;padding:8px 16px;border-radius:999px;white-space:nowrap}
-  .months{display:grid;grid-template-columns:repeat(12,1fr);gap:5px}
-  .mo{text-align:center;font-size:11.5px;font-weight:700;padding:12px 0;border-radius:8px;background:var(--tint);color:var(--mute)}
-  .mo.a{background:var(--blue);color:#fff}
-  .mo.b{background:var(--coral);color:#fff}
-  .glegend{display:flex;gap:22px;margin-top:16px;flex-wrap:wrap;font-size:13px;color:var(--gray);font-weight:600}
-  .glegend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:7px;vertical-align:middle}
-  .figs{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-top:22px}
-  .fig{background:var(--ink);color:#fff;border-radius:18px;padding:30px;position:relative;overflow:hidden}
-  .fig:nth-child(2){background:var(--ink2)}
-  .fig .v{font-size:clamp(40px,5.5vw,58px);font-weight:800;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
-  .fig .v small{font-size:.42em;color:#9DBBF6}
-  .fig .l{font-size:14px;color:#aeb8cb;margin-top:12px}
-  .figsrc{margin-top:14px;font-size:12.5px;color:var(--mute);text-align:center}
-  .probnote{margin-top:24px;font-size:15.5px;color:var(--gray);max-width:720px}
-  .probnote b{color:var(--ink)}
-
-  /* Flow + demo */
-  .flow{display:flex;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:12px;box-shadow:var(--shadow);margin-top:clamp(32px,4vw,44px)}
-  .fs{flex:1;text-align:center;padding:24px 14px;border-radius:14px;transition:.2s}
-  .fs:hover{background:var(--blue-l)}
-  .fs .n{width:34px;height:34px;border-radius:50%;background:var(--blue);color:#fff;font-weight:800;font-size:14px;display:grid;place-items:center;margin:0 auto 12px;transition:.3s}
-  .fs:hover .n{transform:scale(1.14) rotate(-6deg)}
-  .fs strong{display:block;font-size:16px}
-  .fs span{font-size:13px;color:var(--mute)}
-  .far{display:flex;align-items:center;color:#cbd5e1;font-size:20px;padding:0 2px}
-  .g2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,56px);align-items:center}
-  .video{position:relative;width:100%;aspect-ratio:16/9;border-radius:var(--r);overflow:hidden;box-shadow:var(--shadow-lg);border:1px solid var(--line)}
-  .video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-
-  /* Use cases */
-  .uc{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:clamp(36px,5vw,52px)}
-  .ucard{background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;transition:.25s}
-  .ucard:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
-  .ucard .imgph{border:none;border-radius:0;border-bottom:1.5px dashed #c2cfe6;min-height:150px}
-  .ucard .body{padding:24px}
-  .ucard .who{font-size:13px;font-weight:800;color:var(--blue-d);margin-bottom:8px}
-  .ucard h3{font-size:18px}
-  .ucard p{font-size:14px;color:var(--gray);margin-top:9px;line-height:1.55}
-
-  /* Testimonials */
-  .tfeat{background:linear-gradient(140deg,var(--ink),var(--ink2));color:#fff;border-radius:28px;padding:clamp(40px,5.5vw,64px);position:relative;overflow:hidden}
-  .tfeat::after{content:"";position:absolute;width:460px;height:460px;border-radius:50%;background:radial-gradient(circle,rgba(79,125,240,.34),transparent 68%);top:-180px;right:-110px;pointer-events:none}
-  .tfeat::before{content:"";position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,rgba(255,139,107,.18),transparent 68%);bottom:-150px;left:-80px;pointer-events:none}
-  .tfeat .tlabel{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:800;letter-spacing:.05em;color:#bcd1fb;background:rgba(157,187,246,.14);border:1px solid rgba(157,187,246,.22);padding:7px 15px;border-radius:999px;position:relative}
-  .tfeat .tlabel i{width:7px;height:7px;border-radius:50%;background:#7fa6f7;display:inline-block}
-  .tfeat p{font-size:clamp(21px,2.7vw,33px);font-weight:700;line-height:1.42;letter-spacing:-.025em;margin-top:22px;position:relative;max-width:900px}
-  .tfeat p .hl{color:#9DBBF6}
-  .tfeat .by{margin-top:26px;color:#9DBBF6;font-size:14.5px;font-weight:600;position:relative;padding-left:34px}
-  .tfeat .by::before{content:"";position:absolute;left:0;top:50%;width:24px;height:2px;background:#5e7cc4;transform:translateY(-50%)}
-  .tlist{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
-  .tq{position:relative;background:#fff;border:1px solid var(--line);border-radius:20px;padding:34px 26px 26px;box-shadow:var(--shadow);transition:.25s;overflow:hidden}
-  .tq::before{content:"";position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,var(--blue),var(--coral));opacity:0;transition:.25s}
-  .tq::after{content:"\201C";position:absolute;top:14px;left:24px;font-family:Georgia,'Times New Roman',serif;font-size:56px;line-height:1;font-weight:700;color:var(--blue-l)}
-  .tq:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg);border-color:#d7e1f5}
-  .tq:hover::before{opacity:1}
-  .tq p{font-size:16px;font-weight:600;line-height:1.55;position:relative;margin-top:20px}
-  .tq .by{margin-top:20px;padding-top:16px;border-top:1px solid var(--line);color:var(--gray);font-size:13px;font-weight:700;display:flex;align-items:center;gap:10px}
-  .tq .av{width:32px;height:32px;border-radius:50%;background:var(--blue-l);display:grid;place-items:center;font-size:15px;flex:none}
-
-  /* CTA */
-  .ctaband{background:linear-gradient(135deg,var(--ink),var(--ink2));border-radius:28px;padding:clamp(48px,7vw,76px);text-align:center;color:#fff;position:relative;overflow:hidden}
-  .ctaband::after{content:"";position:absolute;width:440px;height:440px;border-radius:50%;background:radial-gradient(circle,rgba(79,125,240,.4),transparent 68%);top:-150px;left:-80px}
-  .ctaband::before{content:"";position:absolute;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(255,139,107,.26),transparent 68%);bottom:-130px;right:-60px}
-  .ctaband h2{color:#fff;position:relative}
-  .ctaband p{color:rgba(255,255,255,.82);margin:14px 0 30px;font-size:18px;position:relative}
-  .ctaband .btn{position:relative}
-
-  /* Solution: feature rows */
-  .feat{display:grid;grid-template-columns:1fr 1fr;gap:clamp(32px,5vw,60px);align-items:center}
-  .feat.alt{direction:rtl}.feat.alt>*{direction:ltr}
-  .feat .imgph{min-height:300px}
-  .feat .k{display:inline-block;font-size:12px;font-weight:800;color:var(--coral-d);background:var(--coral-l);padding:5px 13px;border-radius:999px;margin-bottom:16px}
-  .feat h2{font-size:clamp(26px,3.4vw,38px)}
-  .feat ul{list-style:none;margin-top:18px;display:flex;flex-direction:column;gap:11px}
-  .feat li{font-size:15.5px;color:var(--gray);padding-left:24px;position:relative}
-  .feat li::before{content:"✓";position:absolute;left:0;color:var(--blue-d);font-weight:800}
-  .feat li b{color:var(--ink)}
-
-  /* Modes with screenshots */
-  .modes{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:clamp(36px,5vw,52px)}
-  .mode{background:#fff;border:1px solid var(--line);border-radius:var(--r);overflow:hidden;transition:.25s}
-  .mode:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
-  .mode .imgph{border:none;border-radius:0;border-bottom:1px solid var(--line);min-height:150px}
-  .mode .body{padding:24px}
-  .mode h3{font-size:18px}
-  .mode p{font-size:14px;color:var(--gray);margin:8px 0 14px;line-height:1.55}
-  .mode .io{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;color:var(--blue-d);background:var(--blue-l);padding:5px 12px;border-radius:999px;display:inline-block}
-  .note{margin-top:24px;background:var(--tint);border:1px solid var(--line);border-radius:14px;padding:18px 22px;font-size:15px;color:var(--gray);text-align:center}
-  .note b{color:var(--ink)}
-
-  /* Personalization cycle (visual) */
-  .flyrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(36px,5vw,60px);align-items:center;margin-top:clamp(36px,5vw,52px)}
-  .fly{position:relative;width:min(440px,100%);aspect-ratio:1;margin:0 auto}
-  .fly .ring{position:absolute;inset:14%;border-radius:50%;background:conic-gradient(from 0deg,var(--blue),var(--coral),var(--blue));-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 3px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 3px));opacity:.55;animation:spin 26s linear infinite}
-  .fly .ring2{position:absolute;inset:23%;border:1.5px dashed rgba(79,125,240,.3);border-radius:50%;animation:spin 40s linear infinite reverse}
-  @keyframes spin{to{transform:rotate(360deg)}}
-  .fly .hub{position:absolute;inset:33%;border-radius:50%;background:linear-gradient(140deg,var(--ink),var(--ink2));color:#fff;display:grid;place-items:center;text-align:center;font-weight:800;font-size:12.5px;line-height:1.35;box-shadow:var(--shadow-lg),0 0 0 8px rgba(255,255,255,.7)}
-  .fly .hub .big{font-size:20px;margin-bottom:3px}
-  .flyn{position:absolute;width:46%;background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px 15px;box-shadow:var(--shadow);text-align:center;transition:.25s}
-  .flyn .n{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--blue),var(--coral));color:#fff;font-weight:800;font-size:12px;display:grid;place-items:center;margin:0 auto 8px}
-  .flyn h4{font-size:14px;font-weight:800}
-  .flyn p{font-size:12px;color:var(--gray);margin-top:4px;line-height:1.4}
-  .flyn.t{top:-2%;left:50%;transform:translate(-50%,0)}
-  .flyn.r{right:-2%;top:50%;transform:translate(0,-50%)}
-  .flyn.b{bottom:-2%;left:50%;transform:translate(-50%,0)}
-  .flyn.l{left:-2%;top:50%;transform:translate(0,-50%)}
-  .flyn:hover{box-shadow:var(--shadow-lg);border-color:#d7e1f5;z-index:3}
-  .perso .k{display:inline-block;font-size:12px;font-weight:800;color:var(--coral-d);background:var(--coral-l);padding:5px 13px;border-radius:999px;margin-bottom:16px}
-  .perso h2{font-size:clamp(24px,3vw,34px)}
-  .perso h2 .grad{display:inline}
-  .perso p{margin-top:16px;color:var(--gray);font-size:16px;line-height:1.65}
-
-  /* About: vision/mission */
-  .vm{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-  .vmc{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:36px;box-shadow:var(--shadow)}
-  .vmc .l{display:inline-block;font-size:12px;font-weight:800;color:var(--blue-d);letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px}
-  .vmc h2{font-size:clamp(22px,2.6vw,28px)}
-
-  /* About: story (interview prose) */
-  .story{max-width:740px;margin:0 auto}
-  .story .q{font-size:clamp(22px,3vw,30px);font-weight:800;letter-spacing:-.03em;line-height:1.4;color:var(--ink)}
-  .story .q .grad{display:inline}
-  .story .body{margin-top:26px}
-  .story .body p{font-size:17.5px;line-height:1.85;color:var(--gray)}
-  .story .body p+p{margin-top:20px}
-  .story .body b{color:var(--ink);font-weight:700}
-  .story .sign{margin-top:26px;font-size:14px;font-weight:700;color:var(--mute)}
-
-  /* About: MOU */
-  .mou{display:flex;gap:24px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:32px;box-shadow:var(--shadow);margin-top:clamp(32px,4vw,44px)}
-  .mou .imgph{width:180px;min-height:96px;flex:none}
-  .mou .kind{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
-  .mou h3{margin:6px 0 8px;font-size:20px}
-  .mou p{font-size:14.5px;color:var(--gray)}
-
-  /* About: awards timeline (ledger) */
-  .atime{margin-top:clamp(32px,4vw,44px);border-top:1px solid var(--line)}
-  .arow{display:grid;grid-template-columns:130px 1fr;gap:clamp(20px,4vw,48px);padding:28px 6px;border-bottom:1px solid var(--line);align-items:baseline;transition:.2s}
-  .arow:hover{background:var(--tint)}
-  .arow .yr{font-size:clamp(21px,2.4vw,28px);font-weight:800;letter-spacing:-.02em;color:var(--blue-d);font-variant-numeric:tabular-nums}
-  .arow .ent{display:flex;flex-direction:column;gap:16px}
-  .aitem{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
-  .aitem .nm{font-size:clamp(17px,2vw,20px);font-weight:800;letter-spacing:-.02em}
-  .aitem .rs{font-size:12.5px;font-weight:800;color:var(--coral-d);background:var(--coral-l);padding:4px 13px;border-radius:999px;white-space:nowrap}
-  .aitem .rs.sel{color:var(--blue-d);background:var(--blue-l)}
-  .aitem .rs.ing{display:inline-flex;align-items:center;gap:6px;color:#1F9D57;background:#E8F6EE}
-  .aitem .rs.ing::before{content:"";width:6px;height:6px;border-radius:50%;background:#28BD6A;box-shadow:0 0 0 3px rgba(40,189,106,.18)}
-
-  /* Contact */
-  .ccard{max-width:540px;margin:0 auto;text-align:left;border:1px solid var(--line);border-radius:var(--r);padding:36px;box-shadow:var(--shadow)}
-  .ccard .em{font-size:26px;font-weight:800;margin:6px 0 16px;letter-spacing:-.02em}
-  .cform{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px;text-align:left}
-  .cform .fw{grid-column:1/-1}
-  .cform label{display:block;font-size:12.5px;font-weight:700;color:var(--mute);margin-bottom:5px}
-  .cform input,.cform textarea,.cform select{width:100%;border:1px solid rgba(20,30,60,.14);border-radius:10px;
-    padding:11px 13px;font-size:14.5px;font-family:inherit;background:#fff;color:var(--ink)}
-  .cform textarea{min-height:104px;resize:vertical}
-  .cform input:focus,.cform textarea:focus,.cform select:focus{outline:2px solid var(--blue);outline-offset:1px}
-  .agree{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mute);margin-top:14px}
-  .cform .hp{position:absolute!important;left:-9999px!important;width:1px;height:1px;opacity:0;pointer-events:none}
-  .cf-status{margin-top:12px;font-size:13.5px;font-weight:700;line-height:1.6;min-height:20px;color:var(--mute)}
-  .cf-status.ok{color:#1a7f4b}.cf-status.bad{color:#c0392b}
-  .cf-status a{color:inherit;text-decoration:underline}
-
-  /* Footer */
-  footer{background:var(--ink);color:#aeb8cb;padding:60px 0 40px}
-  footer .fr{display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap}
-  footer .fl{display:flex;align-items:center;gap:8px;font-size:20px;font-weight:800;color:#fff;margin-bottom:10px}
-  footer .fl img{border-radius:7px}
-  footer .fm{color:#6f7c93;font-size:13.5px}
-  footer .fnav{display:flex;align-items:center;gap:20px;flex-wrap:wrap}
-  footer .fnav button,footer .fnav a{background:none;border:none;color:#9aa6bc;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none}
-  footer .fnav button:hover,footer .fnav a:hover{color:#fff}
-  footer hr{border:none;border-top:1px solid rgba(255,255,255,.08);margin:30px 0 18px}
-
-  .mt-s{margin-top:14px}.mt-m{margin-top:24px}
-
-  /* Real images (replace placeholders) */
-  .imgph.real{padding:0;min-height:0;overflow:hidden;background:#fff;border:1px solid var(--line)}
-  .imgph.real img{display:block;width:100%;height:auto}
-  .ucard .imgph.real,.mode .imgph.real{border:none;border-bottom:1px solid var(--line);border-radius:0}
-  .feat .imgph.real{min-height:0}
-  .mou .imgph.real{display:flex;align-items:center;justify-content:center;padding:12px}
-  .mou .imgph.real img{width:auto;max-width:100%;max-height:80px}
-
-  /* Mode placeholders: -1 shows by default, -2 txt revealed on hover (IMG-09/10/11) */
-  .imgph.swap{position:relative;display:block;padding:0;min-height:0;height:180px;overflow:hidden;background:#fff;cursor:pointer}
-  .imgph.swap .lay{position:absolute;inset:0;margin:0;display:flex;align-items:center;justify-content:center;background:#fff;transition:opacity .45s cubic-bezier(.16,1,.3,1)}
-  .imgph.swap .lay-2{opacity:0}
-  .imgph.swap:hover .lay-1,.imgph.swap:focus-within .lay-1{opacity:0}
-  .imgph.swap:hover .lay-2,.imgph.swap:focus-within .lay-2{opacity:1}
-  .imgph.swap .lay-1 img{width:100%;height:100%;object-fit:contain;object-position:center;display:block}
-  .imgph.swap .lay.ph{flex-direction:column;gap:8px;background:var(--tint)}
-  .imgph.swap pre.fit{margin:0;font-family:ui-monospace,Menlo,Consolas,monospace;white-space:pre;color:#1b2535;transform-origin:center center;will-change:transform}
-  .imgph.swap pre.fit.doc{text-align:left}
-  .imgph.swap .hint{position:absolute;right:9px;bottom:8px;z-index:2;font-size:10.5px;font-weight:700;color:var(--blue-d);background:rgba(255,255,255,.86);padding:3px 9px;border-radius:999px;pointer-events:none;transition:opacity .3s;box-shadow:0 1px 4px rgba(20,40,90,.12)}
-  .imgph.swap:hover .hint,.imgph.swap:focus-within .hint{opacity:0}
-  .imgph.swap:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
-
-  /* Reveal */
-  .reveal{opacity:0;transform:translateY(28px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
-  .reveal.in{opacity:1;transform:none}
-  .reveal-l{transform:translateX(-32px)}.reveal-r{transform:translateX(32px)}
-  .reveal.in.reveal-l,.reveal.in.reveal-r{transform:none}
-  .d1{transition-delay:.08s}.d2{transition-delay:.16s}.d3{transition-delay:.24s}
-
-  @media(max-width:980px){
-    .hero .wrap,.g2,.feat,.flyrap,.vm{grid-template-columns:1fr;gap:36px}
-    .feat.alt{direction:ltr}
-    .uc{grid-template-columns:repeat(2,1fr)}
-    .figs{grid-template-columns:repeat(3,1fr)}
-  }
-  @media(max-width:720px){
-    .fly{aspect-ratio:auto;width:100%}
-    .fly .ring,.fly .ring2,.fly .hub{display:none}
-    .flyn{position:static;transform:none;width:100%;margin-bottom:10px;text-align:left;display:flex;gap:12px;align-items:center}
-    .flyn .n{margin:0}
-  }
-  @media(max-width:620px){
-    .wrap,.nav{padding-left:20px;padding-right:20px}
-    .uc,.modes,.tlist{grid-template-columns:1fr}
-    .arow{grid-template-columns:1fr;gap:8px}
-    .figs{grid-template-columns:1fr}
-    .flow{flex-direction:column}.far{transform:rotate(90deg);justify-content:center}
-    .months{grid-template-columns:repeat(6,1fr)}
-    .nav-menu{display:none}
-    .mou{flex-direction:column;align-items:flex-start}
-  }
-  @media(prefers-reduced-motion:reduce){*{animation:none!important}.reveal,.hero h1 .ln>span,.hero .lead,.hero-cta,.xform{opacity:1!important;transform:none!important;transition:none!important}}
-</style>
+<meta property="og:type" content="website">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Noto+Sans+Symbols+2&display=swap">
+<!-- 구글 애널리틱스: 측정 ID 발급 후 GA_ID 에 넣고 GA_ON 을 true 로 바꾸면 켜집니다 -->
+<script>window.GA_ID='[법인등록 후 발급 예정]';window.GA_ON=false;</script>
+<link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
+<a class="skip" href="#main" data-en="Skip to content">본문으로 건너뛰기</a>
 
-<!-- NAV -->
-<div class="nav-wrap" id="navw">
-  <nav class="nav">
-    <div class="logo nav-go" data-go="p-home">
-      <img class="brandmark" src="IMG/logo-wordmark.png?v=20260813" alt="세모점" width="1642" height="652" decoding="async">
-    </div>
-    <div class="nav-menu">
-      <button class="nav-link nav-go" data-go="p-solution" data-en="Solution">솔루션</button>
-      <button class="nav-link nav-go" data-go="p-about" data-en="About">회사 소개</button>
-    </div>
-    <div class="nav-right">
-      <div class="lang" role="group" aria-label="언어 선택 / Language">
-        <button data-lang="ko" class="on">KO</button>
-        <button data-lang="en">EN</button>
-      </div>
-      <button class="btn btn-pri btn-sm nav-go" data-go="p-contact" data-en="Get a demo">도입 문의</button>
-    </div>
+<header><div class="in nav">
+  <a class="brand" href="/" aria-label="누리닷 홈"><img src="assets/logo.svg" alt="누리닷" width="104" height="25"></a>
+  <nav id="gnb" aria-label="주요 메뉴">
+    <a href="#product" data-en="Product">제품</a>
+    <a href="#what" data-en="Features">기능</a>
+    <a href="#download" data-en="Download">다운로드</a>
+    <a href="#price" data-en="Pricing">요금제</a>
+    <a href="#qna" data-en="Q&amp;A">QnA</a>
+    <a href="#end" data-en="Contact">문의</a>
   </nav>
+  <span class="sp"></span>
+  <button class="lang" id="brl" type="button" data-nobr aria-pressed="false" aria-label="점자로 보기">점자</button>
+  <button class="lang" id="lang" type="button" data-nobr aria-label="언어 바꾸기">EN</button>
+  <a class="btn cta hidesm" href="#end" data-en="Request a trial">체험 신청</a>
+  <button class="menu" id="menu" type="button" aria-expanded="false" aria-controls="gnb" aria-label="메뉴 열기">☰</button>
+</div></header>
+
+<main id="main">
+
+<!-- 1. 히어로 · 점역사 책상 + 핵심 한 문장 -->
+<div class="scene" id="s1"><img class="sc" src="assets/scene-desk.jpg" alt="모니터 두 대와 종이 더미, 점자 프린터가 놓인 작업 책상" width="1600" height="933" fetchpriority="high" decoding="async">
+  <div class="over"><div class="in"><div class="capt">
+    <h1 data-en="So that <em>every</em> written word<br>can become braille.">세상의 <em>모든 글</em>이,<br>점자가 되도록</h1>
+    <p class="sub" data-en="Proofreading, transcription, correction and layout. Nuridot connects AI with the experience of braille transcribers, so that more information reaches readers in braille."><em>교열</em>부터 점역, 교정, 편집까지. 누리닷은 AI 기술과 점역 전문가의 경험을 연결해 더 많은 정보가 점자로 전달될 수 있도록 돕습니다.</p>
+    <div class="acts">
+      <a class="btn lg" href="#end" data-en="Request a trial">체험 신청하기</a>
+      <a class="btn lg ghost" href="#product" data-en="About the product">제품 소개</a>
+    </div>
+  </div></div></div>
 </div>
 
-<!-- ================= HOME ================= -->
-<div class="page active" id="p-home">
+<section>
+<div class="in">
+  <div class="nums">
+    <div class="rv"><b>470<u>명</u></b><p data-en="Grade 1 and 2 transcribers nationwide">전국 1·2급 점역사</p></div>
+    <div class="rv d1"><b>약 1<u>%</u></b><p data-en="Share of new books that get a braille edition">점자로 옮겨지는 신간 비율</p></div>
+    <div class="rv d2"><b>3<u>개월</u></b><p data-en="To transcribe one textbook">교과서 한 권 점역 기간</p></div>
+  </div>
+</div>
+</section>
 
-  <!-- Hero -->
-  <section class="hero" id="hero">
-    <div class="aurora" aria-hidden="true"><b class="a1"></b><b class="a2"></b></div>
-    <div class="wrap">
-      <div>
-        <h1 data-en-html="<span class='ln'><span>Documents full of formulas,</span></span><span class='ln'><span>tables and images — <em class='grad' style='font-style:normal'>with Semojum</em>.</span></span>">
-          <span class="ln"><span>수식·표·그림이 섞인 문서도,</span></span>
-          <span class="ln"><span><span class="grad">세모점</span>과 함께라면</span></span>
-        </h1>
-        <p class="lead" data-en="Faster braille, made by AI and braille experts together.">AI와 점역사가 함께 만드는 더 빠른 점역</p>
-        <div class="hero-cta">
-          <button class="btn btn-pri nav-go" data-go="p-contact" data-en="Get a demo">도입 문의하기</button>
-          <button class="btn btn-ghost nav-go" data-go="p-solution" data-en="See how it works">작동 방식 보기 <span class="arrow">→</span></button>
-        </div>
-      </div>
-      <div class="xform" aria-hidden="true">
-        <div class="conv">
-          <div class="convrow">
-            <div class="el"><span class="ei">∑</span><span data-en="Formula">수식</span></div>
-            <span class="ar">→</span>
-            <div class="br">⠰⠫⠭⠼⠿</div>
-          </div>
-          <div class="convrow">
-            <div class="el"><span class="ei">▦</span><span data-en="Table">표</span></div>
-            <span class="ar">→</span>
-            <div class="br">⠠⠮⠆⠭⠆</div>
-          </div>
-          <div class="convrow">
-            <div class="el"><span class="ei">▣</span><span data-en="Image">그림</span></div>
-            <span class="ar">→</span>
-            <div class="br">⠛⠗⠁⠏⠓</div>
-          </div>
-          <div class="convtag"><span class="dot"></span><span data-en="Reviewed and confirmed by a braille expert">점역사가 검토하고 확정합니다</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Problem: information gap, visualized -->
-  <section class="sec tint">
-    <div class="wrap">
-      <div class="h-left reveal">
-        <h2 data-en="Braille is scarce, and it comes late">점자 자료는 부족하고, 늦습니다</h2>
-        <p class="lead" data-en="There is little braille material, and it arrives late — pushing the starting line for learning and work further back.">점자로 만들어지는 자료가 적고 그마저도 늦게 도착해, 배움과 일의 출발선이 뒤로 밀립니다.</p>
-      </div>
-
-      <div class="gapcard reveal">
-        <div class="gtop">
-          <div class="gtitle" data-en-html="A sighted student gets the textbook in <b>January</b>. A blind student receives it in <span class='c'>July</span>.">비장애 학생이 <b>1월</b>에 받는 교재를, 시각장애 학생은 <span class="c">7월</span>에야 받습니다.</div>
-          <div class="gbadge" data-en="≈ 7-month gap">약 7개월의 시차</div>
-        </div>
-        <div class="months">
-          <div class="mo a">1</div><div class="mo a">2</div><div class="mo">3</div><div class="mo">4</div><div class="mo">5</div><div class="mo">6</div><div class="mo b">7</div><div class="mo b">8</div><div class="mo">9</div><div class="mo">10</div><div class="mo">11</div><div class="mo">12</div>
-        </div>
-        <div class="glegend">
-          <span><i style="background:var(--blue)"></i><span data-en="General textbook (Jan–Feb)">일반 교재 (1~2월)</span></span>
-          <span><i style="background:var(--coral)"></i><span data-en="Braille textbook (Jul–Aug)">점자 교재 (7~8월)</span></span>
-        </div>
-      </div>
-
-      <div class="figs reveal">
-        <div class="fig"><div class="v"><span class="count" data-target="5">5</span><small>%</small></div><div class="l" data-en="of publications are ever made in braille">전체 출판물 중 점자 제작 비율</div></div>
-        <div class="fig"><div class="v"><span class="count" data-target="5">5</span><small data-en="months">개월</small></div><div class="l" data-en="to produce one braille textbook">점자 교재 한 권 제작 기간</div></div>
-        <div class="fig"><div class="v"><span class="count" data-target="1.4" data-dec="1">1.4</span><small data-en="books">권</small></div><div class="l" data-en="books a blind reader reads per year">시각장애인 연간 대체자료 독서량</div></div>
-      </div>
-      <!-- ▼ 배포 전 반드시 실제 출처로 교체할 것 (지어내지 말 것) -->
-      <p class="figsrc reveal" data-en="Source · [fill in institution, year]">출처 · [기관명·연도를 채워 주세요]</p>
-    </div>
-  </section>
-
-  <!-- ===== 시간 단축 섹션 (IMG/시간파트.html) ===== -->
-  <!-- ============================================================
-    세모점 — 시간 단축 섹션
-    "점자 자료는 부족하고, 늦습니다" 섹션 바로 아래 블록
-    - .sj-ut- 프리픽스로 스코프 → 기존 CSS와 충돌 없음
-    - Pretendard가 이미 로드돼 있으면 아래 <link>는 삭제 가능
-    - 문제 페이지는 저작권 이슈가 없는 '오리지널 창작 문항'입니다
-      (실제 수능/평가원 기출을 베끼지 않고, 동일한 난도·레이아웃으로 직접 작성)
-  ============================================================= -->
-
-  <section class="sj-ut" aria-labelledby="sj-ut-title">
-    <div class="sj-ut__inner">
-      <div class="sj-ut__top">
-
-        <!-- 좌측 텍스트 -->
-        <div class="sj-ut__head">
-         <div class="sj-ut__head-in">
-          <p class="sj-ut__eyebrow" data-en="When you adopt Semojum">세모점 도입 시</p>
-          <h2 id="sj-ut-title" class="sj-ut__title" data-en-html="Three months of work,<br>done in <span class=&quot;sj-ut__title-hl&quot;>two days</span>">
-            석 달이 걸리던 작업,<br><span class="sj-ut__title-hl">이틀</span>이면 끝납니다
-          </h2>
-          <p class="sj-ut__lede" data-en="Measured on a single science workbook packed with formulas, tables and figures — the time it takes to braille-translate it.">수식·표·그림이 빼곡한 과학 문제집 한 권을 기준으로, 점역에 걸리는 시간을 직접 측정했습니다.</p>
-
-          <div class="sj-ut__impact" role="group" aria-label="기존 대비 시간 절감률 98퍼센트">
-            <span class="sj-ut__impact-label" data-en="Time saved vs. the conventional process">기존 대비 시간 절감률</span>
-            <span class="sj-ut__impact-value">
-              <svg class="sj-ut__impact-ico" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M12 4v13M6 12l6 6 6-6" stroke="currentColor" stroke-width="2.6"
-                      stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-              <b>98<span>%</span></b>
-            </span>
-          </div>
-         </div>
-        </div>
-
-        <!-- 우측: 생명과학 Ⅰ 문제 페이지 (오리지널 창작) + 각주 -->
-        <div class="sj-ut__right">
-          <div class="sj-ut__papers" role="img" aria-label="생명과학 Ⅰ 과학탐구영역 문제집 페이지">
-            <div class="sj-ut__sheet sj-ut__sheet--page sj-ut__sheet--back" aria-hidden="true"></div>
-            <div class="sj-ut__sheet sj-ut__sheet--page sj-ut__sheet--mid" aria-hidden="true"></div>
-
-            <div class="sj-ut__sheet sj-ut__sheet--front" aria-hidden="true">
-              <div class="sj-ut__exam">
-                <span class="sj-ut__exam-tab">생명과학 Ⅰ</span>
-
-                <div class="sj-ut__exam-top">
-                  <span class="sj-ut__exam-subj">과학탐구 영역 <em>(생명과학&nbsp;Ⅰ)</em></span>
-                  <span class="sj-ut__exam-pg">13</span>
-                </div>
-
-                <div class="sj-ut__exam-cols">
-                  <!-- 좌측 단: 유전 킬러 -->
-                  <div class="sj-ut__exam-col">
-                    <div class="q">
-                      <p class="q-h"><b>17.</b> 다음은 어떤 집안의 유전 형질 (가)~(다)에 대한 자료이다. <em class="q-pt">[3점]</em></p>
-                      <div class="q-data">
-                        <p class="q-cd">○ (가)~(다)의 유전자 중 1개는 X 염색체에 있고, 나머지 2개는 서로 다른 상염색체에 있다.</p>
-                        <p class="q-cd">○ (가)는 H와 h, (나)는 R와 r, (다)는 T와 t에 의해 결정되며, 각각 완전 우성이다.</p>
-                        <p class="q-cd">○ 가계도는 ⓐ, ⓑ를 제외한 구성원 1~8에서 (가)와 (나)의 발현 여부를 나타낸 것이다.</p>
-                        <svg class="q-ped" viewBox="0 0 104 46" aria-hidden="true">
-                          <defs>
-                            <pattern id="sjhx" width="2.4" height="2.4" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-                              <line x1="0" y1="0" x2="0" y2="2.4" stroke="#2b303c" stroke-width=".5"/>
-                            </pattern>
-                          </defs>
-                          <!-- Gen I -->
-                          <rect x="8" y="3" width="6" height="6" fill="#fff" stroke="#2b303c" stroke-width=".7"/>
-                          <circle cx="24" cy="6" r="3.1" fill="#fff" stroke="#2b303c" stroke-width=".7"/>
-                          <text x="22" y="2.4" class="pl">ⓐ</text>
-                          <line x1="14" y1="6" x2="20.9" y2="6" stroke="#2b303c" stroke-width=".6"/>
-                          <rect x="56" y="3" width="6" height="6" fill="url(#sjhx)" stroke="#2b303c" stroke-width=".7"/>
-                          <circle cx="72" cy="6" r="3.1" fill="#fff" stroke="#2b303c" stroke-width=".7"/>
-                          <line x1="62" y1="6" x2="68.9" y2="6" stroke="#2b303c" stroke-width=".6"/>
-                          <!-- connectors -->
-                          <line x1="17.5" y1="6" x2="17.5" y2="13" stroke="#2b303c" stroke-width=".6"/>
-                          <line x1="17.5" y1="13" x2="40" y2="13" stroke="#2b303c" stroke-width=".6"/>
-                          <line x1="40" y1="13" x2="40" y2="17" stroke="#2b303c" stroke-width=".6"/>
-                          <line x1="65" y1="6" x2="65" y2="13" stroke="#2b303c" stroke-width=".6"/>
-                          <line x1="65" y1="13" x2="84" y2="13" stroke="#2b303c" stroke-width=".6"/>
-                          <line x1="84" y1="13" x2="84" y2="17" stroke="#2b303c" stroke-width=".6"/>
-                          <!-- Gen II -->
-                          <circle cx="20" cy="22" r="3.1" fill="#9aa0ac" stroke="#2b303c" stroke-width=".7"/>
-                          <rect x="37" y="19" width="6" height="6" fill="#fff" stroke="#2b303c" stroke-width=".7"/>
-                          <rect x="60" y="19" width="6" height="6" fill="url(#sjhx)" stroke="#2b303c" stroke-width=".7"/>
-                          <circle cx="84" cy="22" r="3.1" fill="#fff" stroke="#2b303c" stroke-width=".7"/>
-                          <text x="82" y="18" class="pl">ⓑ</text>
-                          <line x1="43" y1="22" x2="60" y2="22" stroke="#2b303c" stroke-width=".6"/>
-                          <line x1="51.5" y1="22" x2="51.5" y2="30" stroke="#2b303c" stroke-width=".6"/>
-                          <line x1="45" y1="30" x2="58" y2="30" stroke="#2b303c" stroke-width=".6"/>
-                          <line x1="45" y1="30" x2="45" y2="34" stroke="#2b303c" stroke-width=".6"/>
-                          <line x1="58" y1="30" x2="58" y2="34" stroke="#2b303c" stroke-width=".6"/>
-                          <!-- Gen III -->
-                          <rect x="42" y="35" width="6" height="6" fill="url(#sjhx)" stroke="#2b303c" stroke-width=".7"/>
-                          <circle cx="58" cy="38" r="3.1" fill="#9aa0ac" stroke="#2b303c" stroke-width=".7"/>
-                          <text x="9" y="14" class="pn">1</text><text x="22" y="14" class="pn">2</text>
-                          <text x="57" y="14" class="pn">3</text><text x="71" y="14" class="pn">4</text>
-                          <text x="18" y="29" class="pn">5</text><text x="38" y="29" class="pn">6</text>
-                          <text x="61" y="29" class="pn">7</text><text x="43" y="45.5" class="pn">8</text>
-                        </svg>
-                        <p class="q-cd">○ 표는 ⓐ, 6, ⓑ에서 체세포 1개당 H와 r의 DNA 상대량을 더한 값(H+r)과 R와 t를 더한 값(R+t)을 나타낸 것이다. ㉠과 ㉡은 1과 2를 순서 없이 나타낸 것이다.</p>
-                        <table class="q-tbl">
-                          <tr><th>구성원</th><th>ⓐ</th><th>6</th><th>ⓑ</th></tr>
-                          <tr><td>H+r</td><td>3</td><td>㉡</td><td>㉠</td></tr>
-                          <tr><td>R+t</td><td>㉠</td><td>?</td><td>㉡</td></tr>
-                        </table>
-                        <p class="q-cd">○ 이 가계도 구성원 중 1, 3, 6에서만 (다)가 발현되었다.</p>
-                      </div>
-                      <p class="q-ask">이에 대한 설명으로 옳은 것만을 &lt;보기&gt;에서 있는 대로 고른 것은? (단, 돌연변이와 교차는 고려하지 않으며, H, h, R, r, T, t 각각의 1개당 DNA 상대량은 1이다.)</p>
-                      <div class="q-box"><span class="q-box-t">&lt; 보 기 &gt;</span>
-                        <p>ㄱ. (가)는 열성 형질이다.</p>
-                        <p>ㄴ. 구성원 중 R와 t를 모두 갖는 사람은 4명이다.</p>
-                        <p>ㄷ. 8의 동생이 태어날 때, 이 아이의 (가)~(다) 표현형이 모두 ⓐ와 같을 확률은 1/16이다.</p>
-                      </div>
-                      <p class="q-c">① ㄱ&nbsp;② ㄴ&nbsp;③ ㄷ&nbsp;④ ㄱ, ㄷ&nbsp;⑤ ㄴ, ㄷ</p>
-                    </div>
-
-                    <div class="q">
-                      <p class="q-h"><b>18.</b> 다음은 세포 주기에 대한 실험이다.</p>
-                      <div class="q-data">
-                        <p class="q-cd q-cd--exp">[실험 과정 및 결과]</p>
-                        <p class="q-cd">(가) 어떤 동물의 체세포를 배양하여 집단 A와 B로 나눈다.</p>
-                        <p class="q-cd">(나) 각 집단의 세포당 DNA 양에 따른 세포 수는 그림과 같다.</p>
-                        <div class="q-figs">
-                          <figure>
-                            <svg class="q-hist" viewBox="0 0 58 46" aria-hidden="true">
-                              <line x1="9" y1="4" x2="9" y2="37" stroke="#9aa0ac" stroke-width=".6"/>
-                              <line x1="9" y1="37" x2="54" y2="37" stroke="#9aa0ac" stroke-width=".6"/>
-                              <rect x="13" y="15" width="5" height="22" fill="#8b93a2"/>
-                              <rect x="19" y="28" width="5" height="9" fill="#8b93a2"/>
-                              <rect x="25" y="32" width="5" height="5" fill="#8b93a2"/>
-                              <rect x="31" y="32" width="5" height="5" fill="#8b93a2"/>
-                              <rect x="37" y="28" width="5" height="9" fill="#8b93a2"/>
-                              <rect x="43" y="21" width="5" height="16" fill="#8b93a2"/>
-                              <text x="14" y="42" class="pl">1</text><text x="44" y="42" class="pl">2</text>
-                            </svg>
-                            <figcaption>집단 A</figcaption>
-                          </figure>
-                          <figure>
-                            <svg class="q-hist" viewBox="0 0 58 46" aria-hidden="true">
-                              <line x1="9" y1="4" x2="9" y2="37" stroke="#9aa0ac" stroke-width=".6"/>
-                              <line x1="9" y1="37" x2="54" y2="37" stroke="#9aa0ac" stroke-width=".6"/>
-                              <rect x="13" y="24" width="5" height="13" fill="#8b93a2"/>
-                              <rect x="19" y="30" width="5" height="7" fill="#8b93a2"/>
-                              <rect x="25" y="31" width="5" height="6" fill="#8b93a2"/>
-                              <rect x="31" y="28" width="5" height="9" fill="#8b93a2"/>
-                              <rect x="37" y="18" width="5" height="19" fill="#8b93a2"/>
-                              <rect x="43" y="30" width="5" height="7" fill="#8b93a2"/>
-                              <text x="14" y="42" class="pl">1</text><text x="44" y="42" class="pl">2</text>
-                            </svg>
-                            <figcaption>집단 B</figcaption>
-                          </figure>
-                        </div>
-                        <p class="q-cap">세포당 DNA 양(상댓값)</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- 우측 단: 흥분 전도 킬러 -->
-                  <div class="sj-ut__exam-col">
-                    <div class="q">
-                      <p class="q-h"><b>19.</b> 다음은 민말이집 신경 A와 B의 흥분 전도에 대한 자료이다. <em class="q-pt">[3점]</em></p>
-                      <div class="q-data">
-                        <p class="q-cd">○ 그림은 A와 B의 지점 d₁~d₄의 위치를, 표는 P에 역치 이상의 자극을 동시에 1회 주고 경과된 시간이 t₁~t₃일 때 A의 d₁~d₄에서의 막전위를 나타낸 것이다.</p>
-                        <div class="q-row">
-                          <svg class="q-neuron" viewBox="0 0 70 30" aria-hidden="true">
-                            <text x="0" y="9" class="pl">A</text>
-                            <line x1="7" y1="8" x2="66" y2="8" stroke="#2b303c" stroke-width=".7"/>
-                            <line x1="15" y1="6" x2="15" y2="10" stroke="#2b303c" stroke-width=".7"/>
-                            <line x1="31" y1="6" x2="31" y2="10" stroke="#2b303c" stroke-width=".7"/>
-                            <line x1="39" y1="6" x2="39" y2="10" stroke="#2b303c" stroke-width=".7"/>
-                            <line x1="63" y1="6" x2="63" y2="10" stroke="#2b303c" stroke-width=".7"/>
-                            <text x="0" y="22" class="pl">B</text>
-                            <line x1="7" y1="21" x2="66" y2="21" stroke="#2b303c" stroke-width=".7"/>
-                            <line x1="15" y1="19" x2="15" y2="23" stroke="#2b303c" stroke-width=".7"/>
-                            <line x1="31" y1="19" x2="31" y2="23" stroke="#2b303c" stroke-width=".7"/>
-                            <line x1="39" y1="19" x2="39" y2="23" stroke="#2b303c" stroke-width=".7"/>
-                            <line x1="63" y1="19" x2="63" y2="23" stroke="#2b303c" stroke-width=".7"/>
-                            <rect x="26" y="17.6" width="8" height="6.4" fill="none" stroke="#7d8696" stroke-width=".5" stroke-dasharray="1 1"/>
-                            <rect x="44" y="17.6" width="8" height="6.4" fill="none" stroke="#7d8696" stroke-width=".5" stroke-dasharray="1 1"/>
-                            <text x="12.5" y="28" class="ps">d₁</text><text x="28.5" y="28" class="ps">d₂</text>
-                            <text x="36.5" y="28" class="ps">d₃</text><text x="60.5" y="28" class="ps">d₄</text>
-                          </svg>
-                          <table class="q-tbl q-tbl--nrw">
-                            <tr><th>시간</th><th>Ⅰ</th><th>Ⅱ</th><th>Ⅲ</th><th>Ⅳ</th></tr>
-                            <tr><td>t₁</td><td>ⓐ</td><td>ⓑ</td><td>ⓐ</td><td>ⓒ</td></tr>
-                            <tr><td>t₂</td><td>ⓑ</td><td>ⓐ</td><td>ⓒ</td><td>ⓓ</td></tr>
-                            <tr><td>t₃</td><td>ⓒ</td><td>ⓓ</td><td>ⓑ</td><td>ⓐ</td></tr>
-                          </table>
-                        </div>
-                        <p class="q-cd">○ Ⅰ~Ⅳ는 d₁~d₄를, ⓐ~ⓓ는 −80, −70, −60, +30을 순서 없이 나타낸 것이다.</p>
-                        <p class="q-cd">○ A와 B의 흥분 전도 속도는 1 cm/ms로 같고, 활동 전위가 발생할 때 막전위 변화는 그림과 같다.</p>
-                        <svg class="q-ap" viewBox="0 0 56 36" aria-hidden="true">
-                          <line x1="12" y1="3" x2="12" y2="30" stroke="#9aa0ac" stroke-width=".6"/>
-                          <line x1="12" y1="24" x2="52" y2="24" stroke="#9aa0ac" stroke-width=".6"/>
-                          <path d="M12 24 L22 23.5 L26 7 L29 25.5 L33 27 L40 24.2 L52 24" fill="none" stroke="#2b303c" stroke-width=".9" stroke-linejoin="round"/>
-                          <text x="2" y="8" class="ps">+30</text><text x="6" y="25" class="ps">0</text>
-                          <text x="0" y="30" class="ps">−70</text>
-                        </svg>
-                      </div>
-                      <p class="q-ask">이에 대한 설명으로 옳은 것만을 &lt;보기&gt;에서 있는 대로 고른 것은? (단, 휴지 전위는 −70 mV이다.)</p>
-                      <div class="q-box"><span class="q-box-t">&lt; 보 기 &gt;</span>
-                        <p>ㄱ. P는 d₂이다.</p>
-                        <p>ㄴ. ⓓ는 +30이다.</p>
-                        <p>ㄷ. t₂일 때, B의 Ⅲ에서의 막전위는 −80 mV이다.</p>
-                      </div>
-                      <p class="q-c">① ㄱ&nbsp;② ㄷ&nbsp;③ ㄱ, ㄴ&nbsp;④ ㄴ, ㄷ&nbsp;⑤ ㄱ, ㄴ, ㄷ</p>
-                    </div>
-
-                    <div class="q">
-                      <p class="q-h"><b>20.</b> 그림은 생존 곡선 Ⅰ형~Ⅲ형을, 표는 동물 종 ㉠과 ㉡의 상대 연령에 따른 생존 개체 수를 나타낸 것이다.</p>
-                      <div class="q-row">
-                        <svg class="q-surv" viewBox="0 0 58 44" aria-hidden="true">
-                          <line x1="11" y1="3" x2="11" y2="36" stroke="#9aa0ac" stroke-width=".6"/>
-                          <line x1="11" y1="36" x2="54" y2="36" stroke="#9aa0ac" stroke-width=".6"/>
-                          <path d="M13 6 C30 6 40 9 50 34" fill="none" stroke="#2b303c" stroke-width=".8"/>
-                          <path d="M13 6 L51 35" fill="none" stroke="#2b303c" stroke-width=".8" stroke-dasharray="2 1"/>
-                          <path d="M13 6 C18 24 26 32 50 35" fill="none" stroke="#2b303c" stroke-width=".8" stroke-dasharray="1 1"/>
-                          <text x="0" y="8" class="ps">1000</text><text x="3" y="22" class="ps">100</text>
-                          <text x="6" y="37" class="ps">1</text>
-                        </svg>
-                        <table class="q-tbl q-tbl--nrw">
-                          <tr><th>연령</th><th>㉠</th><th>㉡</th></tr>
-                          <tr><td>0</td><td>1000</td><td>1000</td></tr>
-                          <tr><td>40</td><td>447</td><td>32</td></tr>
-                          <tr><td>80</td><td>11</td><td>2</td></tr>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <p class="sj-ut__note" data-en="*Based on one high-school science workbook (p.200)">*고등 과학 문제집 1권(p.200) 기준</p>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <style>
-  .sj-ut{
-    --ink:#1a1d2b;--muted:#8b909e;--bg:#f5f7fa;--line:#d7dbe3;--paper-line:#e7e9ee;
-    --blue:#5468f0;--accent:#e8744f;
-    font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,
-      "Apple SD Gothic Neo","Malgun Gothic","맑은 고딕",system-ui,sans-serif;
-    color:var(--ink);background:var(--bg);padding:96px 24px;box-sizing:border-box;
-  }
-  .sj-ut *{box-sizing:border-box;}
-  .sj-ut__inner{max-width:1080px;margin:0 auto;}
-
-  .sj-ut__top{display:flex;align-items:center;justify-content:space-between;gap:56px;flex-wrap:wrap;}
-  .sj-ut__head{flex:1 1 380px;min-width:280px;}
-  .sj-ut__head-in{display:flex;flex-direction:column;align-items:flex-start;width:fit-content;max-width:100%;}
-  .sj-ut__eyebrow{margin:0 0 10px;font-size:clamp(20px,3.1vw,29px);font-weight:700;letter-spacing:-.015em;color:var(--ink);}
-  .sj-ut__title{margin:0 0 20px;font-size:clamp(30px,4.6vw,44px);font-weight:800;letter-spacing:-.022em;line-height:1.22;}
-  .sj-ut__title-hl{color:var(--blue);}
-  .sj-ut__lede{margin:0;font-size:clamp(15px,1.6vw,17px);line-height:1.7;color:var(--muted);}
-
-  .sj-ut__impact{
-    display:inline-flex;flex-direction:column;gap:8px;align-self:flex-end;
-    margin-top:24px;padding:18px 44px 20px;background:#10131e;border-radius:16px;
-    box-shadow:0 12px 28px rgba(16,19,30,.2);
-  }
-  .sj-ut__impact-label{font-size:12.5px;font-weight:600;letter-spacing:.01em;color:#aeb4c2;}
-  .sj-ut__impact-value{display:flex;align-items:center;gap:6px;color:var(--accent);}
-  .sj-ut__impact-ico{width:clamp(20px,2.6vw,24px);height:auto;}
-  .sj-ut__impact-value b{font-size:clamp(34px,4.8vw,46px);font-weight:800;letter-spacing:-.02em;line-height:1;}
-  .sj-ut__impact-value b span{font-size:.55em;font-weight:800;margin-left:2px;}
-
-  .sj-ut__right{flex:0 0 auto;display:flex;flex-direction:column;width:330px;}
-  .sj-ut__note{margin:14px 2px 0;text-align:right;font-size:13px;color:var(--muted);}
-
-  .sj-ut__papers{position:relative;width:330px;height:344px;}
-  .sj-ut__sheet{position:absolute;border-radius:6px;box-shadow:0 16px 40px rgba(26,29,43,.18);}
-  .sj-ut__sheet--page{
-    width:202px;height:272px;background:#fff;border:1px solid #e7e9ee;
-    background-image:repeating-linear-gradient(to bottom,transparent 0 15px,var(--paper-line) 15px 16px);
-    background-position:0 24px;
-  }
-  .sj-ut__sheet--back{left:54px;top:36px;transform:rotate(-7deg);opacity:.92;}
-  .sj-ut__sheet--mid {left:90px;top:22px;transform:rotate(4deg);}
-  .sj-ut__sheet--front{width:212px;height:284px;left:84px;top:0;transform:rotate(-1.3deg);background:#fff;border:1px solid #e2e5ec;overflow:hidden;}
-
-  /* 시험지 내부 */
-  .sj-ut__exam{position:relative;width:100%;height:100%;padding:9px 10px 0;color:#2b303c;}
-  .sj-ut__exam-tab{
-    position:absolute;right:-1px;top:42px;writing-mode:vertical-rl;
-    background:#eef0f4;border:1px solid #d8dbe2;border-right:0;padding:6px 2px;border-radius:4px 0 0 4px;
-    font-size:6px;font-weight:700;letter-spacing:.05em;color:#3a4151;
-  }
-  .sj-ut__exam-top{display:flex;align-items:flex-end;justify-content:space-between;border-bottom:1.4px solid #2b303c;padding-bottom:3px;margin-bottom:5px;}
-  .sj-ut__exam-subj{font-size:7.6px;font-weight:800;letter-spacing:-.02em;}
-  .sj-ut__exam-subj em{font-style:normal;font-weight:700;}
-  .sj-ut__exam-pg{font-size:7.6px;font-weight:700;}
-  .sj-ut__exam-cols{
-    display:flex;gap:8px;height:calc(100% - 20px);
-    -webkit-mask-image:linear-gradient(to bottom,#000 84%,transparent);
-            mask-image:linear-gradient(to bottom,#000 84%,transparent);
-  }
-  .sj-ut__exam-col{flex:1;display:flex;flex-direction:column;gap:5px;border-right:.6px solid #e7e9ee;padding-right:6px;font-size:5.2px;line-height:1.42;}
-  .sj-ut__exam-col:last-child{border-right:0;padding-right:0;}
-
-  .q{display:flex;flex-direction:column;gap:1.5px;}
-  .q-h{margin:0;font-weight:600;}
-  .q-h b{font-weight:800;margin-right:1px;}
-  .q-pt{font-style:normal;font-weight:700;}
-  .q-data{border:.7px solid #b9bec8;border-radius:2px;padding:3px 4px;margin:1px 0;display:flex;flex-direction:column;gap:1.5px;}
-  .q-cd{margin:0;padding-left:5px;text-indent:-5px;}
-  .q-cd--exp{font-weight:700;text-indent:0;padding-left:0;}
-  .q-ask{margin:1px 0;}
-  .q-box{border:.7px solid #b9bec8;border-radius:2px;padding:3px 4px;margin:1px 0;background:#fbfbfc;}
-  .q-box-t{display:block;text-align:center;font-weight:700;margin-bottom:1px;}
-  .q-box p{margin:0;}
-  .q-c{margin:1px 0 0;letter-spacing:-.03em;}
-
-  .q-tbl{border-collapse:collapse;width:100%;margin:1px 0;font-size:4.8px;}
-  .q-tbl th,.q-tbl td{border:.5px solid #b9bec8;text-align:center;padding:.6px 0;}
-  .q-tbl th{background:#f0f1f4;font-weight:700;}
-  .q-tbl--nrw{width:48%;flex:0 0 48%;}
-
-  .q-row{display:flex;gap:5px;align-items:flex-start;margin:1px 0;}
-  .q-ped{width:100%;height:auto;margin:1px 0;}
-  .q-figs{display:flex;gap:6px;justify-content:center;margin:1px 0 0;}
-  .q-figs figure{flex:1;margin:0;text-align:center;}
-  .q-figs figcaption{font-size:4.8px;color:#3a4151;margin-top:-2px;}
-  .q-hist{width:100%;height:auto;}
-  .q-cap{margin:0;text-align:center;font-size:4.6px;color:#6a7180;}
-  .q-neuron{flex:1;height:auto;}
-  .q-ap{width:55%;height:auto;margin:1px auto 0;display:block;}
-  .q-surv{flex:1;height:auto;}
-  .q-ped .pl,.q-neuron .pl,.q-hist .pl{font-size:3.4px;fill:#3a4151;}
-  .q-ped .pn{font-size:3px;fill:#6a7180;}
-  .q-neuron .ps,.q-ap .ps,.q-surv .ps{font-size:3px;fill:#6a7180;}
-
-  /* 반응형 */
-  @media (max-width:820px){
-    .sj-ut{padding:68px 20px;}
-    .sj-ut__top{justify-content:center;}
-    .sj-ut__head{flex-basis:100%;display:flex;justify-content:center;}
-    .sj-ut__head-in{align-items:center;width:100%;max-width:520px;}
-    .sj-ut__eyebrow,.sj-ut__title,.sj-ut__lede{text-align:center;}
-    .sj-ut__impact{align-self:center;}
-    .sj-ut__right{margin:14px auto 0;align-items:center;}
-    .sj-ut__note{text-align:center;}
-  }
-  </style>
-
-  <!-- How it works (summary) -->
-  <section class="sec">
-    <div class="wrap">
-      <div class="h-left reveal">
-        <h2 data-en="AI and braille experts, together">AI와 점역사의 협업</h2>
-        <p class="lead" data-en="AI drafts, the expert confirms — and the real edge is handling complex layouts and visual materials.">AI가 초안을 만들고 점역사가 검토해 확정합니다. 복합 레이아웃과 시각 자료까지 처리하는 것이 핵심입니다.</p>
-      </div>
-      <div class="flow reveal">
-        <div class="fs"><div class="n">1</div><strong data-en="Upload">문서 입력</strong><span>PDF · HWP · IMG</span></div>
-        <div class="far">→</div>
-        <div class="fs"><div class="n">2</div><strong data-en="AI draft">AI 초안 생성</strong><span data-en="split & structure">요소 분리·구조화</span></div>
-        <div class="far">→</div>
-        <div class="fs"><div class="n">3</div><strong data-en="Expert review">점역사 검토</strong><span data-en="split-view editor">분할 뷰 에디터</span></div>
-        <div class="far">→</div>
-        <div class="fs"><div class="n">4</div><strong data-en="Export">파일 출력</strong><span>TXT · BRF</span></div>
-      </div>
-      <div class="g2" style="margin-top:clamp(32px,4vw,44px)">
-        <div class="video reveal reveal-l"><iframe src="https://www.youtube-nocookie.com/embed/4A58IfcDbGI" title="세모점 데모" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe></div>
-        <div class="reveal reveal-r d1">
-          <h3 data-en="See it in action" style="font-size:24px">데모 영상으로 확인하세요</h3>
-          <p class="mt-s mut" data-en="A formula-heavy document becomes a reviewable braille draft on one screen.">수식이 빼곡한 문서가 한 화면에서 점역 초안으로 정리되는 과정을 담았습니다.</p>
-          <button class="btn btn-ghost mt-m nav-go" data-go="p-solution" data-en="See the solution">솔루션 자세히 보기 <span class="arrow">→</span></button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Use cases -->
-  <section class="sec tint">
-    <div class="wrap">
-      <div class="h-left reveal"><h2 data-en="Where Semojum fits">세모점이 필요한 곳</h2></div>
-      <div class="uc">
-        <div class="ucard reveal">
-          <div class="imgph real"><img src="IMG/IMG_01.png?v=20260813" alt="펼쳐진 점자책 일러스트 — 점자도서관·출판 현장" width="2816" height="1536" loading="lazy" decoding="async"></div>
-          <div class="body"><div class="who" data-en="Libraries & publishers">점자도서관 · 출판사</div><h3 data-en="Faster production">더 빠른 제작</h3><p data-en="Produce large volumes of braille documents faster and more efficiently.">대량의 점역 문서를 더 빠르고 효율적으로 제작할 수 있습니다.</p></div>
-        </div>
-        <div class="ucard reveal d1">
-          <div class="imgph real"><img src="IMG/IMG_02.png?v=20260813" alt="특수학교 건물 일러스트 — 특수교육 현장" width="2816" height="1536" loading="lazy" decoding="async"></div>
-          <div class="body"><div class="who" data-en="Schools & education">특수학교 · 교육기관</div><h3 data-en="On-time materials">제때 닿는 교재</h3><p data-en="Convert class materials and textbooks into braille when they are needed.">수업 자료와 교재를 필요한 시점에 점자로 변환할 수 있습니다.</p></div>
-        </div>
-        <div class="ucard reveal d2">
-          <div class="imgph real"><img src="IMG/IMG_03.png?v=20260813" alt="공공기관 건물 일러스트" width="2816" height="1536" loading="lazy" decoding="async"></div>
-          <div class="body"><div class="who" data-en="Public & corporate">공공기관 · 기업</div><h3 data-en="Accessibility support">접근성 대응</h3><p data-en="Use it for accessible-document production and information-access support.">접근성 문서 제작과 정보 접근성 지원 업무에 활용할 수 있습니다.</p></div>
-        </div>
-        <div class="ucard reveal d3">
-          <div class="imgph real"><img src="IMG/IMG_04.png?v=20260813" alt="노트북으로 작업하는 점역사 일러스트" width="2816" height="1536" loading="lazy" decoding="async"></div>
-          <div class="body"><div class="who" data-en="Freelance experts">프리랜서 점역사</div><h3 data-en="Higher throughput">늘어나는 처리량</h3><p data-en="Cut repetitive work and handle more documents.">반복 작업은 줄이고, 더 많은 문서를 처리할 수 있습니다.</p></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Testimonials -->
-  <section class="sec">
-    <div class="wrap">
-      <div class="h-left reveal"><h2 data-en="What the field says">현장의 평가</h2>
-      <p class="lead" data-en="From braille experts who tested the engine directly.">엔진을 직접 테스트한 현장 점역사들의 평가입니다.</p></div>
-      <div class="tfeat reveal" style="margin-top:clamp(32px,4vw,44px)">
-        <span class="tlabel"><i></i><span data-en="Field quality test">현장 품질 테스트</span></span>
-        <p data-en-html="We've worked with many partners, but <span class='hl'>Semojum gave the best results.</span> It would genuinely help our work, and we'd love to keep collaborating.">그동안 여러 곳과 협업해 봤지만, <span class="hl">세모점의 결과물이 가장 우수했습니다.</span> 실질적으로 도움이 될 것 같아, 앞으로도 계속 협업하고 싶습니다.</p>
-        <div class="by" data-en="Braille expert · field quality-test participant">현장 점역사 · 엔진 품질 테스트 참여자</div>
-      </div>
-      <div class="tlist">
-        <div class="tq reveal"><p data-en="The descriptions of difficult visual materials were especially impressive.">까다로운 시각 자료 설명이 특히 인상적이었습니다.</p><div class="by"><span class="av">🧑‍🦯</span><span data-en="Field braille expert">현장 점역사</span></div></div>
-        <div class="tq reveal d1"><p data-en="It would be a great help to experts who lack domain knowledge.">도메인 지식이 부족한 점역사에게 큰 도움이 될 것 같습니다.</p><div class="by"><span class="av">📖</span><span data-en="Braille library staff">점자도서관 실무자</span></div></div>
-        <div class="tq reveal d2"><p data-en="This could meaningfully expand social participation for the visually impaired.">시각장애인의 사회 참여를 넓히는 데 기여할 수 있을 것 같습니다.</p><div class="by"><span class="av">🏫</span><span data-en="Special education teacher">특수교육 관계자</span></div></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA -->
-  <section class="sec tint">
-    <div class="wrap">
-      <div class="ctaband reveal">
-        <h2 data-en="Curious about adopting Semojum?" style="font-size:clamp(28px,4vw,44px)">세모점 도입이 궁금하시다면</h2>
-        <p data-en="We welcome inquiries on adoption and partnership.">도입·협업에 관한 문의를 환영합니다.</p>
-        <button class="btn btn-white nav-go" data-go="p-contact" data-en="Get in touch">도입 문의하기</button>
-      </div>
-    </div>
-  </section>
+<!-- 7. 왜 서두르는가 -->
+<div class="scene" id="s3"><img class="sc" src="assets/scene-classroom.jpg" alt="책이 펼쳐진 책상들 사이로 빈 책상이 보이는 교실" width="1600" height="933" loading="lazy" decoding="async">
+  <div class="over"><div class="in"><div class="capt">
+    <h2 data-en="One desk without a book.">책이 없는<br>자리가 있습니다.</h2>
+    <p class="sub" data-en="For a blind student, the braille textbook is not ready when the term begins.">시각장애 학생의 점자 교과서는 개학해도 준비되지 않습니다.</p>
+  </div></div></div>
 </div>
 
-<!-- ================= SOLUTION ================= -->
-<div class="page" id="p-solution">
-  <section class="hero" style="padding:clamp(88px,11vw,128px) 0 clamp(56px,7vw,84px)">
-    <div class="aurora" aria-hidden="true"><b class="a1"></b><b class="a2"></b></div>
-    <div class="wrap" style="display:block">
-      <div class="narrow center" style="margin:0 auto">
-        <span class="secnum reveal" style="display:block" data-en="A tool built for braille experts">점역사를 위한 AI 점자 에디터</span>
-        <h1 class="reveal d1" data-en-html="Formulas, tables and images,<br>handled faster">수식·표·그림도,<br>더 쉽고 빠르게</h1>
-      </div>
+
+<!-- 2. 제품 · 기존 프로그램과 무엇이 다른가 -->
+<section id="product">
+<div class="in">
+  <h2 class="rv" data-en="Existing programs do not <em>proofread</em>.">기존 점역 프로그램은 <em>교열</em>을 하지 않습니다.</h2>
+  <div class="split">
+    <figure class="pic rv">
+      <img src="assets/scene-volumes.jpg" alt="책상 위에 묵자 교재 한 권과 두꺼운 점자책이 나란히 놓여 있다" width="1600" height="933" loading="lazy" decoding="async">
+    </figure>
+    <div class="vs col rv d1">
+<div class="was rv">
+      <span class="tag" data-en="EXISTING TOOLS">기존 프로그램</span>
+      <h3 data-en="It only translates the letters">글자만 점자로 번역합니다</h3>
+      <ul>
+        <li data-en="No proofreading. You fix spacing and punctuation yourself.">교열은 하지 않습니다. 띄어쓰기와 부호를 직접 고쳐야 합니다.</li>
+        <li data-en="Figures and graphs are left untouched.">그림과 그래프는 손대 주지 않습니다.</li>
+        <li data-en="Columns, boxes and footnotes have to be untangled by hand.">단과 상자와 각주는 손으로 풀어야 합니다.</li>
+        <li data-en="Formulas and symbols often come out wrong.">수식과 특수기호는 제대로 안 나올 때가 많습니다.</li>
+      </ul>
     </div>
-  </section>
-
-  <!-- Why hard -->
-  <section class="sec">
-    <div class="wrap narrow reveal">
-      <h2 data-en="Why are documents with formulas and tables so hard?">수식·표가 담긴 문서는 왜 어려울까요?</h2>
-      <p class="mut mt-s" style="font-size:17px;line-height:1.72" data-en-html="Each element needs a different approach, so automation breaks. Legacy tools read only text — tables collapse and formulas vanish. <b style='color:var(--ink)'>Semojum separates every element first</b> and translates each the right way, leaving the final call to the braille expert.">요소마다 처리 방식이 달라 자동화가 막힙니다. 기존 도구는 텍스트만 읽어 표는 구조가 깨지고 수식·이미지는 사라집니다. <b style="color:var(--ink)">세모점은 각 요소를 먼저 나눠</b> 알맞은 방식으로 점역하고, 최종 판단은 점역사에게 맡깁니다.</p>
+<div class="now rv d1">
+      <span class="tag" data-en="NURIDOT">누리닷</span>
+      <h3 data-en="Proofreading, transcription and correction">교열, 점역, 교정까지 처리합니다</h3>
+      <ul>
+        <li data-en="Even a complicated page can be proofread.">복잡한 문서도 교열이 가능합니다.</li>
+        <li data-en="Figures and graphs come back as several draft descriptions to choose from.">그림과 그래프는 설명 초안을 여러 개 내 드립니다.</li>
+        <li data-en="Columns, boxes and footnotes are put back in reading order.">단과 상자, 각주를 읽는 순서대로 세워 둡니다.</li>
+        <li data-en="Formulas and symbols follow the clause in the regulation.">수식과 특수기호는 규정 조항에 맞춰 점형을 냅니다.</li>
+      </ul>
     </div>
-  </section>
-
-  <!-- Core 1: complex layout -->
-  <section class="sec tint">
-    <div class="wrap feat">
-      <div class="reveal reveal-l">
-        <span class="k" data-en="Core 1">핵심 1</span>
-        <h2 data-en="We read complex layouts as a person would">복합 레이아웃을 사람처럼 읽습니다</h2>
-        <ul>
-          <li data-en-html="<b>Reading order</b> stays intact, even across multiple columns"><b>읽는 순서</b>를 유지합니다 — 여러 단으로 나뉜 문서에서도</li>
-          <li data-en-html="<b>Tables keep their structure</b> instead of scattering into text"><b>표 구조</b>를 그대로 살립니다 — 칸이 흩어지지 않습니다</li>
-          <li data-en-html="The document's <b>structure and hierarchy</b> are recognized first">문서의 <b>구조와 위계</b>를 먼저 인식합니다</li>
-        </ul>
-      </div>
-      <div class="vtab reveal reveal-r d1" data-ix="IMG-06" id="vtab06">
-        <div class="vtab-rail" role="tablist" aria-orientation="vertical" aria-label="복합 레이아웃 인식 예시">
-          <button class="vtab-btn on" type="button" role="tab" aria-selected="true" aria-controls="vtab06-p0" data-vt="0">01</button>
-          <button class="vtab-btn" type="button" role="tab" aria-selected="false" aria-controls="vtab06-p1" data-vt="1">02</button>
-          <button class="vtab-btn" type="button" role="tab" aria-selected="false" aria-controls="vtab06-p2" data-vt="2">03</button>
-          <button class="vtab-btn" type="button" role="tab" aria-selected="false" aria-controls="vtab06-p3" data-vt="3">04</button>
-        </div>
-        <div class="vtab-stage">
-          <img class="on" id="vtab06-p0" role="tabpanel" src="IMG/1.png?v=20260813" alt="세모점 초안 생성 화면 — 좌측 원본 학습지, 우측 26줄×32칸 점역 결과가 나란히 놓인 모습" width="1920" height="1040" loading="lazy" decoding="async">
-          <img id="vtab06-p1" role="tabpanel" src="IMG/2.png?v=20260813" alt="세모점 초안 생성 화면 — 원문 문단을 선택하면 대응하는 점역 구간이 함께 강조된 결과" width="1920" height="1040" loading="lazy" decoding="async">
-          <img id="vtab06-p2" role="tabpanel" src="IMG/3.png?v=20260813" alt="세모점 초안 생성 화면 — 본문 속 그림을 선택하면 그림 설명 점역 구간이 강조된 결과" width="1920" height="1040" loading="lazy" decoding="async">
-          <img id="vtab06-p3" role="tabpanel" src="IMG/4.png?v=20260813" alt="세모점 초안 생성 화면 — 표를 선택하면 행·칸 표기로 점역된 구간이 강조된 결과" width="1920" height="1040" loading="lazy" decoding="async">
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Core 2: visual materials -->
-  <section class="sec">
-    <div class="wrap feat alt">
-      <div class="reveal reveal-r">
-        <span class="k" data-en="Core 2">핵심 2</span>
-        <h2 data-en="We translate visual materials, too">시각 자료까지 점역합니다</h2>
-        <ul>
-          <li data-en-html="<b>Formulas</b> are recognized and turned into math braille"><b>수식</b>은 인식하여 수학 점자로 변환합니다</li>
-          <li data-en-html="<b>Images</b> are described in words so nothing is lost"><b>그림</b>은 내용을 글로 설명해 빠짐없이 전달합니다</li>
-          <li data-en-html="<b>Tables</b> come with a draft description for the reader"><b>표</b>는 읽는 사람을 위한 설명 초안까지 제공합니다</li>
-        </ul>
-      </div>
-      <div class="vtab reveal reveal-l d1" data-ix="IMG-07" id="vtab07">
-        <div class="vtab-rail" role="tablist" aria-orientation="vertical" aria-label="시각 자료 점역 예시">
-          <button class="vtab-btn on" type="button" role="tab" aria-selected="true" aria-controls="vtab07-p0" data-vt="0">01</button>
-          <button class="vtab-btn" type="button" role="tab" aria-selected="false" aria-controls="vtab07-p1" data-vt="1">02</button>
-        </div>
-        <div class="vtab-stage">
-          <img class="on" id="vtab07-p0" role="tabpanel" src="IMG/7.png?v=20260813" alt="세모점 이미지 점자 번역 화면 — 원문의 표를 선택하면 대응하는 점자 셀 구간이 강조된 결과" width="1920" height="1040" loading="lazy" decoding="async">
-          <img id="vtab07-p1" role="tabpanel" src="IMG/7-2.png?v=20260813" alt="세모점 대체 텍스트 선택 창 — 그림 설명을 생략·짧은 제목·개조식 설명 중에서 고르는 화면" width="1920" height="1040" loading="lazy" decoding="async">
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Editor + flow -->
-  <section class="sec tint">
-    <div class="wrap feat">
-      <div class="reveal reveal-l">
-        <span class="k" data-en="Expert-first">점역사 중심</span>
-        <h2 data-en="Original and draft, side by side" style="font-size:clamp(26px,3.4vw,38px)">원본과 초안을 나란히, 분할 뷰 에디터</h2>
-        <ul>
-          <li data-en-html="<b>Original on the left, AI draft on the right</b>, compared side by side"><b>좌측 원본·우측 AI 초안</b>을 나란히 비교합니다</li>
-          <li data-en-html="Click a region and <b>matching spans highlight together</b>">클릭하면 <b>대응 구간이 함께 강조</b>됩니다</li>
-          <li data-en-html="Add content or <b>rearrange blocks</b>, then confirm — the expert stays in control">내용을 더하거나 <b>블록을 옮겨</b> 점역사가 직접 확정합니다</li>
-        </ul>
-      </div>
-      <div class="vtab reveal reveal-r d1" data-ix="IMG-08" id="vtab08">
-        <div class="vtab-rail" role="tablist" aria-orientation="vertical" aria-label="분할 뷰 에디터 예시">
-          <button class="vtab-btn on" type="button" role="tab" aria-selected="true" aria-controls="vtab08-p0" data-vt="0">01</button>
-          <button class="vtab-btn" type="button" role="tab" aria-selected="false" aria-controls="vtab08-p1" data-vt="1">02</button>
-        </div>
-        <div class="vtab-stage">
-          <img class="on" id="vtab08-p0" role="tabpanel" src="IMG/8.png?v=20260813" alt="세모점 분할 뷰 에디터 — 좌측 원본 PDF, 우측 점역 결과가 나란히 놓인 화면" width="1920" height="1040" loading="lazy" decoding="async">
-          <img id="vtab08-p1" role="tabpanel" src="IMG/8-2.png?v=20260813" alt="세모점 분할 뷰 에디터 — 원문의 점역자주 구간을 선택하면 대응하는 점자 구간이 함께 강조된 화면" width="1920" height="1040" loading="lazy" decoding="async">
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Modes -->
-  <section class="sec">
-    <div class="wrap">
-      <div class="h-left reveal"><h2 data-en="Processing modes">처리 모드</h2></div>
-      <div class="modes">
-        <div class="mode reveal">
-          <div class="imgph swap" data-ix="IMG-09" tabindex="0" role="img" aria-label="원문 정리 모드 — 원본 문서(기본), 정리된 텍스트(마우스 올림)">
-            <div class="lay lay-1"><img src="IMG/9-1.png?v=20260813" alt="원문 정리 전 — 수식·표·이미지가 섞인 원본 문서" width="652" height="278" loading="lazy" decoding="async"></div>
-            <div class="lay lay-2"><pre class="fit doc" aria-hidden="true">&lt;!표윗테두리&gt;
-  관련 법령: 「감염병 예방 및 관리에 관한 법률」 제33조의4 및 동법 시행령 제32조의3
-  1. 예방접종 안내에 따라 코로나19 예방접종에 동의합니다. &lt;!네모빈칸&gt; 예 &lt;!네모빈칸&gt; 아니오
-  * 접종에 대한 동의는 학생 및 법정 대리인(보호자) 모두의 동의로 간주합니다.
-  2. 예방접종 대상자 인적사항
-  성명  &lt;!표빈칸&gt;
-  주민등록번호(외국인등록번호)  &lt;!표빈칸&gt;
-  전화번호 (휴대전화)  &lt;!표빈칸&gt;
-  * 학생 본인 휴대전화 없을 경우 법정 대리인(보호자) 휴대전화 번호 입력
-&lt;!표아랫테두리&gt;
-
-  본인 성명: (인 또는 서명)
-  법정대리인(보호자 성명): (인 또는 서명)</pre></div>
-            <span class="hint" aria-hidden="true" data-en="See result ›">결과 보기 ›</span>
-          </div>
-          <div class="body"><h3 data-en="Document cleanup">원문 정리</h3><p data-en="Turn documents with formulas, tables and images into clean text an expert can read and review.">수식·표·이미지가 섞인 문서를, 점역사가 읽고 검토할 수 있는 텍스트로 정리합니다.</p><span class="io">PDF·HWP·IMG → TXT</span></div>
-        </div>
-        <div class="mode reveal d1">
-          <div class="imgph swap" data-ix="IMG-10" tabindex="0" role="img" aria-label="점자 파일 생성 모드 — TXT 원문(기본), 생성된 점자 파일(마우스 올림)">
-            <div class="lay lay-1"><pre class="fit doc" aria-hidden="true">&lt;!표윗테두리&gt;
-  관련 법령: 「감염병 예방 및 관리에 관한 법률」 제33조의4 및 동법 시행령 제32조의3
-  1. 예방접종 안내에 따라 코로나19 예방접종에 동의합니다. &lt;!네모빈칸&gt; 예 &lt;!네모빈칸&gt; 아니오
-  * 접종에 대한 동의는 학생 및 법정 대리인(보호자) 모두의 동의로 간주합니다.
-  2. 예방접종 대상자 인적사항
-  성명  &lt;!표빈칸&gt;
-  주민등록번호(외국인등록번호)  &lt;!표빈칸&gt;
-  전화번호 (휴대전화)  &lt;!표빈칸&gt;
-  * 학생 본인 휴대전화 없을 경우 법정 대리인(보호자) 휴대전화 번호 입력
-&lt;!표아랫테두리&gt;
-
-  본인 성명: (인 또는 서명)
-  법정대리인(보호자 성명): (인 또는 서명)</pre></div>
-            <div class="lay lay-2"><pre class="fit braille" aria-hidden="true">⠿⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠿
-⠀⠀⠈⠧⠒⠐⠡⠀⠘⠎⠃⠐⠻⠐⠂⠀⠐⠦⠫⠢⠱⠢⠘⠻⠀⠌⠘⠶⠀⠑⠕⠆
-⠈⠧⠒⠐⠕⠝⠀⠈⠧⠒⠚⠒⠀⠘⠎⠃⠐⠩⠂⠴⠂⠀⠨⠝⠼⠉⠉⠨⠥⠺⠼⠙
-⠑⠕⠆⠀⠊⠿⠘⠎⠃⠀⠠⠕⠚⠗⠶⠐⠻⠀⠨⠝⠼⠉⠃⠨⠥⠺⠼⠉⠀⠀⠀⠀
-⠀⠀⠼⠁⠲⠀⠌⠘⠶⠨⠎⠃⠨⠿⠀⠣⠒⠉⠗⠝⠀⠠⠊⠐⠣⠀⠋⠥⠐⠥⠉⠀
-⠼⠁⠊⠀⠌⠘⠶⠨⠎⠃⠨⠿⠝⠀⠊⠿⠺⠚⠃⠉⠕⠊⠲⠀⠸⠦⠀⠴⠇⠌⠀⠀
-⠸⠦⠀⠴⠇⠇⠣⠉⠕⠥⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠐⠔⠀⠨⠎⠃⠨⠿⠝⠀⠊⠗⠚⠒⠀⠊⠿⠺⠉⠵⠀⠚⠁⠠⠗⠶⠀⠑⠕⠆
-⠘⠎⠃⠨⠻⠀⠊⠗⠐⠕⠟⠦⠄⠘⠥⠚⠥⠨⠠⠴⠀⠑⠥⠊⠍⠺⠀⠊⠿⠺⠐⠥
-⠫⠒⠨⠍⠚⠃⠉⠕⠊⠲⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠼⠃⠲⠀⠌⠘⠶⠨⠎⠃⠨⠿⠀⠊⠗⠇⠶⠨⠀⠟⠨⠹⠇⠚⠶⠀⠀⠀⠀⠀
-⠀⠀⠠⠻⠑⠻⠀⠀⠿⠿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠨⠍⠑⠟⠊⠪⠶⠐⠭⠘⠾⠚⠥⠦⠄⠽⠈⠍⠁⠟⠊⠪⠶⠐⠭⠀⠀⠀⠀⠀
-⠘⠾⠚⠥⠠⠴⠀⠀⠿⠿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠨⠾⠚⠧⠘⠾⠚⠥⠀⠦⠄⠚⠩⠊⠗⠨⠾⠚⠧⠠⠴⠀⠀⠿⠿⠀⠀⠀⠀⠀
-⠀⠀⠐⠔⠀⠚⠁⠠⠗⠶⠀⠘⠷⠟⠀⠚⠩⠊⠗⠨⠾⠚⠧⠀⠎⠃⠄⠮⠀⠈⠻⠍
-⠘⠎⠃⠨⠻⠀⠊⠗⠐⠕⠟⠦⠄⠘⠥⠚⠥⠨⠠⠴⠀⠚⠩⠊⠗⠨⠾⠚⠧⠀⠀⠀
-⠘⠾⠚⠥⠀⠕⠃⠐⠱⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠷⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠿
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠘⠷⠟⠀⠠⠻⠑⠻⠐⠂⠀⠦⠄⠟⠀⠠⠊⠥⠉⠵⠀⠠⠎⠑⠻⠠⠴⠀⠀⠀
-⠀⠀⠘⠎⠃⠨⠻⠊⠗⠐⠕⠟⠦⠄⠘⠥⠚⠥⠨⠀⠠⠻⠑⠻⠠⠴⠐⠂⠀⠀⠀⠀
-⠦⠄⠟⠀⠠⠊⠥⠉⠵⠀⠠⠎⠑⠻⠠⠴⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</pre></div>
-            <span class="hint" aria-hidden="true" data-en="See result ›">결과 보기 ›</span>
-          </div>
-          <div class="body"><h3 data-en="Braille file">점자 파일 생성</h3><p data-en="Convert reviewed text into a standard braille file.">검토를 마친 텍스트를 표준 점자 파일로 변환합니다.</p><span class="io">TXT → BRF</span></div>
-        </div>
-        <div class="mode reveal d2">
-          <div class="imgph swap" data-ix="IMG-11" tabindex="0" role="img" aria-label="원클릭 문서 점역 모드 — 원본 문서(기본), 점자 파일(마우스 올림)">
-            <div class="lay lay-1"><img src="IMG/11-1.png?v=20260813" alt="원클릭 점역 전 — 원본 문서" width="279" height="196" loading="lazy" decoding="async"></div>
-            <div class="lay lay-2"><pre class="fit braille" aria-hidden="true">⠀⠀⠠⠄⠚⠪⠐⠪⠢⠊⠥⠝⠀⠙⠬⠚⠡⠊⠽⠒⠀⠊⠥⠚⠻⠮⠀⠀⠀⠀⠀⠀
-⠊⠣⠪⠢⠈⠧⠀⠫⠦⠕⠀⠨⠎⠢⠱⠁⠚⠢⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠈⠫⠗⠐⠂⠀⠨⠕⠁⠇⠫⠁⠚⠻⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠈⠫⠙⠐⠂⠀⠑⠐⠪⠢⠑⠥⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠒⠕⠐⠂⠀⠥⠐⠵⠠⠨⠭⠀⠚⠧⠇⠂⠙⠬⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠈⠫⠊⠕⠐⠂⠀⠣⠐⠗⠄⠘⠡⠕⠀⠑⠯⠈⠳⠀⠑⠥⠜⠶⠀⠀⠀⠀⠀⠀
-⠨⠕⠁⠇⠫⠁⠚⠻⠠⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠿⠛⠛⠛⠛⠀⠘⠎⠢⠐⠌⠀⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠛⠿
-⠀⠀⠈⠫⠗⠐⠂⠀⠰⠯⠘⠂⠀⠨⠥⠈⠾⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠈⠫⠙⠐⠂⠀⠙⠒⠊⠒⠀⠉⠗⠬⠶⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠒⠕⠐⠂⠀⠙⠒⠊⠒⠀⠘⠶⠚⠜⠶⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠈⠫⠊⠕⠐⠂⠀⠇⠇⠶⠫⠺⠀⠕⠃⠨⠶⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠿⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠶⠿
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠼⠁⠈⠫⠗⠀⠫⠃⠐⠀⠮⠐⠀⠘⠻⠺⠀⠕⠃⠨⠶⠮⠀⠓⠢⠈⠍⠚⠒⠊⠲⠀
-⠼⠃⠈⠫⠙⠀⠴⠠⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠒⠕⠀⠣⠉⠕⠬⠀⠒⠕⠀⠼⠉⠈⠫⠙⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠒⠕⠀⠌⠀⠒⠕⠀⠼⠋⠈⠫⠊⠕⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠼⠉⠈⠫⠙⠀⠴⠠⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠒⠕⠀⠌⠀⠒⠕⠀⠼⠙⠈⠫⠙⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠒⠕⠀⠣⠉⠕⠥⠀⠒⠕⠀⠼⠑⠈⠫⠙⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠼⠙⠈⠫⠙⠀⠴⠠⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠒⠕⠀⠌⠀⠒⠕⠀⠼⠛⠈⠫⠊⠕⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠼⠑⠈⠫⠙⠀⠴⠠⠙⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠒⠕⠀⠌⠀⠒⠕⠀⠼⠓⠈⠫⠊⠕⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠼⠋⠈⠫⠊⠕⠀⠫⠃⠺⠀⠕⠃⠨⠶⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠼⠛⠈⠫⠊⠕⠀⠮⠺⠀⠕⠃⠨⠶⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⠼⠓⠈⠫⠊⠕⠀⠘⠻⠺⠀⠕⠃⠨⠶⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</pre></div>
-            <span class="hint" aria-hidden="true" data-en="See result ›">결과 보기 ›</span>
-          </div>
-          <div class="body"><h3 data-en="One-click braille">원클릭 문서 점역</h3><p data-en="From a single upload to a finished braille file in one pass.">업로드 한 번으로, 문서를 점자 파일까지 한 번에 점역합니다.</p><span class="io">PDF·HWP·IMG → BRF</span></div>
-        </div>
-      </div>
-      <div class="note reveal" data-en-html="Output comes as standard <b>TXT and BRF</b> files — compatible with braille embossers and braille displays.">결과물은 표준 <b>TXT·BRF</b> 파일로 출력되어, 점자 프린터·점자정보단말기와 그대로 호환됩니다.</div>
-    </div>
-  </section>
-
-  <!-- Data flywheel (visual) -->
-  <section class="sec tint">
-    <div class="wrap">
-      <div class="flyrap">
-        <div class="fly reveal reveal-l">
-          <div class="ring"></div>
-          <div class="ring2"></div>
-          <div class="hub"><div><div class="big">↻</div><span data-en="Your rules, kept">정한 방식대로<br>늘 같게</span></div></div>
-          <div class="flyn t"><div class="n">1</div><h4 data-en="AI draft">AI 초안 제공</h4><p data-en="Semojum drafts it.">세모점이 초안 생성</p></div>
-          <div class="flyn r"><div class="n">2</div><h4 data-en="Expert edits">점역사 편집</h4><p data-en="The expert refines it.">점역사가 검토·수정</p></div>
-          <div class="flyn b"><div class="n">3</div><h4 data-en="Saved settings">방식 저장</h4><p data-en="Your rules are stored.">조판·표기 규칙 저장</p></div>
-          <div class="flyn l"><div class="n">4</div><h4 data-en="Consistent output">같은 결과 유지</h4><p data-en="Every job follows it.">다음 작업도 같은 규칙</p></div>
-        </div>
-        <div class="perso reveal reveal-r d1">
-          <span class="k" data-en="Your own rules">우리 방식대로</span>
-          <h2 data-en-html="Set it once — <span class='grad'>every job follows.</span>">한 번 정해 두면<br><span class="grad">언제나 같은 결과</span></h2>
-          <p data-en="Braille conventions differ by organization and by project. Save your typesetting and notation rules once, and every new job starts from them — even when the person changes.">점자 표현과 조판 방식은 기관마다, 또 작업마다 다릅니다. 면 규격·페이지행·테두리 같은 규칙을 한 번 정해 두면 새 작업이 그 값에서 시작합니다. 담당자가 바뀌어도 결과가 흔들리지 않습니다.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
-
-<!-- ================= ABOUT ================= -->
-<div class="page" id="p-about">
-  <!-- Vision / Mission first -->
-  <section class="sec" style="padding-top:clamp(72px,9vw,104px)">
-    <div class="wrap">
-      <div class="h-left reveal"><h2 data-en="About Semojum">회사 소개</h2></div>
-      <div class="vm" style="margin-top:clamp(28px,4vw,40px)">
-        <div class="vmc reveal reveal-l"><span class="l" data-en="Mission">MISSION</span><h2 data-en="We lower the barrier to information with technology.">정보 접근의 장벽을 기술로 낮춥니다</h2></div>
-        <div class="vmc reveal reveal-r d1"><span class="l" data-en="Vision">VISION</span><h2 data-en="A world where the form of information never decides who can access it.">정보의 형태가 접근성을 결정하지 않는 세상</h2></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Why we started (interview-style prose) -->
-  <section class="sec tint">
-    <div class="wrap">
-      <div class="story">
-        <div class="q reveal" data-en-html="“Why braille — and <span class='grad'>why now?</span>”">“우리는 왜 <span class="grad">점자</span>를 선택했을까요?”</div>
-        <div class="body reveal d1">
-          <p data-en-html="It began with one sentence: <b>“there's nothing to read.”</b> Only about 5% of publications are ever made in braille, and once a formula or a table appears, a single book can take months. Technology had come a long way — yet the speed at which information reaches the fingertips had barely moved.">시작은 한 문장이었습니다. <b>“읽을 자료가 없다.”</b> 점자로 만들어지는 자료는 전체의 5%뿐이고, 수식이나 표가 들어가면 책 한 권을 옮기는 데 몇 달이 걸리기도 합니다. 기술은 이만큼 발전했는데, 정보가 손끝에 닿는 속도만 좀처럼 달라지지 않았습니다.</p>
-          <p data-en-html="Studying robotics, AI and software, we came to believe that <b>the harder the problem, the more it needs a proper tool.</b> The heart of braille translation is human expertise. But if experts must also carry every repetitive step — splitting documents, fixing formats — the speed can never change.">로봇과 AI, 소프트웨어를 공부하면서 우리는 <b>어려운 문제일수록 제대로 된 도구가 필요하다</b>고 믿게 됐습니다. 점역의 핵심은 사람의 전문성입니다. 다만 문서를 나누고 형식을 맞추는 반복 작업까지 점역사가 모두 떠안는다면, 속도는 끝내 달라질 수 없었습니다.</p>
-          <p data-en-html="So we are building Semojum. When AI takes the first draft and the expert focuses on judgment, <b>more information reaches more fingertips, faster.</b> A world where the form of information doesn't decide who gets to read it — that is where we are headed.">그래서 세모점을 만듭니다. AI가 초안을 맡고 점역사가 판단에 집중하면, <b>더 많은 정보가 더 빠르게 손끝에 닿습니다.</b> 정보의 형태가 누가 읽을 수 있는지를 결정하지 않는 세상, 우리가 가려는 곳입니다.</p>
-        </div>
-        <div class="sign reveal d2" data-en="— The Semojum team">— 세모점 팀</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Validation: MOU -->
-  <section class="sec">
-    <div class="wrap">
-      <div class="h-left reveal"><h2 data-en="Validated in the field">현장에서 검증하고 있습니다</h2></div>
-      <div class="mou reveal">
-        <div class="imgph real"><img src="IMG/IMG_12.JPG?v=20260813" alt="한국점자도서관 로고" width="177" height="143" loading="lazy" decoding="async"></div>
-        <div>
-          <div class="kind" data-en="Partnership · MOU">협약 · MOU</div>
-          <h3 data-en="Korea Braille Library">한국점자도서관 업무협약</h3>
-          <p data-en="An MOU for braille-translation advisory and PoC, with on-site testing by working braille experts.">점자 번역 자문·PoC를 위한 업무협약을 맺고, 현장 점역사가 직접 참여하는 실무 테스트를 진행하고 있습니다.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Awards -->
-  <section class="sec tint">
-    <div class="wrap">
-      <div class="h-left reveal"><h2 data-en="Awards & programs">수상 · 선정 이력</h2></div>
-      <div class="atime">
-        <div class="arow reveal">
-          <div class="yr">2026</div>
-          <div class="ent">
-            <div class="aitem"><span class="nm">SKT FLY AI 챌린저</span><span class="rs" data-en="Excellence Award">우수상</span></div>
-            <div class="aitem"><span class="nm">U300</span><span class="rs sel" data-en="Selected">진출</span><span class="rs ing" data-en="In progress">진행중</span></div>
-            <div class="aitem"><span class="nm">아산두어스</span><span class="rs sel" data-en="Selected">진출</span><span class="rs ing" data-en="In progress">진행중</span></div>
-            <div class="aitem"><span class="nm">모두의창업</span><span class="rs sel" data-en="Selected">진출</span><span class="rs ing" data-en="In progress">진행중</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-</div>
-
-<!-- ================= CONTACT ================= -->
-<div class="page" id="p-contact">
-  <section class="sec center">
-    <div class="wrap">
-      <h2 class="reveal" data-en="Get in touch">문의하기</h2>
-      <p class="lead reveal d1 mt-s" data-en="Tell us about your organization — adoption, a demo, or a partnership.">도입·시연·협업 무엇이든 남겨 주세요.</p>
-      <div class="ccard reveal d2" style="margin-top:clamp(40px,6vw,52px)">
-        <div style="font-size:12px;font-weight:800;color:var(--mute);letter-spacing:.06em" data-en="INQUIRY">문의</div>
-        <p class="mut" style="font-size:14.5px" data-en="Fill this in and we'll reply within 2 business days.">아래를 남겨 주시면 영업일 기준 2일 안에 답변드립니다.</p>
-        <form class="cform" id="cform" novalidate>
-          <div><label for="cf-name" data-en="Name">이름</label><input id="cf-name" name="name" autocomplete="name" maxlength="50"></div>
-          <div><label for="cf-org" data-en="Organization">소속 기관</label><input id="cf-org" name="org" autocomplete="organization"></div>
-          <div><label for="cf-mail" data-en="Email">이메일</label><input id="cf-mail" name="email" type="email" autocomplete="email" maxlength="100"></div>
-          <div><label for="cf-type" data-en="Type">문의 유형</label>
-            <select id="cf-type" name="type">
-              <option value="ONBOARDING" data-en="Adoption">도입 문의</option>
-              <option value="ONBOARDING" data-en="Demo request">시연 요청</option>
-              <option value="ETC" data-en="Partnership">협업 제안</option>
-              <option value="ERROR_REPORT" data-en="Bug report">오류 신고</option>
-              <option value="ETC" data-en="Other">기타</option>
-            </select></div>
-          <div class="fw"><label for="cf-msg" data-en="Message">문의 내용</label><textarea id="cf-msg" name="msg" maxlength="1800"></textarea></div>
-          <label class="agree fw"><input type="checkbox" id="cf-ok" style="width:auto"><span data-en="I agree to the collection and use of my information for this inquiry. (required)">문의 응대를 위한 개인정보 수집·이용에 동의합니다. (필수)</span></label>
-          <div class="hp" aria-hidden="true"><label for="cf-hp">Website</label><input id="cf-hp" name="website" type="text" tabindex="-1" autocomplete="off"></div>
-          <button type="submit" class="btn btn-pri fw" style="width:100%" data-en="Send">보내기</button>
-        </form>
-        <p class="cf-status" id="cf-status" role="status" aria-live="polite"></p>
-        <p class="mut" style="font-size:13px;margin-top:14px" data-en-html="Or email us directly at <b>contact@semo-jum.com</b>.">메일로 바로 보내셔도 됩니다 — <b>contact@semo-jum.com</b></p>
-      </div>
-    </div>
-  </section>
-</div>
-
-<!-- FOOTER -->
-<footer>
-  <div class="wrap">
-    <div class="fr">
-      <div><div class="fl"><img class="brandmark" src="IMG/logo-wordmark.png?v=20260813" alt="세모점" width="1642" height="652" loading="lazy" decoding="async"></div><p class="fm" data-en="AI braille translation editor for complex documents.">복합 문서를 위한 AI 점자 번역 에디터</p></div>
-      <div class="fnav">
-        <button class="nav-go" data-go="p-solution" data-en="Solution">솔루션</button>
-        <button class="nav-go" data-go="p-about" data-en="About">회사 소개</button>
-        <button class="nav-go" data-go="p-contact" data-en="Contact">도입 문의</button>
-        <a href="#" data-en="Privacy">개인정보처리방침</a>
-      </div>
-    </div>
-    <hr>
-    <div class="fr" style="align-items:flex-start">
-      <p class="fm" data-en-html="Semojum · CEO Kim Tae-min<br>180 Yeoksam-ro, Gangnam-gu, Seoul · contact@semo-jum.com">세모점 · 대표 김태민<br>서울시 강남구 역삼로 180 · contact@semo-jum.com</p>
-      <p class="fm">© 2026 semojum. All rights reserved.</p>
     </div>
   </div>
-</footer>
+</div>
+</section>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script>
-  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
-  var gsapOK=!reduce && window.gsap && window.ScrollTrigger;
-  if(gsapOK) gsap.registerPlugin(ScrollTrigger);
 
-  var revealTriggers=[];
-  function fallbackReveal(scope){
-    scope.querySelectorAll('.reveal:not(.in)').forEach(function(r){
-      var b=r.getBoundingClientRect(); if(b.top<innerHeight*0.92&&b.bottom>0) r.classList.add('in');
-    });
-  }
-  function setupReveal(scope){
-    if(!gsapOK){ fallbackReveal(scope); return; }
-    revealTriggers.forEach(function(t){t.kill&&t.kill()}); revealTriggers=[];
-    var els=gsap.utils.toArray(scope.querySelectorAll('.reveal'));
-    els.forEach(function(el){
-      var x=el.classList.contains('reveal-l')?-34:el.classList.contains('reveal-r')?34:0;
-      gsap.set(el,{autoAlpha:0,x:x,y:x?0:30});
-    });
-    revealTriggers=ScrollTrigger.batch(els,{
-      start:'top 90%', once:true,
-      onEnter:function(b){gsap.to(b,{autoAlpha:1,x:0,y:0,duration:.85,ease:'power3.out',stagger:.09,overwrite:true})}
-    });
-    ScrollTrigger.refresh();
-  }
 
-  function jumpTop(){
-    var de=document.documentElement, prev=de.style.scrollBehavior;
-    de.style.scrollBehavior='auto';
-    window.scrollTo(0,0);
-    de.style.scrollBehavior=prev;
-  }
-  function go(id){
-    document.querySelectorAll('.page').forEach(function(p){p.classList.remove('active')});
-    var el=document.getElementById(id); if(el) el.classList.add('active');
-    document.querySelectorAll('.nav-link').forEach(function(t){t.classList.toggle('active',t.dataset.go===id)});
-    // 페이지를 갈아끼우면 문서 높이가 즉시 바뀐다. 부드러운 스크롤은 그 과정에서 취소되거나
-    // 짧아진 문서 높이에 맞춰 잘려서 중간에 멈춘다. 푸터에서 눌러도 확실히 맨 위로 가도록,
-    // html의 scroll-behavior:smooth를 잠시 끄고 즉시 이동시킨다.
-    jumpTop();
-    requestAnimationFrame(function(){ var h=el.querySelector('.hero'); if(h) h.classList.add('show'); setupReveal(el); jumpTop(); });
-    if(window.__fitSwap){ setTimeout(window.__fitSwap,0); setTimeout(window.__fitSwap,220); }
-  }
-  document.querySelectorAll('.nav-go').forEach(function(b){b.addEventListener('click',function(){go(b.dataset.go)})});
+<!-- 4. 한 화면 -->
+<section id="how" class="sunk">
+<div class="in">
+  <h2 class="rv" data-en="<em>Proofreading, transcription and correction</em> in one program."><em>교열, 점역, 교정</em>까지 하나의 프로그램으로</h2>
+  <figure class="plate rv d1 gap">
+    <img src="assets/app-editor.jpg" alt="누리닷 편집 화면. 왼쪽에 원본 지면, 가운데 교열 결과, 오른쪽에 점자." width="1920" height="1040" loading="lazy" decoding="async">
+  </figure>
+  <h3 class="prtitle rv" data-en="How a braille book is made">점자책 제작 과정</h3>
+  <div class="proc rv">
+    <span class="pr-band"><img src="assets/logo.svg" alt="누리닷" width="104" height="25"></span>
+    <ol class="pr-row">
+      <li><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L7 9m5-5 5 5"/><path d="M4 17v2a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-2"/></svg></span><span class="stem"></span><div class="ch"><b>01</b><span data-en="Upload">파일 업로드</span></div></li>
+      <li class="ai"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14v16H5z"/><path d="M8 9h6M8 13h8M8 17h4"/><path d="m15.5 8.5 2 2 3.5-3.5"/></svg></span><span class="stem"></span><div class="ch"><b>02</b><span data-en="Proofreading">교열</span></div></li>
+      <li class="ai"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="7" r="1.3"/><circle cx="8" cy="12" r="1.3"/><circle cx="8" cy="17" r="1.3"/><circle cx="15" cy="7" r="1.3"/><circle cx="15" cy="17" r="1.3"/></svg></span><span class="stem"></span><div class="ch"><b>03</b><span data-en="Transcription">점역</span></div></li>
+      <li class="ai"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16v14H4z"/><path d="M11 5v14M4 10h7"/></svg></span><span class="stem"></span><div class="ch"><b>04</b><span data-en="Layout">조판</span></div></li>
+      <li class="ai"><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5"/><path d="m8.6 11 1.8 1.8 3-3.4"/></svg></span><span class="stem"></span><div class="ch"><b>05</b><span data-en="Proofing">교정</span></div></li>
+      <li><span class="ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9V4h10v5"/><path d="M5 9h14a1 1 0 0 1 1 1v6h-4v4H8v-4H4v-6a1 1 0 0 1 1-1z"/></svg></span><span class="stem"></span><div class="ch"><b>06</b><span data-en="Printing and binding">출력 및 제본</span></div></li>
+    </ol>
+  </div>
+</div>
+</section>
 
-  var navw=document.getElementById('navw');
-  addEventListener('scroll',function(){navw.classList.toggle('stuck',scrollY>8)},{passive:true});
+<!-- 5. 네 가지 -->
+<section id="what">
+<div class="in">
+  <h2 class="rv" data-en="Core features">누리닷 핵심 기능</h2>
+  <div class="list" id="steps">
+      <div class="st on" data-i="0"><span class="n">01</span>
+        <h3 data-en="Proofreading">교열</h3>
+        <p data-en="Until now you fixed spacing, punctuation and symbols by hand before any braille. Nuridot finishes that at the print stage.">지금까지는 점자로 바꾸기 전에 띄어쓰기와 문장부호와 기호를 손으로 먼저 고쳐 놓아야 했습니다. 누리닷은 그 일을 묵자 단계에서 끝냅니다.</p></div>
+      <div class="st" data-i="1"><span class="n">02</span>
+        <h3 data-en="Figures and graphs">시각 자료</h3>
+        <p data-en="Writing one figure out in words takes the longest. Nuridot brings back several drafts, up to eight by kind, and you pick one.">그림 하나를 글로 풀어 쓰는 데 가장 오래 걸립니다. 누리닷은 설명을 붙인 안과 생략한 안을 함께 내고, 자료 종류에 따라 최대 여덟 안 가운데 고르시게 합니다.</p></div>
+      <div class="st" data-i="2"><span class="n">03</span>
+        <h3 data-en="Multi-column layouts">다단 레이아웃</h3>
+        <p data-en="Columns, boxes and footnotes used to be untangled by hand. Nuridot separates them and puts them back in the order a person reads.">단과 상자와 각주가 섞인 지면은 순서를 손으로 풀어야 했습니다. 누리닷은 그 요소들을 갈라내고 사람이 읽는 순서대로 다시 세웁니다.</p></div>
+      <div class="st" data-i="3"><span class="n">04</span>
+        <h3 data-en="Formulas and symbols">수식과 특수기호</h3>
+        <p data-en="These often came out wrong and had to be typed cell by cell. Nuridot shows the clause and the place in the source behind every cell.">수식과 특수기호는 제대로 안 나와 칸 단위로 직접 입력하곤 했습니다. 누리닷은 점형마다 근거가 된 규정 조항과 원본 위치를 함께 보여 줍니다.</p></div>
+    </div>
+</div>
+<div class="viz" id="viz">
+      <figure class="on" data-i="0"><img src="assets/ui-text.png" alt="누리닷 편집 화면. 왼쪽에 원본 지면, 오른쪽에 교열을 마친 글이 줄 단위로 놓여 있다." width="1920" height="813" loading="lazy"></figure>
+      <figure data-i="1"><img src="assets/ui-alt.png" alt="대체 초안 창. 표를 점자로 옮기는 다섯 가지 안을 고르고, 묵자와 점자를 나란히 확인한다." width="1920" height="813" loading="lazy"></figure>
+      <figure data-i="2"><img src="assets/ui-source.png" alt="왼쪽은 두 단으로 짜인 원본 지면, 오른쪽은 읽는 순서대로 다시 세운 글." width="1920" height="815" loading="lazy"></figure>
+      <figure data-i="3"><img src="assets/ui-braille.png" alt="수식 편집기. 묵자 수식과 점자 수식, LaTeX 원문을 한 창에서 본다." width="1920" height="812" loading="lazy"></figure>
+    </div>
+</section>
 
-  function setLang(lang){
-    document.querySelectorAll('[data-en],[data-en-html]').forEach(function(el){
-      if(el.dataset.ko===undefined && el.dataset.koHtml===undefined){
-        if(el.dataset.enHtml!==undefined) el.dataset.koHtml=el.innerHTML; else el.dataset.ko=el.textContent;
-      }
-      if(lang==='en'){
-        if(el.dataset.enHtml!==undefined) el.innerHTML=el.dataset.enHtml;
-        else if(el.dataset.en!==undefined) el.textContent=el.dataset.en;
-      }else{
-        if(el.dataset.koHtml!==undefined) el.innerHTML=el.dataset.koHtml;
-        else if(el.dataset.ko!==undefined) el.textContent=el.dataset.ko;
-      }
-    });
-    document.documentElement.lang=lang;
-    document.querySelectorAll('.lang button').forEach(function(b){b.classList.toggle('on',b.dataset.lang===lang)});
-    if(gsapOK) ScrollTrigger.refresh();
-  }
-  document.querySelectorAll('.lang button').forEach(function(b){b.addEventListener('click',function(){setLang(b.dataset.lang)})});
+<!-- 다운로드 -->
+<section id="download" class="dlsec">
+<div class="in">
+  <img class="mark rv" src="assets/favicon.svg" alt="" width="56" height="56">
+  <h2 class="rv" data-en="Download for desktop">데스크톱용 다운로드</h2>
+  <p class="sub rv" data-en="Transcription runs offline. Proofreading needs a network connection.">점역 프로그램은 오프라인, 교열은 온라인 연결이 필요합니다.</p>
+  <p class="os rv d1"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5.6 10.2 4.6v6.6H3zM11.4 4.4 21 3v8.2h-9.6zM3 12.4h7.2V19L3 18zM11.4 12.4H21V21l-9.6-1.4z"/></svg><b>Windows</b> <span data-en="10 · 11 (64-bit)">10 · 11 (64비트)</span></p>
+  <p class="acts2 rv d1"><a class="btn cta lg" id="dl2" href="https://github.com/nuridot/Semojum/releases/latest/download/Semojum-win-x64.msi" data-en="Download">다운로드하기</a></p>
+</div>
+<figure class="win rv d2">
+  <span class="bar"><i></i><i></i><i></i></span>
+  <img class="shot" src="assets/app-upload.jpg" alt="누리닷 첫 화면. 교재 파일을 올리는 자리." width="1920" height="1035" loading="lazy">
+</figure>
+</section>
 
-  var active=document.querySelector('.page.active');
-  requestAnimationFrame(function(){ var h=document.querySelector('#p-home .hero'); if(h) h.classList.add('show'); setupReveal(active); });
-  if(!gsapOK){ addEventListener('scroll',function(){fallbackReveal(document.querySelector('.page.active'))},{passive:true}); }
 
-  if(gsapOK){
-    gsap.to('#p-home .hero .aurora',{yPercent:26,ease:'none',scrollTrigger:{trigger:'#p-home .hero',start:'top top',end:'bottom top',scrub:true}});
-    gsap.to('#p-solution .hero .aurora',{yPercent:26,ease:'none',scrollTrigger:{trigger:'#p-solution .hero',start:'top top',end:'bottom top',scrub:true}});
-  }
 
-  function countUp(el){
-    var raw=el.getAttribute('data-target'); if(raw===null) return;
-    var dec=+(el.getAttribute('data-dec')||0), suf=el.getAttribute('data-suffix')||'', target=parseFloat(raw);
-    function set(v){el.textContent=(dec?v.toFixed(dec):Math.round(v))+suf;}
-    if(reduce){set(target);return;}
-    var t0=performance.now(),dur=1300;
-    function step(t){var p=Math.min(1,(t-t0)/dur);p=1-Math.pow(1-p,3);set(target*p);if(p<1)requestAnimationFrame(step);else set(target);}
-    requestAnimationFrame(step);
-  }
-  var cio=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){countUp(e.target);cio.unobserve(e.target)}})},{threshold:0.6});
-  document.querySelectorAll('[data-target]').forEach(function(el){cio.observe(el)});
+<!-- 8. 현장의 말 -->
+<div class="scene np" id="s4"><img class="sc" src="assets/scene-fingers.jpg" alt="두 손이 펼친 점자 지면 위에 놓여 있다" width="1760" height="880" loading="lazy" decoding="async"></div>
+<div class="quote"><div class="in">
+  <div class="qs">
+    <blockquote class="rv"><p data-en="&ldquo;A T-shaped valley sounds natural to someone who has seen the shape. To someone who never has, it only makes it harder.&rdquo;">“‘T자형 계곡’은 그 모양을 본 사람에게나 자연스럽습니다. 본 적 없는 사람에게는 더 어려워집니다.”</p><cite data-en="A field transcriber">현장 점역사</cite></blockquote>
+    <blockquote class="rv d1"><p data-en="&ldquo;The biggest problem with AI descriptions is that they go on too long.&rdquo;">“AI 설명의 가장 큰 문제는 지나치게 장황하다는 것입니다.”</p><cite data-en="A field transcriber">현장 점역사</cite></blockquote>
+  </div>
+</div></div>
 
-  // Vertical tab galleries: click + auto-advance, pauses on hover/focus
-  document.querySelectorAll('.vtab').forEach(function(vt){
-    var btns=vt.querySelectorAll('.vtab-btn'), imgs=vt.querySelectorAll('.vtab-stage img');
-    var n=btns.length, cur=0, timer=null, DUR=3500;
-    if(!n) return;
-    function show(i){
-      cur=(i+n)%n;
-      for(var k=0;k<n;k++){
-        var on=k===cur;
-        btns[k].classList.toggle('on',on); btns[k].setAttribute('aria-selected',on?'true':'false');
-        imgs[k].classList.toggle('on',on);
-      }
-    }
-    function stop(){ if(timer){clearInterval(timer);timer=null;} }
-    function start(){ if(reduce||timer||n<2) return; timer=setInterval(function(){show(cur+1);},DUR); }
-    btns.forEach(function(b){b.addEventListener('click',function(){show(+b.dataset.vt);stop();start();});});
-    vt.addEventListener('mouseenter',stop); vt.addEventListener('mouseleave',start);
-    vt.addEventListener('focusin',stop); vt.addEventListener('focusout',start);
-    if('IntersectionObserver' in window){
-      new IntersectionObserver(function(es){es.forEach(function(e){e.isIntersecting?start():stop();});},{threshold:0.3}).observe(vt);
-    } else { start(); }
-  });
+<!-- 수상·이력 -->
+<section id="history">
+<div class="in">
+  <h2 class="rv" data-en="Awards and milestones">수상·이력</h2>
+  <div class="hist">
+    <div class="yr rv">
+      <h3 class="y">2026</h3>
+      <ol>
+        <li><span class="m">02</span><p data-en="SKT FLY AI Challenger 8th, Excellence Award for the Semojum project">SKT FLY AI 챌린저 8기 「세모점」 프로젝트 우수상</p></li>
+        <li><span class="m">05</span><p data-en="Selected for Asan Do-ers, Asan Nanum Foundation">아산나눔재단 아산 두어스 선정</p></li>
+        <li><span class="m">06</span><p data-en="Selected for the U300+ growth track, Ministry of Education">교육부 U300+ 성장트랙 선발</p></li>
+        <li><span class="m">06</span><p data-en="Selected for Modoo Startup 1st cohort, Ministry of SMEs and Startups">중소벤처기업부 모두의창업 1기 선발</p></li>
+        <li><span class="m">07</span><p data-en="K-hackathon for Global, Excellence Award">K-hackathon for Global 우수상</p></li>
+        <li><span class="m">07</span><p data-en="Paper published in the Journal of the Korea Society of Computer and Information">한국컴퓨터정보학회논문지 논문 등재</p></li>
+        <li><span class="m">09</span><p data-en="Exhibited at the Social Value Festa">사회적가치 페스타 부스 운영</p></li>
+        <li><span class="m">11</span><p data-en="Selected for SKTCH for Good">SKTCH for Good 참여기업 선정</p></li>
+        <li><span class="m">11</span><p data-en="Nuridot Inc. incorporated">주식회사 누리닷 법인 설립</p></li>
+      </ol>
+    </div>
+  </div>
+</div>
+<div class="mq rv" role="img" aria-label="함께한 기관: KAIST, SK텔레콤, 아산나눔재단, 교육부, 중소벤처기업부, 대전창조경제혁신센터">
+  <div class="mq-track"><span class="lg"><img src="assets/logo-kaist.webp" alt="" loading="lazy" onerror="this.closest('.lg').classList.add('noimg');this.remove()" onload="this.closest('.lg').classList.add('hasimg')"><b data-en="KAIST">KAIST</b></span><span class="lg"><img src="assets/logo-skt.png" alt="" loading="lazy" onerror="this.closest('.lg').classList.add('noimg');this.remove()" onload="this.closest('.lg').classList.add('hasimg')"><b data-en="SK Telecom">SK텔레콤</b></span><span class="lg"><img src="assets/logo-asan.png" alt="" loading="lazy" onerror="this.closest('.lg').classList.add('noimg');this.remove()" onload="this.closest('.lg').classList.add('hasimg')"><b data-en="Asan Nanum Foundation">아산나눔재단</b></span><span class="lg"><img src="assets/logo-moe.png" alt="" loading="lazy" onerror="this.closest('.lg').classList.add('noimg');this.remove()" onload="this.closest('.lg').classList.add('hasimg')"><b data-en="Ministry of Education">교육부</b></span><span class="lg"><img src="assets/logo-mss.png" alt="" loading="lazy" onerror="this.closest('.lg').classList.add('noimg');this.remove()" onload="this.closest('.lg').classList.add('hasimg')"><b data-en="Ministry of SMEs and Startups">중소벤처기업부</b></span><span class="lg"><img src="assets/logo-ccei.png" alt="" loading="lazy" onerror="this.closest('.lg').classList.add('noimg');this.remove()" onload="this.closest('.lg').classList.add('hasimg')"><b data-en="Daejeon CCEI">대전창조경제혁신센터</b></span></div><div class="mq-track" aria-hidden="true"><span class="lg"><img src="assets/logo-kaist.webp" alt="" loading="lazy" onerror="this.closest('.lg').classList.add('noimg');this.remove()" onload="this.closest('.lg').classList.add('hasimg')"><b data-en="KAIST">KAIST</b></span><span class="lg"><img src="assets/logo-skt.png" alt="" loading="lazy" onerror="this.closest('.lg').classList.add('noimg');this.remove()" onload="this.closest('.lg').classList.add('hasimg')"><b data-en="SK Telecom">SK텔레콤</b></span><span class="lg"><img src="assets/logo-asan.png" alt="" loading="lazy" onerror="this.closest('.lg').classList.add('noimg');this.remove()" onload="this.closest('.lg').classList.add('hasimg')"><b data-en="Asan Nanum Foundation">아산나눔재단</b></span><span class="lg"><img src="assets/logo-moe.png" alt="" loading="lazy" onerror="this.closest('.lg').classList.add('noimg');this.remove()" onload="this.closest('.lg').classList.add('hasimg')"><b data-en="Ministry of Education">교육부</b></span><span class="lg"><img src="assets/logo-mss.png" alt="" loading="lazy" onerror="this.closest('.lg').classList.add('noimg');this.remove()" onload="this.closest('.lg').classList.add('hasimg')"><b data-en="Ministry of SMEs and Startups">중소벤처기업부</b></span><span class="lg"><img src="assets/logo-ccei.png" alt="" loading="lazy" onerror="this.closest('.lg').classList.add('noimg');this.remove()" onload="this.closest('.lg').classList.add('hasimg')"><b data-en="Daejeon CCEI">대전창조경제혁신센터</b></span></div><div class="mq-track" aria-hidden="true"><span class="lg"><img src="assets/logo-kaist.webp" alt="" loading="lazy" onerror="this.closest('.lg').classList.add('noimg');this.remove()" onload="this.closest('.lg').classList.add('hasimg')"><b data-en="KAIST">KAIST</b></span><span class="lg"><img src="assets/logo-skt.png" alt="" loading="lazy" onerror="this.closest('.lg').classList.add('noimg');this.remove()" onload="this.closest('.lg').classList.add('hasimg')"><b data-en="SK Telecom">SK텔레콤</b></span><span class="lg"><img src="assets/logo-asan.png" alt="" loading="lazy" onerror="this.closest('.lg').classList.add('noimg');this.remove()" onload="this.closest('.lg').classList.add('hasimg')"><b data-en="Asan Nanum Foundation">아산나눔재단</b></span><span class="lg"><img src="assets/logo-moe.png" alt="" loading="lazy" onerror="this.closest('.lg').classList.add('noimg');this.remove()" onload="this.closest('.lg').classList.add('hasimg')"><b data-en="Ministry of Education">교육부</b></span><span class="lg"><img src="assets/logo-mss.png" alt="" loading="lazy" onerror="this.closest('.lg').classList.add('noimg');this.remove()" onload="this.closest('.lg').classList.add('hasimg')"><b data-en="Ministry of SMEs and Startups">중소벤처기업부</b></span><span class="lg"><img src="assets/logo-ccei.png" alt="" loading="lazy" onerror="this.closest('.lg').classList.add('noimg');this.remove()" onload="this.closest('.lg').classList.add('hasimg')"><b data-en="Daejeon CCEI">대전창조경제혁신센터</b></span></div><div class="mq-track" aria-hidden="true"><span class="lg"><img src="assets/logo-kaist.webp" alt="" loading="lazy" onerror="this.closest('.lg').classList.add('noimg');this.remove()" onload="this.closest('.lg').classList.add('hasimg')"><b data-en="KAIST">KAIST</b></span><span class="lg"><img src="assets/logo-skt.png" alt="" loading="lazy" onerror="this.closest('.lg').classList.add('noimg');this.remove()" onload="this.closest('.lg').classList.add('hasimg')"><b data-en="SK Telecom">SK텔레콤</b></span><span class="lg"><img src="assets/logo-asan.png" alt="" loading="lazy" onerror="this.closest('.lg').classList.add('noimg');this.remove()" onload="this.closest('.lg').classList.add('hasimg')"><b data-en="Asan Nanum Foundation">아산나눔재단</b></span><span class="lg"><img src="assets/logo-moe.png" alt="" loading="lazy" onerror="this.closest('.lg').classList.add('noimg');this.remove()" onload="this.closest('.lg').classList.add('hasimg')"><b data-en="Ministry of Education">교육부</b></span><span class="lg"><img src="assets/logo-mss.png" alt="" loading="lazy" onerror="this.closest('.lg').classList.add('noimg');this.remove()" onload="this.closest('.lg').classList.add('hasimg')"><b data-en="Ministry of SMEs and Startups">중소벤처기업부</b></span><span class="lg"><img src="assets/logo-ccei.png" alt="" loading="lazy" onerror="this.closest('.lg').classList.add('noimg');this.remove()" onload="this.closest('.lg').classList.add('hasimg')"><b data-en="Daejeon CCEI">대전창조경제혁신센터</b></span></div>
+</div>
+</section>
 
-  // Mode placeholders (IMG-09/10/11): scale each text block to fit its card frame.
-  // Cards live on a hidden page, so fit on every signal that they may now have size:
-  // viewport entry, hover/focus (right before reveal), size change, fonts ready, load.
-  (function(){
-    var cards=document.querySelectorAll('.imgph.swap'); if(!cards.length) return;
-    function fit(pre){
-      var box=pre.parentNode; if(!box||!box.clientWidth||!box.clientHeight) return; // hidden: keep last scale
-      pre.style.transform='none';
-      var pw=pre.scrollWidth, ph=pre.scrollHeight;
-      if(!pw||!ph) return;
-      var s=Math.min(box.clientWidth/pw, box.clientHeight/ph)*0.92;
-      if(s>4) s=4;
-      pre.style.transform='scale('+s+')';
-    }
-    function fitCard(card){ card.querySelectorAll('pre.fit').forEach(fit); }
-    function fitAll(){ cards.forEach(fitCard); }
-    window.__fitSwap=fitAll; // allow page navigation (go) to trigger a fit when a page is shown
-    cards.forEach(function(card){
-      card.addEventListener('mouseenter',function(){fitCard(card);});
-      card.addEventListener('focusin',function(){fitCard(card);});
-    });
-    if('IntersectionObserver' in window){
-      var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)fitCard(e.target);});},{threshold:0.15});
-      cards.forEach(function(c){io.observe(c);});
-    }
-    if('ResizeObserver' in window){
-      var ro=new ResizeObserver(fitAll); cards.forEach(function(c){ro.observe(c);});
-    } else { window.addEventListener('resize',fitAll); }
-    if(document.fonts&&document.fonts.ready){ document.fonts.ready.then(fitAll); }
-    window.addEventListener('load',fitAll);
-    fitAll();
-  })();
-</script>
-<script>
-  // 문의 폼 — 백엔드 문의 접수 API로 보낸다. POST {API_BASE}/api/public/inquiries (인증 없음)
-  // type은 ONBOARDING / ERROR_REPORT / ETC 세 가지만 허용되고, website는 봇 판별용 허니팟이라
-  // 화면에서 숨겨 둔다(사람이 채우면 안 되는 칸). 소속 기관은 API에 필드가 없어 본문에 함께 적는다.
-  (function(){
-    var API_BASE=(window.__API_BASE__||'https://api.semojum.app').replace(/\/+$/,'');
-    var f=document.getElementById('cform'); if(!f) return;
-    var btn=f.querySelector('button[type="submit"]');
-    var st=document.getElementById('cf-status');
-    var v=function(id){ return (document.getElementById(id).value||'').trim() };
-    var en=function(){ return document.documentElement.lang==='en' };
-    function say(ko,en_,kind){ st.textContent=en()?en_:ko; st.className='cf-status'+(kind?' '+kind:''); }
-    function sayHTML(ko,en_,kind){ st.innerHTML=en()?en_:ko; st.className='cf-status'+(kind?' '+kind:''); }
+<!-- 요금제 -->
+<section id="price" class="sunk">
+<div class="in">
+  <h2 class="rv" data-en="Pricing">요금제</h2>
+  <div class="segwrap rv" style="margin-top:30px">
+    <div class="seg" role="tablist" aria-label="요금제 대상">
+      <button type="button" class="on" id="seg-ind" role="tab" aria-selected="true" aria-controls="plans-ind" data-en="Individual">개인</button>
+      <button type="button" id="seg-org" role="tab" aria-selected="false" aria-controls="plans-org" data-en="Institutions">기관</button>
+    </div>
+  </div>
 
-    f.addEventListener('submit',function(e){
-      e.preventDefault();
-      if(!document.getElementById('cf-ok').checked){
-        say('개인정보 수집·이용 동의가 필요합니다.','Please agree to the collection and use of your information.','bad'); return;
-      }
-      if(!v('cf-name')||!v('cf-mail')||!v('cf-msg')){
-        say('이름·이메일·문의 내용을 채워 주세요.','Please fill in your name, email and message.','bad'); return;
-      }
-      if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v('cf-mail'))){
-        say('이메일 형식을 확인해 주세요.','Please check your email address.','bad'); return;
-      }
+  <div class="pgrid rv" data-n="4" id="plans-ind" role="tabpanel" aria-labelledby="seg-ind">
+    <div class="pc">
+      <span class="nm">Free</span>
+      <p class="fit" data-en="For trying Nuridot out">누리닷을 체험해 보기에 적합</p>
+      <div class="pr">0<u>원 / 월</u></div>
+      <a class="go o" href="#download" data-en="Start with Free">Free 사용하기</a>
+      <ul style="margin-top:22px;padding-top:18px;border-top:1px solid var(--line-2)">
+        <li data-en="Transcription features included">점역 기능 제공</li>
+        <li data-en="Korean and English grade 2 braille">한글, 영어 2급 점자 제공</li>
+        <li data-en="Ten credits on sign-up">가입 시 10크레딧</li>
+        <li data-en="Lower server priority">서버 처리 우선순위 낮음</li>
+        <li data-en="No file download">파일 다운로드 불가</li>
+      </ul>
+    </div>
+    <div class="pc">
+      <span class="nm">Basic</span>
+      <p class="fit" data-en="For occasional transcription">가끔 점역하는 분에게 적합</p>
+      <div class="pr">18,000<u>원 / 월</u></div>
+      <a class="go" href="#download" data-en="Start with Basic">Basic 사용하기</a>
+      <p class="inc" data-en="Everything in Free, plus">Free 요금제의 모든 기능 포함</p>
+      <ul>
+        <li data-en="100 credits a month">월 100크레딧</li>
+        <li data-en="File download">파일 다운로드 가능</li>
+        <li data-en="Mid-tier proofreading AI">중급 교열 AI</li>
+      </ul>
+    </div>
+    <div class="pc pick">
+      <span class="nm">Standard</span>
+      <p class="fit" data-en="For transcribing every week">꾸준히 점역하는 분에게 적합</p>
+      <div class="pr">50,000<u>원 / 월</u></div>
+      <a class="go" href="#download" data-en="Start with Standard">Standard 사용하기</a>
+      <p class="inc" data-en="Everything in Basic, plus">Basic 요금제의 모든 기능 포함</p>
+      <ul>
+        <li data-en="300 credits a month">월 300크레딧</li>
+        <li data-en="Korean and English grade 1 and 2 braille">한글·영어 1,2급 점자 제공</li>
+        <li data-en="Advanced proofreading AI">고급 교열 AI</li>
+        <li data-en="Twice the parallel speed">동시 처리 속도 2배</li>
+        <li data-en="Normal server priority">서버 처리 우선순위 보통</li>
+      </ul>
+    </div>
+    <div class="pc">
+      <span class="nm">Premium</span>
+      <p class="fit" data-en="For those who transcribe full time">점역이 본업인 분에게 적합</p>
+      <div class="pr">297,000<u>원 / 월</u></div>
+      <a class="go" href="#download" data-en="Start with Premium">Premium 사용하기</a>
+      <p class="inc" data-en="Everything in Standard, plus">Standard 요금제의 모든 기능 포함</p>
+      <ul>
+        <li data-en="2,500 credits a month">월 2,500크레딧</li>
+        <li data-en="Four times the parallel speed">동시 처리 속도 4배</li>
+        <li data-en="Highest server priority">서버 처리 우선순위 높음</li>
+      </ul>
+    </div>
+  </div>
 
-      var sel=document.getElementById('cf-type');
-      var label=(sel.options[sel.selectedIndex].textContent||'').trim();
-      var lines=[];
-      if(v('cf-org')) lines.push('소속 기관: '+v('cf-org'));
-      lines.push('문의 유형: '+label);
-      lines.push('','──────────','',v('cf-msg'));
-      var payload={
-        type: sel.value||'ETC',
-        name: v('cf-name').slice(0,50),
-        email: v('cf-mail').slice(0,100),
-        message: lines.join('\n').slice(0,2000),
-        website: v('cf-hp')
-      };
+  <div class="pgrid rv" data-n="1" id="plans-org" role="tabpanel" aria-labelledby="seg-org" hidden>
+    <div class="pc pick">
+      <span class="nm">Enterprise</span>
+      <p class="fit" data-en="For institutions where several people work together">여러 사람이 함께 쓰는 기관에 적합</p>
+      <a class="go" href="#end" data-en="Contact us">별도 문의</a>
+      <p class="inc" data-en="Everything in Premium, plus">Premium 요금제의 모든 기능 포함</p>
+      <ul>
+        <li data-en="Credits shared across the institution">기관 단위 공유 크레딧</li>
+        <li data-en="Create and assign accounts">계정 생성과 할당</li>
+        <li data-en="Shared storage">공유 저장소</li>
+        <li data-en="One week free trial">무상 체험 1주일</li>
+      </ul>
+    </div>
+  </div>
 
-      btn.disabled=true;
-      say('보내는 중…','Sending…');
-      fetch(API_BASE+'/api/public/inquiries',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify(payload)
-      }).then(function(r){
-        return r.text().then(function(t){
-          var d={}; try{ d=t?JSON.parse(t):{} }catch(_){}
-          return {ok:r.ok,status:r.status,data:d};
-        });
-      }).then(function(res){
-        if(res.ok && res.data.isSuccess!==false){
-          f.reset();
-          say('문의가 접수되었습니다. 영업일 기준 2일 안에 답변드리겠습니다.',
-              'Your inquiry has been received. We will reply within 2 business days.','ok');
-          return;
-        }
-        if(res.status===429){
-          say('잠시 후 다시 시도해 주세요. 짧은 시간에 너무 많이 보냈습니다.',
-              'Too many inquiries in a short time. Please try again later.','bad');
-          return;
-        }
-        say(res.data.message||'접수에 실패했습니다. 잠시 후 다시 시도해 주세요.',
-            res.data.message||'Something went wrong. Please try again in a moment.','bad');
-      }).catch(function(){
-        // 네트워크가 막히면 메일 경로라도 남긴다.
-        sayHTML('접수에 실패했습니다. <a href="mailto:contact@semo-jum.com">contact@semo-jum.com</a> 으로 보내 주세요.',
-                'Sending failed. Please email <a href="mailto:contact@semo-jum.com">contact@semo-jum.com</a> instead.','bad');
-      }).then(function(){ btn.disabled=false; });
-    });
-  })();
-</script>
+</div>
+</section>
+
+<!-- 8. 문의 -->
+<!-- QnA -->
+<section id="qna">
+<div class="in">
+  <h2 class="rv" data-en="Questions we get">자주 받는 질문</h2>
+  <div class="qa rv">
+    <details><summary data-en="Can I keep using the transcription program I already have?">기존에 쓰던 점역 프로그램과 같이 쓸 수 있나요?</summary>
+      <p class="ans" data-en="Yes. What you make in Nuridot exports as BRF, TXT or BRL, so you can carry it into the program you already use and pick up where you left off.">같이 쓰실 수 있습니다. 누리닷에서 만든 파일은 BRF와 TXT, BRL로 내보낼 수 있어서 쓰시던 프로그램으로 가져가 이어서 작업하시면 됩니다.</p></details>
+    <details><summary data-en="What kind of files can I upload?">어떤 파일을 올릴 수 있나요?</summary>
+      <p class="ans" data-en="PDF, PNG, Hangul and Word files. You can upload the textbook just as it came to you, without tidying it up first.">PDF와 PNG, 한글 문서와 워드 문서를 받습니다. 교재를 따로 손보지 않고 받으신 그대로 올리셔도 됩니다.</p></details>
+    <details><summary data-en="Is it all right, copyright-wise, to upload a textbook?">교재를 올려도 저작권에 문제가 없나요?</summary>
+      <p class="ans" data-en="The service is provided on the basis that you are producing alternative materials for people with visual impairments, which Article 33 of the Korean Copyright Act allows. When we sign, we ask you to confirm that your organisation falls under that article and that the use is not for profit. The service and its output may not be used for anything outside producing alternative materials.">시각장애인 등을 위한 대체자료를 만드는 데 쓰시는 것을 전제로 제공합니다. 저작권법 제33조가 이 경우를 허용하고 있어서, 계약할 때 그 조항에 해당하는 시설인지와 영리 목적이 아닌지를 확인서로 받습니다. 대체자료 제작 밖의 용도로는 쓰실 수 없습니다.</p></details>
+    <details><summary data-en="How are the files I upload kept? Are they used to train AI?">올린 파일은 어떻게 보관되나요? AI 학습에 쓰나요?</summary>
+      <p class="ans" data-en="We do not use the textbooks you upload, or the edits you save, to train AI. Doing so would require both your organisation&rsquo;s written consent and permission from the copyright holder, and even then it is agreed work by work in a separate contract. Agreeing to the terms of service alone does not permit it. Retention periods and how files are destroyed are written out in the privacy policy.">올리신 교재와 저장하신 편집본을 AI 학습에 쓰지 않습니다. 쓰려면 기관의 서면 동의와 원저작권자의 이용허락이 둘 다 있어야 하고, 그때도 저작물마다 별도 계약으로 따로 정합니다. 약관에 동의하시는 것만으로는 학습에 쓰이지 않습니다. 보관 기간과 파기 절차는 <a href="privacy.html">개인정보 처리방침</a>에 적어 두었습니다.</p></details>
+    <details><summary data-en="How long does one page take?">한 쪽에 얼마나 걸리나요?</summary>
+      <p class="ans" data-en="Usually between twenty seconds and two minutes, depending on what is on the page. Text-only pages finish quickly, while a page with figures or tables takes a little longer because the description has to be written.">보통 20초에서 2분 사이인데, 그 쪽에 무엇이 들어 있느냐에 따라 달라집니다. 글만 있는 쪽은 금방 끝나고, 그림이나 표가 섞인 쪽은 설명을 만들어야 해서 조금 더 걸립니다.</p></details>
+    <details><summary data-en="How are credits used up?">크레딧은 어떻게 차감되나요?</summary>
+      <p class="ans" data-en="They go down each time you convert a page. A page with figures costs more than a text-only page, because writing the figure out in words is extra work on top. Pages that fail to convert, or that you cancel, are not charged.">한 쪽을 변환할 때마다 줄어듭니다. 글만 있는 쪽보다 그림이 든 쪽이 더 드는데, 그림을 글로 풀어 쓰는 일이 따로 들어가기 때문입니다. 변환에 실패한 쪽과 중간에 취소하신 쪽은 차감하지 않습니다.</p></details>
+    <details><summary data-en="Does it work without an internet connection?">인터넷이 없어도 쓸 수 있나요?</summary>
+      <p class="ans" data-en="Transcription runs on your own computer, so it keeps working even when you are offline. Proofreading uses our server, though, so you will need a connection for that part.">점역은 컴퓨터 안에서 돌아가니까 연결이 끊겨도 됩니다. 다만 교열은 저희 서버를 쓰기 때문에 그때는 인터넷이 필요합니다.</p></details>
+    <details><summary data-en="Does it print straight to a braille embosser?">점자 프린터로 바로 출력되나요?</summary>
+      <p class="ans" data-en="Export it as BRF and you can send it straight to the embosser you already use. The layout comes out at thirty-two cells to a line.">BRF로 내보내시면 쓰시던 점자 프린터로 바로 보내실 수 있습니다. 조판은 한 줄 32칸에 맞춰 나옵니다.</p></details>
+    <details><summary data-en="How do I know when the draft is wrong?">결과가 틀리면 어떻게 알 수 있나요?</summary>
+      <p class="ans" data-en="Every cell carries the clause it followed and the place in the source it came from. Anywhere a person has to decide is marked, so you do not have to read the whole thing again and can go straight to the marks.">점형마다 어떤 규정 조항을 따랐는지, 원본의 어느 자리에서 왔는지가 함께 붙습니다. 사람이 판단해야 할 자리에는 표시를 남기니까 처음부터 다시 읽지 않으시고 표시된 곳만 보시면 됩니다.</p></details>
+    <details><summary data-en="Can someone who is not a trained transcriber use it?">점역사가 아닌 사람이 써도 되나요?</summary>
+      <p class="ans" data-en="What comes out is a draft, so it has to go through a transcriber. We built it on the assumption that a qualified transcriber checks the result before it reaches the reader, and the terms of service say so as well.">나오는 것은 초안이라 점역사의 검수를 거치셔야 합니다. 최종 이용자에게 드리기 전에 자격을 갖춘 점역사가 확인하시는 것을 전제로 만들었고, <a href="terms.html">이용약관</a>에도 그렇게 적어 두었습니다.</p></details>
+    <details><summary data-en="Does it make tactile graphics?">촉각 그래픽도 만들어 주나요?</summary>
+      <p class="ans" data-en="It does not. What Nuridot does is write figures and graphs out in words, and the judgement after that is left to you.">촉각 그래픽은 만들지 않습니다. 누리닷이 하는 일은 그림이나 그래프를 글로 풀어 쓰는 데까지고, 그다음은 점역사께서 판단하실 몫으로 남겨 둡니다.</p></details>
+    <details><summary data-en="Do English textbooks work?">영어 교재도 되나요?</summary>
+      <p class="ans" data-en="Grade 2 English braille works on every plan, and grade 1 opens up from the Standard plan.">영어 2급 점자는 모든 요금제에서 쓰실 수 있고, 1급 점자는 Standard 요금제부터 풀립니다.</p></details>
+    <details><summary data-en="Does it run on a Mac?">맥에서도 되나요?</summary>
+      <p class="ans" data-en="Not yet. For now it runs on Windows 10 and 11, 64-bit only.">아직은 어렵습니다. 지금은 Windows 10과 11의 64비트에서만 돌아갑니다.</p></details>
+    <details><summary data-en="How does an institution sign up?">기관 단위로 도입하려면 어떻게 하나요?</summary>
+      <p class="ans" data-en="Send us a note through the form below. Institutions get a week of free use, and we reply within one business day.">아래 문의 양식으로 보내 주시면 됩니다. 기관에는 무상 체험을 1주일 드리고 있고, 보내 주신 내용은 영업일 하루 안에 회신드립니다.</p></details>
+    <details><summary data-en="How do I pay?">결제는 어떻게 하나요?</summary>
+      <p class="ans" data-en="Card payment is not open yet. For institutions, let us talk first and we will invoice you afterwards.">카드 결제는 아직 열지 않았습니다. 기관은 먼저 문의 주시면 상의한 뒤 세금계산서로 처리해 드립니다.</p></details>
+  </div>
+</div>
+</section>
+
+<section id="end" class="end">
+<div class="in">
+  <h2 class="rv" data-en="Contact us">문의하기</h2>
+  <div class="grid one">
+    <form class="f rv d1" id="inq" novalidate>
+      <div class="row">
+        <div><label for="org">기관명 <span class="req">*</span></label><input id="org" name="organization" required maxlength="100" autocomplete="organization"></div>
+        <div><label for="who">담당자 이름 <span class="req">*</span></label><input id="who" name="name" required maxlength="50" autocomplete="name"></div>
+      </div>
+      <div class="row">
+        <div><label for="em">이메일 <span class="req">*</span></label><input id="em" name="email" type="email" required maxlength="100" autocomplete="email"></div>
+        <div><label for="tel">전화 (선택)</label><input id="tel" name="phone" type="tel" maxlength="30" autocomplete="tel"></div>
+      </div>
+      <div><label for="pg">월 처리 쪽수</label><select id="pg">
+        <option value="">고르지 않음</option><option>1,000쪽 미만</option>
+        <option>1,000~3,000쪽</option><option>3,000~5,000쪽</option><option>5,000쪽 이상</option></select></div>
+      <div><label for="msg">문의 사항</label><textarea id="msg" name="message" maxlength="1700"></textarea></div>
+      <div hidden data-nobr><input id="website" name="website" tabindex="-1" autocomplete="off" aria-label="Website"></div>
+      <label class="agree"><input type="checkbox" id="ag" required>
+        <span>기관명, 담당자 이름, 이메일, 전화번호를 문의 응대 목적으로 수집하는 데 동의합니다. <a href="privacy.html">개인정보 처리방침</a></span></label>
+      <div><button class="btn lg" type="submit" data-en="Send">보내기</button></div>
+      <p id="fmsg" role="status" aria-live="polite" data-nobr></p>
+    </form>
+  </div>
+</div>
+</section>
+</main>
+
+<footer><div class="in">
+  <div class="cols">
+    <nav aria-label="제품"><b data-en="Product">제품</b>
+      <a href="#download" data-en="Download">다운로드</a>
+      <a href="#what" data-en="Features">기능</a>
+      <a href="#price" data-en="Pricing">요금제</a>
+      <a href="#qna" data-en="Q&amp;A">QnA</a></nav>
+    <nav aria-label="회사"><b data-en="Company">회사</b>
+      <a href="#end" data-en="Contact">문의</a>
+      <a href="mailto:contact@nuridot.com">contact@nuridot.com</a></nav>
+    <nav aria-label="약관"><b data-en="Policies">약관</b>
+      <a href="terms.html" data-en="Terms">이용약관</a>
+      <a href="privacy.html" data-en="Privacy">개인정보 처리방침</a></nav>
+  </div>
+  <p class="biznfo">
+    <span>주식회사 누리닷</span><span>대표 김태민</span>
+    <span>서울시 강남구 역삼로 180, 2층</span>
+    <span>사업자등록번호 [법인등록 예정]</span><span>contact@nuridot.com</span><span>개인정보 보호책임자 김태민</span>
+  </p>
+  <p class="biznfo" style="margin-top:8px">© 2026 누리닷</p>
+</div></footer>
+
+<script src="assets/braille.js" defer></script>
+<script src="assets/app.js" defer></script>
 </body>
 </html>
