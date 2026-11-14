@@ -26,6 +26,7 @@ npm test
 ## 운영 연결
 
 - 홈페이지: https://semo-jum.com/
+- 추가 접속 도메인: https://nuridot.com/ (동일한 Cloud Run 서비스)
 - Windows 설치 파일: https://github.com/nuridot/Semojum/releases/latest/download/Semojum-win-x64.msi
 - 문의: `POST https://api.semojum.app/api/public/inquiries`
   - 기존 API의 `ONBOARDING`, `name`, `email`, `message`, `website` 계약을 유지합니다.
@@ -42,6 +43,15 @@ gcloud run deploy semojum-web --source . --project semojum-website --region asia
 ```
 
 누락된 경로는 404를 반환합니다. HTML과 이름이 고정된 `assets/`는 재검증하여 업데이트를 즉시 반영합니다.
+
+### nuridot.com 도메인 연결
+
+Cloud Run 도메인 매핑은 `semojum-website` 프로젝트의 `asia-northeast1` 리전에서 `semojum-web` 서비스를 가리킵니다. Cloudflare에는 루트 도메인의 다음 레코드를 DNS only, TTL 300초로 등록했습니다. 기존 MX, SPF, DKIM, Google 소유권 확인 TXT는 유지합니다.
+
+- A: `216.239.32.21`, `216.239.34.21`, `216.239.36.21`, `216.239.38.21`
+- AAAA: `2001:4860:4802:32::15`, `2001:4860:4802:34::15`, `2001:4860:4802:36::15`, `2001:4860:4802:38::15`
+
+인증서는 Google이 자동으로 발급·갱신합니다. 이 설정은 `nuridot.com`에만 적용되며 `www`는 포함하지 않습니다. 추가 접속 도메인이므로 기존 canonical 주소는 유지합니다.
 
 ## 점자 자료
 
