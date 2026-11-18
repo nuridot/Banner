@@ -2,4 +2,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://semo-jum.com/sitemap.xml
+Sitemap: https://nuridot.com/sitemap.xml
