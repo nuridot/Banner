@@ -69,7 +69,9 @@ GA는 원본대로 꺼져 있습니다. 사업자등록 관련 미확정 표기�
 
 이 사이트의 OAuth 복귀 경로는 `/auth-callback.html`입니다. 사용하려는 도메인별로 전체 HTTPS URI를 제공자 콘솔에 등록하고, 백엔드가 그 URI와 같은 웹 클라이언트로 코드를 교환하도록 설정합니다. 예를 들어 누리닷 도메인의 등록 주소는 `https://nuridot.com/auth-callback.html`입니다. Google은 웹 애플리케이션 클라이언트가 필요합니다.
 
-등록을 마친 제공자의 **공개 클라이언트 ID**를 `assets/auth-client.js`보다 먼저 설정합니다. 사이트는 서버의 `GET /api/auth/social/providers` 목록과 아래 설정이 일치할 때 해당 버튼을 활성화합니다. 앱 전용 등록은 그대로 사용할 수 있습니다. 운영 시크릿은 백엔드에서만 관리합니다.
+누리닷 Google Cloud 프로젝트의 웹 클라이언트 `nuridot-homepage`에는 원본 `https://nuridot.com`과 위 복귀 주소가 등록되어 있습니다. 홈페이지의 기본 설정은 이 클라이언트의 공개 ID를 사용합니다. 사이트는 `GET /api/auth/social/providers`가 같은 ID를 반환할 때 해당 버튼을 활성화합니다.
+
+다른 배포에서 설정을 재정의하려면 `assets/auth-client.js` 로드 전에 아래와 같이 출처별 공개 ID를 지정합니다. 설정에는 해당 출처의 복귀 주소를 등록한 제공자만 포함합니다.
 
 ```js
 window.__NURIDOT_WEB_CLIENTS__ = {

@@ -9,8 +9,12 @@
     KAKAO: ['https://kauth.kakao.com/oauth/authorize', ''],
     NAVER: ['https://nid.naver.com/oauth2/authorize', 'openid']
   };
-  // Add the public IDs whose web callback is registered on this origin and on the backend.
-  const webClients = window.__NURIDOT_WEB_CLIENTS__ || {};
+  // Public client IDs with a registered callback on the corresponding website.
+  const webClients = window.__NURIDOT_WEB_CLIENTS__ || {
+    'https://nuridot.com': {
+      GOOGLE: '105223910730-7fhrj357igimt4u30p50jehq031i6a6e.apps.googleusercontent.com'
+    }
+  };
   const agreements = { termsVersion: '2026-11-09', privacyVersion: '2026-11-09' };
 
   async function request(path, body, bearer) {

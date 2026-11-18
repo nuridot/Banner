@@ -12,10 +12,10 @@ function storage() {
   const entries = new Map();
   return {setItem:(key,value)=>entries.set(key,value),getItem:key=>entries.get(key)??null,removeItem:key=>entries.delete(key)};
 }
-function client(fetch, localStorage=storage(), sessionStorage=storage(), clients={}) {
+function client(fetch, localStorage=storage(), sessionStorage=storage(), clients, siteOrigin=origin) {
   const window = new EventTarget();
   window.__NURIDOT_WEB_CLIENTS__ = clients;
-  const location={protocol:'https:',origin,assign:url=>{location.target=url;}};
+  const location={protocol:'https:',origin:siteOrigin,assign:url=>{location.target=url;}};
   vm.runInNewContext(source,{window,location,sessionStorage,localStorage,fetch,URL,URLSearchParams,Event,
     crypto:require('node:crypto').webcrypto,btoa,TextEncoder,AbortController,setTimeout,clearTimeout});
   return {auth:window.NuridotAuth,sessionStorage,localStorage,location};
@@ -93,4 +93,17 @@ test('desktop-only clients and unmatched OAuth callbacks do not send a code',asy
   c.sessionStorage.setItem('nuridot.oauth.v1.response',JSON.stringify({state:'wrong',code:'unused'}));
   await assert.rejects(c.auth.finishOAuth(),{code:'OAUTH_RESTART'});
   assert.equal(calls,0);
+});
+
+test('Google uses the registered homepage client only on its exact origin',async()=>{
+  const homepage='https://nuridot.com';
+  const google={provider:'GOOGLE',clientId:'105223910730-7fhrj357igimt4u30p50jehq031i6a6e.apps.googleusercontent.com'};
+  const c=client(undefined,storage(),storage(),undefined,homepage);
+  assert.equal(c.auth.enabled({...google,clientId:'desktop-id'}),false);
+  assert.equal(client().auth.enabled(google),false);
+  await c.auth.startOAuth(google,false);
+  const url=new URL(c.location.target);
+  assert.equal(url.origin,'https://accounts.google.com');
+  assert.equal(url.searchParams.get('client_id'),google.clientId);
+  assert.equal(url.searchParams.get('redirect_uri'),homepage+'/auth-callback.html');
 });
