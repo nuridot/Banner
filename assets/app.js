@@ -116,6 +116,16 @@
   var f=document.getElementById('inq'),fm=document.getElementById('fmsg');
   var sending=false,send=f.querySelector('button[type="submit"]');
   var API_BASE=(window.__API_BASE__||'https://api.semojum.app').replace(/\/+$/,'');
+  var inquiryType=document.getElementById('inquiry-type'),other=document.getElementById('inquiry-other');
+  var inquiryLabels={PURCHASE:'구매 문의',TRIAL:'체험 문의',SUGGESTION:'건의사항',ETC:'기타 (직접 입력)'};
+  function syncInquiryType(){
+    var isOther=inquiryType.value==='ETC';
+    document.getElementById('inquiry-other-field').hidden=!isOther;
+    other.disabled=!isOther;other.required=isOther;
+    if(!isOther)other.value='';
+  }
+  inquiryType.addEventListener('change',syncInquiryType);
+  syncInquiryType();
   function value(id){return document.getElementById(id).value.trim()}
   function status(ko,en,bad){
     fm.style.color=bad?'#b3261e':'var(--accent-d)';
@@ -126,14 +136,18 @@
     if(!bad){var em=document.getElementById('em');if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value('em')))bad=em}
     ['org','who','em','tel','msg'].forEach(function(id){var x=document.getElementById(id);
       if(x.maxLength>0&&x.value.length>x.maxLength&&!bad)bad=x});
+    if(!bad&&!Object.prototype.hasOwnProperty.call(inquiryLabels,inquiryType.value))bad=inquiryType;
+    if(!bad&&inquiryType.value==='ETC'&&(!value('inquiry-other')||other.value.length>other.maxLength))bad=other;
     if(!bad&&!document.getElementById('ag').checked)bad=document.getElementById('ag');
     if(bad){fm.style.color='#b3261e';
       fm.textContent=(cur==='en'?'Please fill in the required fields.':'필요한 칸을 채워 주십시오.');bad.focus();return}
-    var lines=['기관명: '+value('org')];
+    var label=inquiryLabels[inquiryType.value];
+    var lines=['문의 유형: '+label,'기관명: '+value('org')];
     if(value('tel'))lines.push('전화: '+value('tel'));
     if(value('pg'))lines.push('월 처리 쪽수: '+value('pg'));
-    lines.push('','문의 사항:',value('msg')||'기관 도입 및 체험 문의');
-    var payload={type:'ONBOARDING',name:value('who'),email:value('em'),
+    lines.push('','문의 사항:',value('msg')||label);
+    var payload={type:inquiryType.value,title:inquiryType.value==='ETC'?value('inquiry-other'):label,
+      name:value('who'),email:value('em'),
       message:lines.join('\n'),website:value('website')};
     if(payload.message.length>2000){
       status('문의 내용을 조금 줄여 주세요.','Please shorten your message.',true);return;
@@ -149,7 +163,7 @@
       var raw=await response.text(),data={};
       try{data=raw?JSON.parse(raw):{}}catch(_){throw new Error('Invalid response')}
       if(response.ok&&data.isSuccess!==false){
-        f.reset();
+        f.reset();syncInquiryType();
         status('문의가 접수되었습니다. 영업일 하루 안에 회신드리겠습니다.',
           'Your inquiry has been received. We will reply within one business day.');
       }else if(response.status===429){

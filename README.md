@@ -29,8 +29,10 @@ npm test
 - 이전 주소 `https://semo-jum.com/`는 경로와 쿼리를 유지해 새 도메인으로 영구 이동합니다 (HTTP 308).
 - Windows 설치 파일: https://github.com/nuridot/Semojum/releases/latest/download/Semojum-win-x64.msi
 - 문의: `POST https://api.semojum.app/api/public/inquiries`
-  - 기존 API의 `ONBOARDING`, `name`, `email`, `message`, `website` 계약을 유지합니다.
-  - 기관명·전화·월 처리량은 본문에 포함됩니다. 입력은 성공했을 때만 초기화합니다.
+  - 문의 유형은 구매 문의(`PURCHASE`), 체험 문의(`TRIAL`), 건의사항(`SUGGESTION`), 기타 (직접 입력)(`ETC`)입니다.
+  - 기타 선택 시 유형을 직접 입력해야 하며, 입력값은 `title`에 저장합니다. 그 외 유형은 유형 이름을 제목으로 보냅니다.
+  - 선택한 유형과 기관명·전화·월 처리량은 본문에 포함됩니다. `name`, `email`, `message`, `website` 계약을 유지합니다.
+  - 입력은 성공했을 때만 초기화합니다.
   - `window.__API_BASE__`로 테스트 환경의 주소를 지정할 수 있습니다.
 - 검색 메타데이터와 사이트맵은 현재 운영 도메인을 사용합니다. 향후 도메인 이전 시 함께 수정해야 합니다.
 

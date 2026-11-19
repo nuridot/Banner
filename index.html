@@ -349,6 +349,18 @@
       <div><label for="pg">월 처리 쪽수</label><select id="pg">
         <option value="">고르지 않음</option><option>1,000쪽 미만</option>
         <option>1,000~3,000쪽</option><option>3,000~5,000쪽</option><option>5,000쪽 이상</option></select></div>
+      <div><label for="inquiry-type"><span data-en="Inquiry type">문의 유형</span> <span class="req">*</span></label>
+        <select id="inquiry-type" name="type" required>
+          <option value="" disabled selected data-en="Please select">선택해 주세요</option>
+          <option value="PURCHASE" data-en="Purchase inquiry">구매 문의</option>
+          <option value="TRIAL" data-en="Trial inquiry">체험 문의</option>
+          <option value="SUGGESTION" data-en="Suggestion">건의사항</option>
+          <option value="ETC" data-en="Other (please specify)">기타 (직접 입력)</option>
+        </select></div>
+      <div id="inquiry-other-field" hidden>
+        <label for="inquiry-other"><span data-en="Specify your inquiry type">문의 유형 직접 입력</span> <span class="req">*</span></label>
+        <input id="inquiry-other" name="title" maxlength="200" disabled>
+      </div>
       <div><label for="msg">문의 사항</label><textarea id="msg" name="message" maxlength="1700"></textarea></div>
       <div hidden data-nobr><input id="website" name="website" tabindex="-1" autocomplete="off" aria-label="Website"></div>
       <label class="agree"><input type="checkbox" id="ag" required>
