@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="ko"><head>
+<meta charset="utf-8"><meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex"><title>누리닷 로그인</title>
+</head><body>
+<script>
+  const params = new URLSearchParams(location.search);
+  history.replaceState(null, '', location.pathname);
+  try {
+    sessionStorage.setItem('nuridot.oauth.v1.response', JSON.stringify({
+      state: params.get('state'), code: params.get('code'), error: params.get('error')
+    }));
+    location.replace('/');
+  } catch { document.body.append('브라우저에서 세션 저장을 허용한 뒤 다시 로그인해 주세요.'); }
+</script>
+</body></html>

@@ -19,6 +19,7 @@
 <!-- 구글 애널리틱스: 측정 ID 발급 후 GA_ID 에 넣고 GA_ON 을 true 로 바꾸면 켜집니다 -->
 <script>window.GA_ID='[법인등록 후 발급 예정]';window.GA_ON=false;</script>
 <link rel="stylesheet" href="assets/style.css">
+<link rel="stylesheet" href="assets/auth.css">
 </head>
 <body>
 <a class="skip" href="#main" data-en="Skip to content">본문으로 건너뛰기</a>
@@ -36,6 +37,10 @@
   <span class="sp"></span>
   <button class="lang" id="brl" type="button" data-nobr aria-pressed="false" aria-label="점자로 보기">점자</button>
   <button class="lang" id="lang" type="button" data-nobr aria-label="언어 바꾸기">EN</button>
+  <div class="auth-account" data-nobr>
+    <span id="auth-credit" hidden></span>
+    <button id="auth-open" class="btn ghost" type="button" aria-haspopup="dialog">로그인</button>
+  </div>
   <a class="btn cta hidesm" href="#end" data-en="Request a trial">체험 신청</a>
   <button class="menu" id="menu" type="button" aria-expanded="false" aria-controls="gnb" aria-label="메뉴 열기">☰</button>
 </div></header>
@@ -396,6 +401,16 @@
 </div></footer>
 
 <script src="assets/braille.js" defer></script>
+<dialog id="auth-dialog" data-nobr aria-label="로그인">
+  <div class="auth-shell">
+    <div class="auth-close-row"><button type="button" id="auth-close" aria-label="닫기">✕</button></div>
+    <div class="auth-logo"><img src="assets/logo.svg" alt="누리닷" width="96" height="23"></div>
+    <div id="auth-content"></div>
+    <p id="auth-status" role="status" aria-live="polite"></p>
+  </div>
+</dialog>
 <script src="assets/app.js" defer></script>
+<script src="assets/auth-client.js" defer></script>
+<script src="assets/auth.js" defer></script>
 </body>
 </html>

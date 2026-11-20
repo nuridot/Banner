@@ -6,7 +6,7 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # 정적 파일 복사
 COPY index.html /usr/share/nginx/html/index.html
-COPY terms.html privacy.html /usr/share/nginx/html/
+COPY terms.html privacy.html auth-callback.html /usr/share/nginx/html/
 COPY assets/ /usr/share/nginx/html/assets/
 COPY robots.txt /usr/share/nginx/html/robots.txt
 COPY sitemap.xml /usr/share/nginx/html/sitemap.xml
