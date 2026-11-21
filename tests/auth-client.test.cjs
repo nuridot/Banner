@@ -98,6 +98,7 @@ test('desktop-only clients and unmatched OAuth callbacks do not send a code',asy
 const homepage = 'https://nuridot.com';
 const homepageProviders = [
   ['GOOGLE', '105223910730-7fhrj357igimt4u30p50jehq031i6a6e.apps.googleusercontent.com', 'https://accounts.google.com/o/oauth2/v2/auth'],
+  ['KAKAO', '896628722e04852fc007e04acfb7bc32', 'https://kauth.kakao.com/oauth/authorize'],
   ['NAVER', 'WNJ5FIotv_hI2wQpsbsP', 'https://nid.naver.com/oauth2/authorize']
 ];
 for (const [provider, clientId, endpoint] of homepageProviders) {
