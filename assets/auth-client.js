@@ -13,6 +13,7 @@
   const webClients = window.__NURIDOT_WEB_CLIENTS__ || {
     'https://nuridot.com': {
       GOOGLE: '105223910730-7fhrj357igimt4u30p50jehq031i6a6e.apps.googleusercontent.com',
+      KAKAO: '896628722e04852fc007e04acfb7bc32',
       NAVER: 'WNJ5FIotv_hI2wQpsbsP'
     }
   };
