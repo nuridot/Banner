@@ -95,15 +95,22 @@ test('desktop-only clients and unmatched OAuth callbacks do not send a code',asy
   assert.equal(calls,0);
 });
 
-test('Google uses the registered homepage client only on its exact origin',async()=>{
-  const homepage='https://nuridot.com';
-  const google={provider:'GOOGLE',clientId:'105223910730-7fhrj357igimt4u30p50jehq031i6a6e.apps.googleusercontent.com'};
-  const c=client(undefined,storage(),storage(),undefined,homepage);
-  assert.equal(c.auth.enabled({...google,clientId:'desktop-id'}),false);
-  assert.equal(client().auth.enabled(google),false);
-  await c.auth.startOAuth(google,false);
-  const url=new URL(c.location.target);
-  assert.equal(url.origin,'https://accounts.google.com');
-  assert.equal(url.searchParams.get('client_id'),google.clientId);
-  assert.equal(url.searchParams.get('redirect_uri'),homepage+'/auth-callback.html');
-});
+const homepage = 'https://nuridot.com';
+const homepageProviders = [
+  ['GOOGLE', '105223910730-7fhrj357igimt4u30p50jehq031i6a6e.apps.googleusercontent.com', 'https://accounts.google.com/o/oauth2/v2/auth'],
+  ['KAKAO', '896628722e04852fc007e04acfb7bc32', 'https://kauth.kakao.com/oauth/authorize'],
+  ['NAVER', 'WNJ5FIotv_hI2wQpsbsP', 'https://nid.naver.com/oauth2/authorize']
+];
+for (const [provider, clientId, endpoint] of homepageProviders) {
+  test(provider + ' uses its homepage client only on the production origin', async () => {
+    const c = client(undefined, storage(), storage(), undefined, homepage);
+    assert.equal(c.auth.enabled({provider, clientId:'other-client'}), false);
+    assert.equal(client().auth.enabled({provider, clientId}), false);
+    await c.auth.startOAuth({provider, clientId}, false);
+    const url = new URL(c.location.target);
+    assert.equal(url.origin + url.pathname, endpoint);
+    assert.equal(url.searchParams.get('client_id'), clientId);
+    assert.equal(url.searchParams.get('redirect_uri'), homepage + '/auth-callback.html');
+    assert.equal(url.searchParams.get('code_challenge_method'), 'S256');
+  });
+}
